@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagehelperCore", "MagehelperCore\MagehelperCore.csproj", "{8C741907-34C5-42A1-B99E-E9D3F39602E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagehelperWPF", "MagehelperWPF\MagehelperWPF.csproj", "{0DBC5BCC-B6FD-4ED8-9D28-401340F30478}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagehelperUpdater", "MagehelperUpdater\MagehelperUpdater.csproj", "{4A9AD123-F40B-4C07-A1C0-562828868EEF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C741907-34C5-42A1-B99E-E9D3F39602E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C741907-34C5-42A1-B99E-E9D3F39602E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C741907-34C5-42A1-B99E-E9D3F39602E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C741907-34C5-42A1-B99E-E9D3F39602E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DBC5BCC-B6FD-4ED8-9D28-401340F30478}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DBC5BCC-B6FD-4ED8-9D28-401340F30478}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DBC5BCC-B6FD-4ED8-9D28-401340F30478}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DBC5BCC-B6FD-4ED8-9D28-401340F30478}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A9AD123-F40B-4C07-A1C0-562828868EEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A9AD123-F40B-4C07-A1C0-562828868EEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A9AD123-F40B-4C07-A1C0-562828868EEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A9AD123-F40B-4C07-A1C0-562828868EEF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B081EFF5-E7C8-4737-A68A-625FFE70F4FB}
+	EndGlobalSection
+EndGlobal

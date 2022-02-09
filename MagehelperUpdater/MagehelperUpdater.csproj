@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Product>updater</Product>
+    <StartupObject>Magehelper.Updater.Program</StartupObject>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <AssemblyName>updater</AssemblyName>
+    <RootNamespace>Magehelper.Updater</RootNamespace>
+  </PropertyGroup>
+
+</Project>
