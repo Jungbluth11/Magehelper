@@ -1,0 +1,315 @@
+﻿<UserControl
+    x:Class="Magehelper.WPF.TabContentMod"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Magehelper.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <ComboBox
+                Name="DropdownRepresentation"
+                Width="100"
+                Margin="5"
+                SelectionChanged="DropdownRepresentation_SelectionChanged" />
+            <Label Name="StringInfoText" Margin="5" />
+        </StackPanel>
+        <Grid Name="GridModifications" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition Width="20" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Label
+                Name="StringModName0"
+                Grid.Row="0"
+                Grid.Column="0" />
+            <Label
+                Name="StringModDescription0"
+                Grid.Row="0"
+                Grid.Column="1" />
+            <Label
+                Name="StringModName1"
+                Grid.Row="1"
+                Grid.Column="0" />
+            <Label
+                Name="StringModDescription1"
+                Grid.Row="1"
+                Grid.Column="1" />
+            <Label
+                Name="StringModName2"
+                Grid.Row="2"
+                Grid.Column="0" />
+            <Label
+                Name="StringModDescription2"
+                Grid.Row="2"
+                Grid.Column="1" />
+            <Label
+                Name="StringModName3"
+                Grid.Row="3"
+                Grid.Column="0" />
+            <Label
+                Name="StringModDescription3"
+                Grid.Row="3"
+                Grid.Column="1" />
+            <Label
+                Name="StringModName4"
+                Grid.Row="4"
+                Grid.Column="0" />
+            <Label
+                Name="StringModDescription4"
+                Grid.Row="4"
+                Grid.Column="1" />
+            <Label
+                Name="StringModName5"
+                Grid.Row="5"
+                Grid.Column="0" />
+            <Label
+                Name="StringModDescription5"
+                Grid.Row="5"
+                Grid.Column="1" />
+            <Label
+                Name="StringModName6"
+                Grid.Row="6"
+                Grid.Column="0" />
+            <Label
+                Name="StringModDescription6"
+                Grid.Row="6"
+                Grid.Column="1" />
+            <Label
+                Name="StringModName7"
+                Grid.Row="0"
+                Grid.Column="3" />
+            <Label
+                Name="StringModDescription7"
+                Grid.Row="0"
+                Grid.Column="4" />
+            <Label
+                Name="StringModName8"
+                Grid.Row="1"
+                Grid.Column="3" />
+            <Label
+                Name="StringModDescription8"
+                Grid.Row="1"
+                Grid.Column="4" />
+            <Label
+                Name="StringModName9"
+                Grid.Row="2"
+                Grid.Column="3" />
+            <Label
+                Name="StringModDescription9"
+                Grid.Row="2"
+                Grid.Column="4" />
+            <Label
+                Name="StringModName10"
+                Grid.Row="3"
+                Grid.Column="3" />
+            <Label
+                Name="StringModDescription10"
+                Grid.Row="3"
+                Grid.Column="4" />
+            <Label
+                Name="StringModName11"
+                Grid.Row="4"
+                Grid.Column="3" />
+            <Label
+                Name="StringModDescription11"
+                Grid.Row="4"
+                Grid.Column="4" />
+            <Label
+                Name="StringModName12"
+                Grid.Row="5"
+                Grid.Column="3" />
+            <Label
+                Name="StringModDescription12"
+                Grid.Row="5"
+                Grid.Column="4" />
+            <Label
+                Name="StringModName13"
+                Grid.Row="6"
+                Grid.Column="3" />
+            <Label
+                Name="StringModDescription13"
+                Grid.Row="6"
+                Grid.Column="4" />
+            <Button
+                Name="BtnAddMod0"
+                Grid.Row="0"
+                Grid.Column="2"
+                Click="BtnAddMod0_Click">
+                <Image Margin="1" Source="pack://application:,,,/Resources/add_button.png" />
+            </Button>
+            <Button
+                Name="BtnAddMod1"
+                Grid.Row="1"
+                Grid.Column="2"
+                Click="BtnAddMod1_Click">
+                <Image Margin="1" Source="pack://application:,,,/Resources/add_button.png" />
+            </Button>
+            <Button
+                Name="BtnAddMod2"
+                Grid.Row="2"
+                Grid.Column="2"
+                Click="BtnAddMod2_Click">
+                <Image Margin="1" Source="pack://application:,,,/Resources/add_button.png" />
+            </Button>
+            <Button
+                Name="BtnAddMod3"
+                Grid.Row="3"
+                Grid.Column="2"
+                Click="BtnAddMod3_Click">
+                <Image Margin="1" Source="pack://application:,,,/Resources/add_button.png" />
+            </Button>
+            <Button
+                Name="BtnAddMod4"
+                Grid.Row="4"
+                Grid.Column="2"
+                Click="BtnAddMod4_Click">
+                <Image Margin="1" Source="pack://application:,,,/Resources/add_button.png" />
+            </Button>
+            <Button
+                Name="BtnAddMod5"
+                Grid.Row="5"
+                Grid.Column="2"
+                Click="BtnAddMod5_Click">
+                <Image Margin="1" Source="pack://application:,,,/Resources/add_button.png" />
+            </Button>
+            <Button
+                Name="BtnAddMod6"
+                Grid.Row="6"
+                Grid.Column="2"
+                Click="BtnAddMod6_Click">
+                <Image Margin="1" Source="pack://application:,,,/Resources/add_button.png" />
+            </Button>
+            <Button
+                Name="BtnAddMod7"
+                Grid.Row="0"
+                Grid.Column="5"
+                Click="BtnAddMod7_Click">
+                <Image Margin="1" Source="pack://application:,,,/Resources/add_button.png" />
+            </Button>
+            <Button
+                Name="BtnAddMod8"
+                Grid.Row="1"
+                Grid.Column="5"
+                Click="BtnAddMod8_Click">
+                <Image Margin="1" Source="pack://application:,,,/Resources/add_button.png" />
+            </Button>
+            <Button
+                Name="BtnAddMod9"
+                Grid.Row="2"
+                Grid.Column="5"
+                Click="BtnAddMod9_Click">
+                <Image Margin="1" Source="pack://application:,,,/Resources/add_button.png" />
+            </Button>
+            <Button
+                Name="BtnAddMod10"
+                Grid.Row="3"
+                Grid.Column="5"
+                Click="BtnAddMod10_Click">
+                <Image Margin="1" Source="pack://application:,,,/Resources/add_button.png" />
+            </Button>
+            <Button
+                Name="BtnAddMod11"
+                Grid.Row="4"
+                Grid.Column="5"
+                Click="BtnAddMod11_Click">
+                <Image Margin="1" Source="pack://application:,,,/Resources/add_button.png" />
+            </Button>
+            <Button
+                Name="BtnAddMod12"
+                Grid.Row="5"
+                Grid.Column="5"
+                Click="BtnAddMod12_Click">
+                <Image Margin="1" Source="pack://application:,,,/Resources/add_button.png" />
+            </Button>
+            <Button
+                Name="BtnAddMod13"
+                Grid.Row="6"
+                Grid.Column="5"
+                Click="BtnAddMod13_Click">
+                <Image Margin="1" Source="pack://application:,,,/Resources/add_button.png" />
+            </Button>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <GroupBox Grid.Column="0" Header="Spontane Modifikationen">
+                <!--  ToDo  -->
+                <ItemsControl Name="ModListPanel">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Path=Name}" />
+                                <Button
+                                    Name="BtnRemoveMod"
+                                    Grid.Column="1"
+                                    Click="BtnRemoveMod_Click"
+                                    Tag="{Binding}">
+                                    <Image Source="pack://application:,,,/Resources/del_button.png" />
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </GroupBox>
+            <Canvas Grid.Column="1">
+                <CheckBox
+                    Name="CbMR"
+                    Canvas.Left="10"
+                    Canvas.Top="20"
+                    Checked="CbMR_Checked"
+                    Content="Magieresistenz" />
+                <Button
+                    Name="BtnReset"
+                    Canvas.Left="10"
+                    Canvas.Top="40"
+                    Click="BtnReset_Click"
+                    Content="Zurücksetzen" />
+                <Label
+                    Canvas.Left="181"
+                    Canvas.Top="80"
+                    Content="Gesamt:"
+                    FontSize="18"
+                    FontWeight="Bold" />
+                <Label
+                    Name="StringModValueTotal"
+                    Canvas.Left="260"
+                    Canvas.Top="80"
+                    FontSize="18"
+                    FontWeight="Bold" />
+            </Canvas>
+        </Grid>
+    </Grid>
+</UserControl>

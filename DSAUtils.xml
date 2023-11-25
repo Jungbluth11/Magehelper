@@ -1,0 +1,1447 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DSAUtils</name>
+    </assembly>
+    <members>
+        <member name="T:DSAUtils.HeldentoolInterop.Ability">
+            <summary>
+            Repräsentiert eine Fähigkeit oder Eigenschaft auf die gewürfelt werden kann.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.HeldentoolInterop.Ability.Name">
+            <summary>
+            Name der Fähigkeit.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.HeldentoolInterop.Ability.Wert">
+            <summary>
+            Wert der Fähigkeit.
+            </summary>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.Ability.#ctor(System.String,System.Int32)">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="name">Name der Fähigkeit.</param>
+            <param name="wert">Wert der Fähigkeit.</param>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.Ability.ToString">
+            <summary>
+            Gibt den Inhalt als String zurück.
+            </summary>
+        </member>
+        <member name="T:DSAUtils.HeldentoolInterop.Charakter">
+            <summary>
+            Repräsentiert einen Charakter aus dem Heldentool. Diese Klasse ist Read-only.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.HeldentoolInterop.Charakter.Key">
+            <summary>
+            Ruft Key-Eigenschaft des XML-Dokuments ab. Dabei handelt es um das Generierungsdatum des Charakters als Unix-Timestamp in Millisekunden.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.HeldentoolInterop.Charakter.Stand">
+            <summary>
+            Ruft Stand-Eigenschaft des XML-Dokuments ab. Dabei handelt es um das Änderungsdatum des Charakters als Unix-Timestamp in Millisekunden.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.HeldentoolInterop.Charakter.AP">
+            <summary>
+            Die Abenteuerpunkte des Charakters.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.HeldentoolInterop.Charakter.Signatur">
+            <summary>
+            Ruft die SignatureValue-Eigenschaft des XML-Dokuments ab.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.HeldentoolInterop.Charakter.Name">
+            <summary>
+            Der Name des Charakters.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.HeldentoolInterop.Charakter.Profession">
+            <summary>
+            Die Profession des Charakters.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.HeldentoolInterop.Charakter.XML">
+            <summary>
+            Das zu Grunde liegende XML-Dokument als String.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.HeldentoolInterop.Charakter.Eigenschaften">
+            <summary>
+            Die Eigenschaften des Charakters.
+            </summary>
+            
+        </member>
+        <member name="P:DSAUtils.HeldentoolInterop.Charakter.Talente">
+            <summary>
+            Die Talente des Charakters.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.HeldentoolInterop.Charakter.Zauber">
+            <summary>
+            Die Zauber des Charakters falls er magisch begabt ist.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.HeldentoolInterop.Charakter.Sonderfertigkeiten">
+            <summary>
+            Die Sonderfertigkeiten des Charakters.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.HeldentoolInterop.Charakter.VorteileNachteile">
+            <summary>
+            Die Vor- und Nachteile des Charakters. (Wird in der XML nicht unterschieden.)
+            </summary>
+        </member>
+        <member name="P:DSAUtils.HeldentoolInterop.Charakter.HasAE">
+            <summary>
+            Gibt an ob der Charakter Astralenergie hat.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.HeldentoolInterop.Charakter.HasKE">
+            <summary>
+            Gibt an ob der Charakter Karmaenergie hat.
+            </summary>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.Charakter.#ctor(System.String)">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="xml">XML des Charakters.</param>
+            <exception cref="T:System.ArgumentException"><paramref name="xml"/> darf nicht NULL oder ein Leerraumzeichen sein.</exception>
+            <exception cref="T:System.FormatException">Das XML ist nicht im Format des Heldentools.</exception>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.Charakter.ToString">
+            <summary>
+            Gibt einen String zurück der diesen Charakter repräsentiert. (Name, Profession, AP)
+            </summary>
+        </member>
+        <member name="T:DSAUtils.HeldentoolInterop.HeldentoolInterop">
+            <summary>
+            Klasse zur Interaktion mit Charakteren direkt aus dem Heldentool heraus.
+            </summary>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.Load">
+            <summary>
+            Lädt die Charaktere aus dem Heldentool.
+            </summary>
+            <returns>Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/>.</returns>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.Load(System.String)">
+            <summary>
+            Lädt die Charaktere aus dem Heldentool.
+            </summary>
+            <param name="filename">Datei die gelesen werden soll. Mögliche Datei-Typen sind ".zip" und ".zip.hld".</param>
+            <returns>Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/>.</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="filename"/> darf nicht NULL oder ein Leerraumzeichen sein.</exception>
+            <exception cref="T:System.FormatException">Dateiendung oder Format wird nicht unterstützt.</exception>
+            <exception cref="T:System.IO.PathTooLongException"/>
+            <exception cref="T:System.IO.DirectoryNotFoundException"/>
+            <exception cref="T:System.IO.IOException"/>
+            <exception cref="T:System.UnauthorizedAccessException"/>
+            <exception cref="T:System.NotSupportedException"/>
+            <exception cref="T:System.IO.FileNotFoundException"/>
+            <exception cref="T:System.IO.InvalidDataException"/>
+            <exception cref="T:System.Security.SecurityException"/>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.LoadFromXML(System.String)">
+            <summary>
+            Liest einen aus dem Heldentool als XML exportierten Charakter ein.
+            </summary>
+            <param name="path">der Pfad zur XML.</param>
+            <returns>Eine Instanz der Klasse <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/></returns>
+            <exception cref="T:System.ArgumentException"><paramref name="path"/> darf nicht NULL oder ein Leerraumzeichen sein.</exception>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.GetBySignature(System.String)">
+            <summary>
+            Gibt einen Charakter anhand seiner im XML-Dokument festgelegten Signatur-Eigenschaft (SignatureValue) aus. 
+            </summary>
+            <param name="signature">Die SignatureValue nach der gesucht werden soll.</param>
+            <returns>Den passenden Charakter</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="signature"/> darf nicht NULL oder ein Leerraumzeichen sein oder es existiert kein Charaktere mit dieser Signatur.</exception>
+            <exception cref="T:System.IO.PathTooLongException"/>
+            <exception cref="T:System.IO.DirectoryNotFoundException"/>
+            <exception cref="T:System.IO.IOException"/>
+            <exception cref="T:System.UnauthorizedAccessException"/>
+            <exception cref="T:System.NotSupportedException"/>
+            <exception cref="T:System.IO.FileNotFoundException"/>
+            <exception cref="T:System.IO.InvalidDataException"/>
+            <exception cref="T:System.Security.SecurityException"/>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.GetBySignature(System.String,DSAUtils.HeldentoolInterop.Charakter[])">
+            <summary>
+            Gibt einen Charakter anhand seiner im XML-Dokument festgelegten Signatur-Eigenschaft (SignatureValue) aus. 
+            </summary>
+            <param name="signature">Die SignatureValue nach der gesucht werden soll.</param>
+            <param name="charList">Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/>welches durchsucht werden soll.</param>
+            <returns>Den passenden Charakter</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="signature"/> darf nicht NULL oder ein Leerraumzeichen sein oder es existiert kein Charaktere mit dieser Signatur.</exception>
+            <exception cref="T:System.ArgumentException"><paramref name="charList"/> darf nicht NULL oder kein Leeres Array sein.</exception>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.GetByName(System.String)">
+            <summary>
+            Listet Charaktere anhand des Names auf. Kann mehrere Einträge zurück geben.
+            </summary>
+            <param name="name">Der Name nach dem das Heldentool durchsucht werden soll</param>
+            <returns>Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/>.</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="name"/> darf nicht NULL oder ein Leerraumzeichen sein oder es existieren keine Charaktere mit diesem Namen.</exception>
+            <exception cref="T:System.IO.PathTooLongException"/>
+            <exception cref="T:System.IO.DirectoryNotFoundException"/>
+            <exception cref="T:System.IO.IOException"/>
+            <exception cref="T:System.UnauthorizedAccessException"/>
+            <exception cref="T:System.NotSupportedException"/>
+            <exception cref="T:System.IO.FileNotFoundException"/>
+            <exception cref="T:System.IO.InvalidDataException"/>
+            <exception cref="T:System.Security.SecurityException"/>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.GetByName(System.String,DSAUtils.HeldentoolInterop.Charakter[])">
+            <summary>
+            Listet Charaktere anhand des Names auf. Kann mehrere Einträge zurück geben.
+            </summary>
+            <param name="name">Der Name nach dem gesucht werden soll</param>
+            <param name="charList">Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/> welches durchsucht werden soll.</param>
+            <returns>Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/>.</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="name"/> darf nicht NULL oder ein Leerraumzeichen sein oder es existieren keine Charaktere mit diesem Namen.</exception>
+            <exception cref="T:System.ArgumentException"><paramref name="charList"/> darf nicht NULL oder kein Leeres Array sein.</exception>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.GetByTalent(System.String)">
+            <summary>
+            Listet Charaktere anhand des Talents auf.
+            </summary>
+            <param name="talent">Der Talentname nach dem das Heldentool durchsucht werden soll</param>
+            <returns>Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/>.</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="talent"/> darf nicht NULL oder ein Leerraumzeichen sein oder es existieren keine Charaktere die dieses Talent beherrschen.</exception>
+            <exception cref="T:System.IO.PathTooLongException"/>
+            <exception cref="T:System.IO.DirectoryNotFoundException"/>
+            <exception cref="T:System.IO.IOException"/>
+            <exception cref="T:System.UnauthorizedAccessException"/>
+            <exception cref="T:System.NotSupportedException"/>
+            <exception cref="T:System.IO.FileNotFoundException"/>
+            <exception cref="T:System.IO.InvalidDataException"/>
+            <exception cref="T:System.Security.SecurityException"/>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.GetByTalent(System.String,DSAUtils.HeldentoolInterop.Charakter[])">
+            <summary>
+            Listet Charaktere anhand auf.
+            </summary>
+            <param name="talent">Der Talentname nach dem gesucht werden soll</param>
+            <param name="charList">Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/> welches durchsucht werden soll.</param>
+            <returns>Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/>.</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="talent"/> darf nicht NULL oder ein Leerraumzeichen sein oder es existieren keine Charaktere die dieses Talent beherrschen.</exception>
+            <exception cref="T:System.ArgumentException"><paramref name="charList"/> darf nicht NULL oder kein Leeres Array sein.</exception>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.GetByZauber(System.String)">
+            <summary>
+            Listet Charaktere anhand des Zaubers auf.
+            </summary>
+            <param name="zauber">Der Zaubername nach dem das Heldentool durchsucht werden soll</param>
+            <returns>Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/>.</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="zauber"/> darf nicht NULL oder ein Leerraumzeichen sein oder es existieren keine Charaktere diesen Zauber beherrschen.</exception>
+            <exception cref="T:System.IO.PathTooLongException"/>
+            <exception cref="T:System.IO.DirectoryNotFoundException"/>
+            <exception cref="T:System.IO.IOException"/>
+            <exception cref="T:System.UnauthorizedAccessException"/>
+            <exception cref="T:System.NotSupportedException"/>
+            <exception cref="T:System.IO.FileNotFoundException"/>
+            <exception cref="T:System.IO.InvalidDataException"/>
+            <exception cref="T:System.Security.SecurityException"/>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.GetByZauber(System.String,DSAUtils.HeldentoolInterop.Charakter[])">
+            <summary>
+            Listet Charaktere anhand des Zauber auf.
+            </summary>
+            <param name="zauber">Der Zaubername nach dem gesucht werden soll</param>
+            <param name="charList">Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/> welches durchsucht werden soll.</param>
+            <returns>Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/>.</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="zauber"/> darf nicht NULL oder ein Leerraumzeichen sein oder es existieren keine Charaktere diesen Zauber beherrschen.</exception>
+            <exception cref="T:System.ArgumentException"><paramref name="charList"/> darf nicht NULL oder kein Leeres Array sein.</exception>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.GetByVorteilNachteile(System.String[])">
+            <summary>
+            Listet Charaktere anhand des gewählten Vor- oder Nachteils auf.
+            </summary>
+            <param name="vorteilNachteil">Der Vor- oder Nachteil (<see cref="P:DSAUtils.HeldentoolInterop.Charakter.VorteileNachteile"/>) nach dem das Heldentool durchsucht werden soll</param>
+            <returns>Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/>.</returns>
+            <exception cref="T:System.ArgumentException">Es existieren keine Charaktere mit diesen Vor- und/oder Nachteilen.</exception>
+            <exception cref="T:System.IO.PathTooLongException"/>
+            <exception cref="T:System.IO.DirectoryNotFoundException"/>
+            <exception cref="T:System.IO.IOException"/>
+            <exception cref="T:System.UnauthorizedAccessException"/>
+            <exception cref="T:System.NotSupportedException"/>
+            <exception cref="T:System.IO.FileNotFoundException"/>
+            <exception cref="T:System.IO.InvalidDataException"/>
+            <exception cref="T:System.Security.SecurityException"/>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.GetByVorteilNachteil(System.String[],DSAUtils.HeldentoolInterop.Charakter[])">
+            <summary>
+            Listet Charaktere anhand des gewählten Vor- oder Nachteils auf.
+            </summary>
+            <param name="vorteilNachteil">Der Vor- oder Nachteil (<see cref="P:DSAUtils.HeldentoolInterop.Charakter.VorteileNachteile"/>) nach dem gesucht werden soll</param>
+            <param name="charList">Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/> welches durchsucht werden soll.</param>
+            <returns>Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/>.</returns>
+            <exception cref="T:System.ArgumentException">Es existieren keine Charaktere mit diesen Vor- und/oder Nachteilen.</exception>
+            <exception cref="T:System.ArgumentException"><paramref name="charList"/> darf nicht NULL oder kein Leeres Array sein.</exception>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.GetBySonderfertigkeit(System.String)">
+            <summary>
+            Listet Charaktere anhand der gewählten Sonderfertigkeit auf.
+            </summary>
+            <param name="sonderfertigkeit">Die Sonderfertigkeit nach der das Heldentool durchsucht werden soll</param>
+            <returns>Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/>.</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="sonderfertigkeit"/> darf nicht NULL oder ein Leerraumzeichen sein oder es existieren keine Charaktere die diese Sonderfertigkeit beherrschen.</exception>
+            <exception cref="T:System.IO.PathTooLongException"/>
+            <exception cref="T:System.IO.DirectoryNotFoundException"/>
+            <exception cref="T:System.IO.IOException"/>
+            <exception cref="T:System.UnauthorizedAccessException"/>
+            <exception cref="T:System.NotSupportedException"/>
+            <exception cref="T:System.IO.FileNotFoundException"/>
+            <exception cref="T:System.IO.InvalidDataException"/>
+            <exception cref="T:System.Security.SecurityException"/>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.GetBySonderfertigkeit(System.String,DSAUtils.HeldentoolInterop.Charakter[])">
+            <summary>
+            Listet Charaktere anhand der gewählten Sonderfertigkeit auf.
+            </summary>
+            <param name="sonderfertigkeit">Die Sonderfertigkeit nach der gesucht werden soll</param>
+            <param name="charList">Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/> welches durchsucht werden soll.</param>
+            <returns>Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/>.</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="sonderfertigkeit"/> darf nicht NULL oder ein Leerraumzeichen sein oder es existieren keine Charaktere die diese Sonderfertigkeit beherrschen.</exception>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.GetByAE">
+            <summary>
+            Lädt Charaktere die Astralenergie haben aus dem Heldentool.
+            </summary>
+            <returns>Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/>.</returns>
+            <exception cref="T:System.Exception">Es existieren keine Charaktere die Astralenergie besitzen.</exception>
+            <exception cref="T:System.IO.PathTooLongException"/>
+            <exception cref="T:System.IO.DirectoryNotFoundException"/>
+            <exception cref="T:System.IO.IOException"/>
+            <exception cref="T:System.UnauthorizedAccessException"/>
+            <exception cref="T:System.NotSupportedException"/>
+            <exception cref="T:System.IO.FileNotFoundException"/>
+            <exception cref="T:System.IO.InvalidDataException"/>
+            <exception cref="T:System.Security.SecurityException"/>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.GetByAE(DSAUtils.HeldentoolInterop.Charakter[])">
+            <summary>
+            Listet Charaktere auf, die Astralenergie haben.
+            </summary>
+            <param name="charList">Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/> welches durchsucht werden soll.</param>
+            <returns>Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/>.</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="charList"/> darf nicht NULL oder kein Leeres Array sein.</exception>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.GetByKE">
+            <summary>
+            Lädt Charaktere die Karmaenergie haben aus dem Heldentool.
+            </summary>
+            <returns>Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/>.</returns>
+            <exception cref="T:System.Exception">Es existieren keine Charaktere die Karmaenergie besitzen.</exception>
+            <exception cref="T:System.IO.PathTooLongException"/>
+            <exception cref="T:System.IO.DirectoryNotFoundException"/>
+            <exception cref="T:System.IO.IOException"/>
+            <exception cref="T:System.UnauthorizedAccessException"/>
+            <exception cref="T:System.NotSupportedException"/>
+            <exception cref="T:System.IO.FileNotFoundException"/>
+            <exception cref="T:System.IO.InvalidDataException"/>
+            <exception cref="T:System.Security.SecurityException"/>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.GetByKE(DSAUtils.HeldentoolInterop.Charakter[])">
+            <summary>
+            Listet Charaktere auf, die Karmaenergie haben.
+            </summary>
+            <param name="charList">Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/> welches durchsucht werden soll.</param>
+            <returns>Ein Array von <see cref="T:DSAUtils.HeldentoolInterop.Charakter"/>.</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="charList"/> darf nicht NULL oder kein Leeres Array sein.</exception>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.Rename(System.String,DSAUtils.HeldentoolInterop.Name)">
+            <summary>
+            Sucht eine Sonderfertigkeit und gibt die jeweils andere Bezeichnung aus.
+            </summary>
+            <param name="name">Der Name der Sonderfertigkeit</param>
+            <param name="variante">Die Variante des Names die zurück gegeben werden soll (Offiziell oder Toolbezeichnung)-</param>
+            <returns>Die gewählte Variante.</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="name"/> darf nicht NULL oder ein Leerraumzeichen sein.</exception>
+        </member>
+        <member name="M:DSAUtils.HeldentoolInterop.HeldentoolInterop.IsInstalled">
+            <summary>
+            Prüft ob das Heldentool installiert ist.
+            </summary>
+            <returns>Gibt true zurück wenn das Heldentool installiert ist, anderenfalls false. Gibt ebenfalls false zurück wenn die Datei ".heldEinstellungen4_1.xml" nicht gelesen werden kann.</returns>
+        </member>
+        <member name="T:DSAUtils.UI.WPF.About">
+            <summary>
+            Zeigt die Version sowie das Fanprojekt-Logo und die Copyright Hinweise gemäß den Fanrichtlinien an. 
+            </summary>
+            <summary>
+            About
+            </summary>
+        </member>
+        <member name="M:DSAUtils.UI.WPF.About.#ctor(System.String,System.String)">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="name">Names des Programms.</param>
+            <param name="version">Version des Programms.</param>
+        </member>
+        <member name="M:DSAUtils.UI.WPF.About.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:DSAUtils.UI.WPF.Wuerfelfenster">
+            <summary>
+            Interaktionslogik für wuerfelfensterWPF.xaml
+            </summary>
+            <summary>
+            Wuerfelfenster
+            </summary>
+        </member>
+        <member name="P:DSAUtils.UI.WPF.Wuerfelfenster.Add">
+            <summary>
+            Gibt an oder bestimmt ob die Würfelergebnisse addiert werden. Der Standard ist false. (Dieser Wert wird nur gelesen wenn das <see cref="E:System.Windows.Window.ContentRendered" />-Ereigniss ausgelöst wird.)
+            </summary>
+        </member>
+        <member name="M:DSAUtils.UI.WPF.Wuerfelfenster.#ctor(System.Int32[],System.String)">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="dice">Die Würfelergebnisse.</param>
+            <param name="append">Der Text Der angezeigt werden soll. (Für gewöhnlich Patzer oder kritischer Treffer. ACHTUNG! Der Platz ist stark begrenzt und es findet kein Zeilenumbruch statt)</param>
+        </member>
+        <member name="M:DSAUtils.UI.WPF.Wuerfelfenster.#ctor(System.Int32[])">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="dice">Die Würfelergebnisse.</param>
+        </member>
+        <member name="M:DSAUtils.UI.WPF.Wuerfelfenster.#ctor(System.Object[])">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="input">Gedacht zur direkten Verwendung mit <see cref="M:DSAUtils.DSA.Probe(System.Int32)"/>.</param>
+        </member>
+        <member name="M:DSAUtils.UI.WPF.Wuerfelfenster.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:DSAUtils.UI.Logo">
+            <summary>
+            Das Fanprojekt-Logo aus dem Fanpaket.
+            </summary>
+        </member>
+        <member name="F:DSAUtils.UI.Logo.Getlogo">
+            <summary>
+            Gibt das Fanprojekt-Logo als <see cref="T:System.IO.MemoryStream"/> aus.
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Settings.Aventurien.Aventurien">
+            <summary>
+            Das Setting "Aventurien"
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.rassen">
+            <summary>
+            Ein Array der Rassen.
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.kulte">
+            <summary>
+            Ein Array der Götterkulte im Setting "Aventurien".
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.talentliste">
+            <summary>
+            Eine Array aller Talente.
+            </summary>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.GetTalent(System.String)">
+            <summary>
+            Gibt Talentinformationen anhand ihres Names zurück.
+            </summary>
+            <param name="talentname">Der Talentname.</param>
+            <returns>Eine Instanz der Structs Talent.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.TalentByKomplex(System.String)">
+            <summary>
+            Gibt Talente der gewählten Komplexität zurück.
+            </summary>
+            <param name="komplex">Die gewählte Komplexität (A - H).</param>
+            <returns>Eine Array von Structs.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.TalentByGroup(DSAUtils.Talentgruppe)">
+            <summary>
+            Gibt Talente der gewählten Gruppe zurück.
+            </summary>
+            <param name="talentgruppe">Die gewählte Talentgruppe als Enum.</param>
+            <returns>Ein Array von Structs.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.ToNameList(DSAUtils.Talent[])">
+            <summary>
+            Wandelt ein Array des Structs vom Typ Talent in ein String Array aus Talentnamen um.
+            </summary>
+            <param name="talentliste">Ein Array von Structs des Typs <see cref="T:DSAUtils.Talent"/>.</param>
+            <returns>Ein String-Array mit den Talentnamen.</returns>
+            <exception cref="T:System.ArgumentNullException">'talentliste' darf nicht null oder Länge 0 sein.</exception>
+        </member>
+        <member name="T:DSAUtils.Settings.Aventurien.Aventurien.Liturgien">
+            <summary>
+            Aventurische Liturgien
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Liturgien.liturgienkenntnis">
+            <summary>
+            Ein Array aller Liturgienkenntnisse.
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Liturgien.liturgienliste">
+            <summary>
+            Ein Array aller Liturgien.
+            </summary>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Liturgien.GetByName(System.String)">
+            <summary>
+            Gibt Liturgieninformationen anhand des gewählten Namens zurück.
+            </summary>
+            <param name="liturgienname">Der gewählte name</param>
+            <returns>Eine Instanz des Structs <see cref="T:DSAUtils.Liturgie"/>.</returns>
+            <exception cref="T:System.ArgumentException">Es existiert keine Liturgie mit diesem Namen.</exception>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Liturgien.GetByGrade(System.Int32)">
+            <summary>
+            Gibt Liturgien des gewählten Grades zurück.
+            </summary>
+            <param name="grad">Der gewählte Grad (1 - 6).</param>
+            <returns>Ein Array von Structs</returns>
+            <exception cref="T:System.ArgumentException">'grad' muss zwischen 1 und 6 liegen.</exception>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Liturgien.GetByOrigin(DSAUtils.Settings.Aventurien.KultHerkunft)">
+            <summary>
+            Gibt Liturgien anhand der im Liber Liturgium angegebenen Herkunft zurück.
+            </summary>
+            <param name="herkunft">Die im Liber Liturgium angegebene Herkunft als Enum.</param>
+            <returns>Ein Array von Structs.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Liturgien.GetByOrigin(System.String)">
+            <summary>
+            Gibt Liturgien anhand der im Liber Liturgium angegebenen Herkunft zurück.
+            </summary>
+            <param name="herkunft">Die im Liber Liturgium angegebene Herkunft.</param>
+            <returns>Ein Array von Structs.</returns>
+            <exception cref="T:System.ArgumentException">Der in 'herkunft' angegebene Kult existiert nicht.</exception>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Liturgien.ToNameList(DSAUtils.Liturgie[])">
+            <summary>
+            Wandelt ein Array des Structs vom Typ Liturgie in ein String Array aus Liturgiennamen um.
+            </summary>
+            <param name="liturgienliste">Ein Array von Structs des Typs <see cref="T:DSAUtils.Liturgie"/>.</param>
+            <returns>Ein String-Array mit den Liturgiennamen.</returns>
+            <exception cref="T:System.ArgumentNullException">'liturgienliste' darf nicht null oder Länge 0 sein.</exception>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Liturgien.LkP(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Liturgienkentnispunkte aus.
+            </summary>
+            <param name="MU">Mut des Charakters.</param>
+            <param name="IN">Intuition des Charakters.</param>
+            <param name="CH">Charisma des Charakters.</param>
+            <param name="LkW">Der Liturgienkenntniswert.</param>
+            <returns>Die übrig behaltenen Liturgienkenntnispunkte.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Liturgien.LkP(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Liturgienkentnispunkte aus.
+            </summary>
+            /// <param name="MU">Mut des Charakters.</param>
+            <param name="IN">Intuition des Charakters.</param>
+            <param name="CH">Charisma des Charakters.</param>
+            <param name="LkW">Der Liturgienkenntniswert.</param>
+            <param name="mod">Die Modifikatoren für diese Probe.</param>
+            <returns>Die übrig behaltenen Liturgienkenntnispunkte.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Liturgien.LkP(System.Int32[],System.Int32)">
+            <summary>
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Liturgienkentnispunkte aus.
+            </summary>
+            <param name="eigenschaften">Die Eigenschaften Mut, Intuition, Charisma des Charakters als Array.</param>
+            <param name="LkW">Der Liturgienkenntniswert.</param>
+            <returns>Die übrig behaltenen Liturgienkenntnispunkte.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Liturgien.LkP(System.Int32[],System.Int32,System.Int32)">
+            <summary>
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Liturgienkentnispunkte aus.
+            </summary>
+            <param name="eigenschaften">Die Eigenschaften Mut, Intuition, Charisma des Charakters als Array.</param>
+            <param name="LkW">Der Liturgienkenntniswert.</param>
+            <param name="mod">Die Modifikatoren für diese Probe.</param>
+            <returns>Die übrig behaltenen Liturgienkenntnispunkte.</returns>
+        </member>
+        <member name="T:DSAUtils.Settings.Aventurien.Aventurien.Rituale">
+            <summary>
+            Magische Rituale Aventuriens
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Rituale.stabzauber">
+            <summary>
+            Aventurische Stabzauber
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Rituale.kugelzauber">
+            <summary>
+            Aventurische Kugelzauber
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Rituale.schalenzauber">
+            <summary>
+            Aventurische Schalenzauber
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Rituale.objektritual">
+            <summary>
+            Aventurische Objektrituale
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Rituale.schamanenritual">
+            <summary>
+            Aventurische Schamanenrituale
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Rituale.trommelzauber">
+            <summary>
+            Aventurische Trommelzauber
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Rituale.hexenfluch">
+            <summary>
+            Aventurische Hexenflüche
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Rituale.elfenlied">
+            <summary>
+            Aventurische Elfenlieder
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Rituale.druidenritual">
+            <summary>
+            Aventurische Druidenrituale
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Rituale.geodenritual">
+            <summary>
+            Aventurische Geodenrituale
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Rituale.kristallomantenritual">
+            <summary>
+            Aventurische Kristallomantenrituale
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Rituale.durrodunritual">
+            <summary>
+            Aventurische Durro-Dun Rituale
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Rituale.zaubertanz">
+            <summary>
+            Aventurische Zaubertänze
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Rituale.zibiljaritual">
+            <summary>
+            Aventurische Zibilja-Ritual
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Rituale.liste">
+            <summary>
+            Eine Liste aller in Aventurien bekannten Rituale
+            </summary>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Rituale.ToNameList(DSAUtils.Ritual[])">
+            <summary>
+            Wandelt ein Array des Structs vom Typ <see cref="T:DSAUtils.Ritual"/> in ein String Array aus Ritualnamen um.
+            </summary>
+            <param name="ritualList">Ein Array von Structs des Typs <see cref="T:DSAUtils.Ritual"/>.</param>
+            <returns>Ein String-Array mit den Ritualnamen.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Rituale.ToNameList(DSAUtils.Schamanenritual[])">
+            <summary>
+            Wandelt ein Array des Structs vom Typ <see cref="T:DSAUtils.Schamanenritual"/> in ein String Array aus Ritualnamen um.
+            </summary>
+            <param name="ritualList">Ein Array von Structs des Typs <see cref="T:DSAUtils.Schamanenritual"/>.</param>
+            <returns>Ein String-Array mit den Ritualnamen.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Rituale.ToNameList(DSAUtils.Trommelzauber[])">
+            <summary>
+            Wandelt ein Array des Structs vom Typ <see cref="T:DSAUtils.Trommelzauber"/> in ein String Array aus Ritualnamen um.
+            </summary>
+            <param name="ritualList">Ein Array von Structs des Typs <see cref="T:DSAUtils.Trommelzauber"/>.</param>
+            <returns>Ein String-Array mit den Ritualnamen.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Rituale.GetByName(System.String)">
+            <summary>
+            Gibt Ritualinformationen anhand des Names zurück
+            </summary>
+            <param name="name">Names des Rituals</param>
+            <returns>Eine Instanz von <see cref="T:DSAUtils.Schamanenritual"/> wenn das Ritual ein Schamanenritual ist, <see cref="T:DSAUtils.Trommelzauber"/> wenn Derwischritual (Trommelzauber) ist oder <see cref="T:DSAUtils.Ritual"/> bei allem anderen.</returns>
+            <exception cref="T:System.ArgumentException">Es existiert kein Ritual mit dem angegebenen Namen.</exception>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Rituale.GetRitualByOrigin(System.String)">
+            <summary>
+            Gibt Ritualinformationen anhand der gewählten Herkunft zurück.
+            </summary>
+            <param name="herkunft">Die gewählte Herkunft. Dieser Parameter ist nicht Case-Sensitive.</param>
+            <returns>Ein Array von <see cref="T:DSAUtils.Schamanenritual"/> wenn die Herkunft eine schamanistische Kultur ist, <see cref="T:DSAUtils.Trommelzauber"/> wenn die Herkunft "Derwisch" ist oder <see cref="T:DSAUtils.Ritual"/> bei allem anderen.</returns>
+            <exception cref="T:System.ArgumentException">Die angegebene Herkunft existiert nicht.</exception>
+            <remarks>Wenn Schamanenrituale zurückgegeben werden sollen werden bei <paramref name="herkunft"/> sowohl die offiziellen Abkürzungen für die Schamanentraditionen als auch "Schamane" als Input akzeptiert.</remarks>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Rituale.GetShamanritualByGrade(System.Int32)">
+            <summary>
+            Gibt Informationen eines Schamanenrituals anhand des gewählten Gerades zurück.
+            </summary>
+            <param name="grad">Der gewählte Grad.</param>
+            <returns>Ein Array von Structs.</returns>
+            <exception cref="T:System.ArgumentException">'grad' muss zwischen 1 und 6 liegen.</exception>
+        </member>
+        <member name="T:DSAUtils.Settings.Aventurien.Aventurien.Zauber">
+            <summary>
+            Aventurische Zauber
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Zauber.zauberliste">
+            <summary>
+            Ein Array aller Zauber.
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Zauber.vertrautentier">
+            <summary>
+            Ein Array der Vertautentierarten.
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Zauber.merkmalsliste">
+            <summary>
+            Ein Array aller Merkmale.
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Zauber.repraesentationsliste">
+            <summary>
+            Ein Array aller Repräsentationen.
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Aventurien.Zauber.vertrautenzauberliste">
+            <summary>
+            Ein Array aller Vertrautenzauber.
+            </summary>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.GetByName(System.String)">
+            <summary>
+            Gibt Zauberinformationen anhand des gewählten Namens zurück.
+            </summary>
+            <param name="zaubername">Der gewählte name</param>
+            <returns>Eine Instanz des Structs <see cref="T:DSAUtils.Zauber"/>.</returns>
+            <exception cref="T:System.ArgumentException">Es existiert kein Zauber mit diesem Namen.</exception>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.GetByName(System.String,DSAUtils.Settings.Aventurien.Repraesentation)">
+            <summary>
+            Gibt Zauberinformationen anhand des gewählten Namens und der gewählten Repräsentation zurück.
+            </summary>
+            <param name="zaubername">Der gewählte name</param>
+            <param name="repraesentation">Die gewählte Repräsentation als Enum. Gedacht um zwischen normaler und Borbaradversion zu unterscheiden (wo sich dann jeweils die Merkmale ändern).</param>
+            <returns>Eine Instanz des Structs <see cref="T:DSAUtils.Zauber"/>.</returns>
+            <exception cref="T:System.ArgumentException">Es existiert kein Zauber mit diesem Namen.</exception>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.GetByKomplex(System.String)">
+            <summary>
+            Gibt Zauber der gewählten Komplexität zurück.
+            </summary>
+            <param name="komplex">Die gewählte Komplexität (A - H).</param>
+            <returns>Eine Array von Structs.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.GetByKomplex(System.String,DSAUtils.Settings.Aventurien.Repraesentation)">
+            <summary>
+            Gibt Zauber der gewählten Komplexität und der gewählten Repräsentation zurück.
+            </summary>
+            <param name="komplex">Die gewählte Komplexität (A - H).</param>
+            <param name="repraesentation">Die gewählte Repräsentation als Enum.</param>
+            <returns>Eine Array von Structs.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.GetByMerkmal(System.String[])">
+            <summary>
+            Gibt Zauber der gewählten Merkmale zurück.
+            </summary>
+            <param name="merkmale">Die gewählten Merkmale.</param>
+            <returns>Eine Array von Structs.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.GetByMerkmal(System.String[],DSAUtils.Settings.Aventurien.Repraesentation)">
+            <summary>
+            Gibt Zauber der gewählten Merkmale und der gewählten Repräsentation zurück.
+            </summary>
+            <param name="merkmale">Die gewählten Merkmale.</param>
+            <param name="repraesentation">Die gewählte Repräsentation als Enum.</param>
+            <returns>Eine Array von Structs.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.GetByRepraesentation(DSAUtils.Settings.Aventurien.Repraesentation)">
+            <summary>
+            Gibt Zauber der gewählten Repräsentation zurück.
+            </summary>
+            <param name="repraesentation">Die gewählte Repräsentation als Enum.</param>
+            <returns>Eine Array von Structs.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.ToNameList(DSAUtils.Zauber[])">
+            <summary>
+            Wandelt ein Array des Structs vom Typ Zauber in ein String Array aus Zaubernamen um.
+            </summary>
+            <param name="zauberliste">Ein Array von Structs des Typs <see cref="T:DSAUtils.Zauber"/>.</param>
+            <returns>Ein String-Array mit den Zaubernamen.</returns>
+            <exception cref="T:System.ArgumentNullException">'zauberliste' darf nicht null oder Länge 0 sein.</exception>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.VertrautenzauberTier(System.String)">
+            <summary>
+            Gibt Vertrautenzauber zurück die von der angegebenen Tierart gelernt werden können.
+            </summary>
+            <param name="tiername">Die gewählte Tierart</param>
+            <returns>Ein Array von Structs.</returns>
+            <exception cref="T:System.ArgumentException">'tiername' ist kein Vertrautentier.</exception>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.RepToEnum(System.String)">
+            <summary>
+            Gibt die Enumeration für die angegebene Repräsentation zurück.
+            </summary>
+            <param name="repraesentation">Die gewählte Repräsentation als String. Dieser Parameter ist nicht Case-Sensitive.</param>
+            <returns>Die gewählte Repräsentation als Enum.</returns>
+            <exception cref="T:System.ArgumentException">Der String enthält keine magische Repräsentation Aventuriens.</exception>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.ZfP(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Zauberfertigkeitspunkte aus.
+            </summary>
+            <param name="eigenschaft1">Die erste beteiligte Eigenschaft.</param>
+            <param name="eigenschaft2">Die zweite beteiligte Eigenschaft.</param>
+            <param name="eigenschaft3">Die dritte beteiligte Eigenschaft.</param>
+            <param name="ZfW">Der Zauberfertigkeitswert.</param>
+            <returns>Die übrig behaltenen Zauberfertigkeitspunkte.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.ZfP(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Zauberfertigkeitspunkte aus.
+            </summary>
+            <param name="eigenschaft1">Die erste beteiligte Eigenschaft.</param>
+            <param name="eigenschaft2">Die zweite beteiligte Eigenschaft.</param>
+            <param name="eigenschaft3">Die dritte beteiligte Eigenschaft.</param>
+            <param name="ZfW">Der Zauberfertigkeitswert.</param>
+            <param name="mod">Die Modifikatoren für diese Probe.</param>
+            <returns>Die übrig behaltenen Zauberfertigkeitspunkte.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.ZfP(System.Int32[],System.Int32)">
+            <summary>
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Zauberfertigkeitspunkte aus.
+            </summary>
+            <param name="eigenschaften">Ein Array der 3 beteiligten Eigenschaften.</param>
+            <param name="ZfW">Der Zauberfertigkeitswert.</param>
+            <returns>Die übrig behaltenen Zauberfertigkeitspunkte.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.ZfP(System.Int32[],System.Int32,System.Int32)">
+            <summary>
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Zauberfertigkeitspunkte aus.
+            </summary>
+            <param name="eigenschaften">Ein Array der 3 beteiligten Eigenschaften.</param>
+            <param name="ZfW">Der Zauberfertigkeitswert.</param>
+            <param name="mod">Die Modifikatoren für diese Probe.</param>
+            <returns>Die übrig behaltenen Zauberfertigkeitspunkte.</returns>
+        </member>
+        <member name="T:DSAUtils.Settings.Aventurien.Rasse">
+            <summary>
+            Rassen von Aventurien.
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Settings.Aventurien.Repraesentation">
+            <summary>
+            Magische Repräsentationen von Aventurien als Abkürzung.
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Settings.Aventurien.KultHerkunft">
+            <summary>
+            Götterkulte von Aventurien.
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Settings.Aventurien.Profession">
+            <summary>
+            Professionen für das Setting "Aventurien".
+            </summary>
+             <summary>
+            Professionen  für das Setting "Aventurien".
+             </summary>
+        </member>
+        <member name="T:DSAUtils.Settings.Aventurien.Rassen">
+            <summary>
+            Rassen für das Setting "Aventurien".
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Rassen.liste">
+            <summary>
+            Ein Array der Rassen. 
+            </summary>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Rassen.GetTypes(System.String)">
+            <summary>
+            Gibt Unterassen anhand des gewählten Typs wieder (sofern vorhanden).
+            </summary>
+            <param name="rasse">Name der gewählten Rasse.</param>
+            <returns>Ein Array der Unterrassen. Falls es keine Unterassen gibt wird ein Array der Länge 1 zurückgegeben wobei der Inhalt "Diese Rasse hat keine Untertypen" ist.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Rassen.GetTypes(DSAUtils.Settings.Aventurien.Rasse)">
+            <summary>
+            Gibt Unterassen anhand des gewählten Typs wieder (sofern vorhanden).
+            </summary>
+            <param name="rasse">Name der gewählten Rasse als Enum.</param>
+            <returns>Ein Array der Unterrassen. Falls es keine Unterassen gibt wird ein Array der Länge 1 zurückgegeben wobei der Inhalt "Diese Rasse hat keine Untertypen" ist.</returns>
+        </member>
+        <member name="T:DSAUtils.Settings.Aventurien.Sonderfertigkeiten">
+            <summary>
+            Sonderfertigkeiten für das Setting "Aventurien". Für detaillierte Angaben zu den magischen Ritualen siehe <see cref="T:DSAUtils.Settings.Aventurien.Aventurien.Rituale"/>. 
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Sonderfertigkeiten.sonderfertigkeitengruppenliste">
+            <summary>
+            Sonderfertigkeiten wie sie im Heldentool gruppiert sind.
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Sonderfertigkeiten.zauberzeichen">
+            <summary>
+            Aventurische Zauberzeichen.
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Sonderfertigkeiten.runen">
+            <summary>
+            Aventuriche Runen
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Sonderfertigkeiten.kulturkunde">
+            <summary>
+            Kulturkunden für das Setting "Aventurien".
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Sonderfertigkeiten.merkmalskenntnis">
+            <summary>
+            Aventurische Merkmalskenntisse
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.Sonderfertigkeiten.liste">
+            <summary>
+            Liste der Sonderfertigkeiten.
+            </summary>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Sonderfertigkeiten.GetByGroup(DSAUtils.Sonderfertigkeitengruppe)">
+            <summary>
+            Gibt Sonderfertigkeiten der gewählten Gruppe aus.
+            </summary>
+            <param name="sonderfertigkeitengruppe">Ein Wert des Enums <see cref="T:DSAUtils.Sonderfertigkeitengruppe"/>.</param>
+            <returns>Ein String-Array des gewählten Gruppe.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Sonderfertigkeiten.GetByGroup(System.String)">
+            <summary>
+            Gibt Sonderfertigkeiten der gewählten Gruppe aus.
+            </summary>
+            <param name="sonderfertigkeitengruppe">Ein Wert des Enums <see cref="T:DSAUtils.Sonderfertigkeitengruppe"/> als String. (Sonderfertigkeiten wie sie im Heldentool gruppiert sind.) Dieser Parameter ist nicht Case-Sensitive.</param>
+            <returns>Ein String-Array des gewählten Gruppe.</returns>
+            <exception cref="T:System.ArgumentException">Die wählte Sonderfertigkeitengruppe existiert nicht.</exception>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.Sonderfertigkeiten.Gruppe(DSAUtils.Sonderfertigkeit)">
+            <summary>
+            Die Sonderfertigkeitengruppen des Heldentools wie sie im Regelwerk aufgeführt sind. (Allgemein, Kampf, Magisch, Klerikal)
+            </summary>
+            <param name="sonderfertigkeiten">Ein Wert des Enums <see cref="T:DSAUtils.Sonderfertigkeit"/></param>
+            <returns>Eine Object-Array das Werte des Enums <see cref="T:DSAUtils.Sonderfertigkeitengruppe"/> enthält</returns>
+        </member>
+        <member name="T:DSAUtils.Settings.Aventurien.VorteileNachteile">
+            <summary>
+            Vor- und Nachteile für das Setting "Aventurien".
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.VorteileNachteile.vorteile">
+            <summary>
+            Array aller Vorteile (Array der Länge 103)
+            </summary>
+        </member>
+        <member name="F:DSAUtils.Settings.Aventurien.VorteileNachteile.nachteile">
+            <summary>
+            Array aller Nachteile (Array der Länge 119)
+            </summary>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.VorteileNachteile.VorteilByType(DSAUtils.Vorteile)">
+            <summary>
+            Gibt Vorteile des gewählten Typs zurück.
+            </summary>
+            <param name="type">Art des Vorteils als Enum.</param>
+            <returns>Die Vorteile des gewahlten Typs.</returns>
+        </member>
+        <member name="M:DSAUtils.Settings.Aventurien.VorteileNachteile.NachteilByType(DSAUtils.Nachteile)">
+            <summary>
+            Gibt Nachteile des gewählten Typs zurück.
+            </summary>
+            <param name="type">Art des Nachteils als Enum.</param>
+            <returns>Die Nachteile des gewahlten Typs.</returns>
+        </member>
+        <member name="T:DSAUtils.Settings.DieDunklenZeiten.Empty">
+            <summary>
+            PlatzHalter für DSAUtils.DieDunklenZeiten
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Settings.Myranor.Empty">
+            <summary>
+            PlatzHalter für DSAUtils.Myranor
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Settings.Setting">
+            <summary>
+            DSA Settings
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Settings.Tharun.Empty">
+            <summary>
+            PlatzHalter für DSAUtils.Tharun
+            </summary>
+        </member>
+        <member name="T:DSAUtils.DSA">
+            <summary>
+            Gundlegende Funktionen für DSA Regeln.
+            </summary>
+        </member>
+        <member name="F:DSAUtils.DSA.attribute">
+            <summary>
+            Ein Array der Attribute ausgeschrieben.
+            </summary>
+        </member>
+        <member name="F:DSAUtils.DSA.attribute_abk">
+            <summary>
+            Ein Array der Attribute als Abkürzung.
+            </summary>
+        </member>
+        <member name="F:DSAUtils.DSA.komplexitaet">
+            <summary>
+            Ein Array der Komplexitäten.
+            </summary>
+        </member>
+        <member name="M:DSAUtils.DSA.Roll(System.Int32,System.Int32)">
+            <summary>
+            Würfelt die angegebene Anzahl an Würfel mit der angegebenen Anzahl an Seiten.
+            </summary>
+            <param name="n">Anzahl der Würfel.</param>
+            <param name="d">Anzahl der Seiten des Würfels.</param>
+            <returns>Ein Array mit den Würfelergebnissen.</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.Probe(System.Int32)">
+            <summary>
+            Würfelt eine Probe mit der angegeben Anzahl an Würfeln und gibt das Ergebnis sowie Kritische Treffer und Patzer aus.
+            </summary>
+            <param name="n">Anzahl der Würfel (1 Angriffsprobe - 3 Talentprobe).</param>
+            <returns>Gibt ein Array mit 4 Einträgen zurück. Die ersten 3 sind die Würfelergebnisse (int) und der letzte (string) gibt an ob es ein Kritischer Treffer oder Patzer war.</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.Komplex2af(System.String)">
+            <summary>
+            Wandelt die Angegebene Komplexität in den Aktivierungsfaktor um.
+            </summary>
+            <param name="komplex">Die gewählte Komplexität (A - H).</param>
+            <returns>Der Aktivierungsfaktor (1 - 8).</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.Af2komplex(System.Int32)">
+            <summary>
+            Wandelt den angegebenen Aktivierungsfaktor in die Komplexität um.
+            </summary>
+            <param name="af">Der gewählte Aktivierungsfaktor (1 - 8).</param>
+            <returns>Die Komplexität (A - H).</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.LE(System.Int32,System.Int32)">
+            <summary>
+            Errechnet die Lebensenergie.
+            </summary>
+            <param name="KO">Die Konstitution des Charakters.</param>
+            <param name="KK">Die Körperkraft des Charakters.</param>
+            <returns>Die Lebensenergie des Charakters.</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.LE(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Errechnet die Lebensenergie.
+            </summary>
+            <param name="KO">Die Konstitution des Charakters.</param>
+            <param name="KK">Die Körperkraft des Charakters.</param>
+            <param name="mod">Modifikatoren</param>
+            <returns>Die Lebensenergie des Charakters.</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.AU(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Errechnet die Ausdauer.
+            </summary>
+            <param name="MU">Der Mut des Charakters.</param>
+            <param name="KO">Die Konstitution des Charakters.</param>
+            <param name="GE">Die Gewandtheit des CHarakters.</param>
+            <returns>Die Ausdauer des Charakters</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.AU(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Errechnet die Ausdauer.
+            </summary>
+            <param name="MU">Der Mut des Charakters.</param>
+            <param name="KO">Die Konstitution des Charakters.</param>
+            <param name="GE">Die Gewandtheit des CHarakters.</param>
+            <param name="mod">Modifikatoren</param>
+            <returns>Die Ausdauer des Charakters</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.AE(System.Int32,System.Int32,System.Int32,DSAUtils.Magier)">
+            <summary>
+            Errechnet die Astralenergie.
+            </summary>
+            <param name="MU">Der Mut des Charakters.</param>
+            <param name="IN">Die Intuition des Charakters.</param>
+            <param name="CH">Das Charisma des Charakters.</param>
+            <param name="mod">Ein Enum das angibt um welche Art von Magiebegabten es sich handelt.</param>
+            <returns>Die Astralenergie des Charakters.</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.AE(System.Int32,System.Int32,System.Int32,DSAUtils.Magier,System.Boolean)">
+            <summary>
+            Errechnet die Astralenergie.
+            </summary>
+            <param name="MU">Der Mut des Charakters.</param>
+            <param name="IN">Die Intuition des Charakters.</param>
+            <param name="CH">Das Charisma des Charakters.</param>
+            <param name="mod">Ein Enum das angibt um welche Art von Magiebegabten es sich handelt.</param>
+            <param name="GefaessDerSterne">ob der Charakter über Gefäß der Sterne verfügt.</param>
+            <returns>Die Astralenergie des Charakters.</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.Magieresistenz(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Errechnet die Magieresistenz.
+            </summary>
+            <param name="MU">Der Mut des Charakters.</param>
+            <param name="KL">Die Klugheit der Charakters.</param>
+            <param name="KO">Die Konstitution des Charakters.</param>
+            <param name="mod">Modifikatoren</param>
+            <returns>Die Magieresistenz des Charakters.</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.Magieresistenz(System.Int32,System.Int32,System.Int32,System.Int32,DSAUtils.Magier)">
+            <summary>
+            Errechnet die Magieresistenz.
+            </summary>
+            <param name="MU">Der Mut des Charakters.</param>
+            <param name="KL">Die Klugheit der Charakters.</param>
+            <param name="KO">Die Konstitution des Charakters.</param>
+            <param name="mod">Der Modifikator nach Rasse und Kultur</param>
+            <param name="mod_Magier">Der Modifikator falls der Charakter magisch begabt ist.</param>
+            <returns>Die Magieresistenz des Charakters.</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.AttackeBasis(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Errechnet die Attacke Basis.
+            </summary>
+            <param name="MU">Der Mut des Charakters.</param>
+            <param name="GE">Die Gewandtheit des Charakters.</param>
+            <param name="KK">Die Körperkraft des Charakters.</param>
+            <returns>Die Attacke Basis des Charakters.</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.ParadeBasis(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Errechnet die Parade Basis.
+            </summary>
+            <param name="IN">Die Intuition des Charakters.</param>
+            <param name="GE">Die Gewandtheit des Charakters.</param>
+            <param name="KK">Die Körperkraft des Charakters.</param>
+            <returns>Die Parade Basis des Charakters.</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.FernkampfBasis(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Errechnet die Fernkampf Basis.
+            </summary>
+            <param name="IN">Die Intuition des Charakters.</param>
+            <param name="FF">Die Fingerfertigkeit des Charakters.</param>
+            <param name="KK">Die Körperkraft des Charakters.</param>
+            <returns>Die Fernkampf Basis des Charakters.</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.InitiativeBasis(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Errechnet die Initiative Basis.
+            </summary>
+            <param name="MU">Der Mut des Charakters.</param>
+            <param name="IN">Die Intuition des Charakters.</param>
+            <param name="GE">Die Gewandtheit des Charakters.</param>
+            <returns>Die Initiative Basis des Charakters.</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.InitiativeBasis(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Errechnet die Initiative Basis.
+            </summary>
+            <param name="MU">Der Mut des Charakters.</param>
+            <param name="IN">Die Intuition des Charakters.</param>
+            <param name="GE">Die Gewandtheit des Charakters.</param>
+            <param name="mod">Modifikatoren</param>
+            <returns>Die Initiative Basis des Charakters.</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.TaP(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Talentpunkte aus.
+            </summary>
+            <param name="eigenschaft1">Die erste beteiligte Eigenschaft.</param>
+            <param name="eigenschaft2">Die zweite beteiligte Eigenschaft.</param>
+            <param name="eigenschaft3">Die dritte beteiligte Eigenschaft.</param>
+            <param name="TaW">Der Talentwert.</param>
+            <returns>Die übrig behaltenen Talentpunkte.</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.TaP(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Talentpunkte aus.
+            </summary>
+            <param name="eigenschaft1">Die erste beteiligte Eigenschaft.</param>
+            <param name="eigenschaft2">Die zweite beteiligte Eigenschaft.</param>
+            <param name="eigenschaft3">Die dritte beteiligte Eigenschaft.</param>
+            <param name="TaW">Der Talentwert.</param>
+            <param name="mod">Die Modifikatoren für diese Probe.</param>
+            <returns>Die übrig behaltenen Talentpunkte.</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.TaP(System.Int32[],System.Int32)">
+            <summary>
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Talentpunkte aus.
+            </summary>
+            <param name="eigenschaften">Ein Array der 3 beteiligten Eigenschaften.</param>
+            <param name="TaW">Der Talentwert.</param>
+            <returns>Die übrig behaltenen Talentpunkte.</returns>
+        </member>
+        <member name="M:DSAUtils.DSA.TaP(System.Int32[],System.Int32,System.Int32)">
+            <summary>
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Talentpunkte aus.
+            </summary>
+            <param name="eigenschaften">Ein Array der 3 beteiligten Eigenschaften.</param>
+            <param name="TaW">Der Talentwert.</param>
+            <param name="mod">Die Modifikatoren für diese Probe.</param>
+            <returns>Die übrig behaltenen Talentpunkte.</returns>
+        </member>
+        <member name="T:DSAUtils.Talentgruppe">
+            <summary>
+            Talentgruppen
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Magier">
+            <summary>
+            Regeltechnische Unterteilungen der Magiebegabten. (Gildenmagier ist nur wichtig für die AE-Berechnung.)
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Sonderfertigkeitengruppe">
+            <summary>
+            Sonderfertigkeiten wie sie im Heldentool unterteilt werden.
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Sonderfertigkeit">
+            <summary>
+            Regeltechnische Unterteilung der Sonderfertigkeiten.
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Vorteile">
+            <summary>
+            Zur Verwendung mit der Klasse VorteileNachteile des jeweiligen Settings.
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Nachteile">
+            <summary>
+            Zur Verwendung mit der Klasse VorteileNachteile des jeweiligen Settings.
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Internals">
+            <summary>
+            Diese Klasse enthält Funktionen die von anderen Klassen innerhalb dieser Assembly verwendet werden.
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Talent">
+            <summary>
+            Repräsentiert ein Talent.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Talent.Name">
+            <summary>
+            Name des Talents.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Talent.Eigenschaften">
+            <summary>
+            Eigenschaften auf die gewürfelt wird.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Talent.Komplexitaet">
+            <summary>
+            Komplexität des Talents.
+            </summary>
+        </member>
+        <member name="M:DSAUtils.Talent.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Konstruktor
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Zauber">
+            <summary>
+            Repräsentiert einen Zauber.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Zauber.Name">
+            <summary>
+            Name des Zaubers.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Zauber.Eigenschaften">
+            <summary>
+            Eigenschaften auf die gewürfelt wird.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Zauber.Komplexitaet">
+            <summary>
+            Komplexität des Zaubers. V für Vertrautenzauber.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Zauber.Merkmale">
+            <summary>
+            Merkmale des Zaubers. Falls der Zauber auch in borbarandianischer Repräsentation existiert, kann dieser Accessor zwei String-Arrays enthalten. 
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Zauber.Verbreitung">
+            <summary>
+            Verbreitung des Zaubers. Falls es sich um einen Vertrautenzauber handelt, welche Tiere in erlernen können.
+            </summary>
+        </member>
+        <member name="M:DSAUtils.Zauber.#ctor(System.String,System.String,System.String,System.Object[],System.String)">
+            <summary>
+            Konstruktor
+            </summary>
+        </member>
+        <member name="M:DSAUtils.Zauber.MerkmaleToString">
+            <summary>
+            Konvertiert das Merkmale-Array in eine Komma separierte Liste.
+            </summary>
+            <returns>Das Merkmale-Array als String.</returns>
+        </member>
+        <member name="T:DSAUtils.Liturgie">
+            <summary>
+            Repräsentiert eine Liturgie.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Liturgie.Name">
+            <summary>
+            Name der Liturgie.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Liturgie.Grad">
+            <summary>
+            Grad der Liturgie.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Liturgie.Herkunft">
+            <summary>
+            Kirche/Kult dem die Liturgie zugeordnet ist. Eine Liturgien können mehreren Kirchen/Kulten zugeordnet sein, in diesem Fall ist das Format "Gott1, Gott2, ..."
+            </summary>
+        </member>
+        <member name="M:DSAUtils.Liturgie.#ctor(System.String,System.Int32,System.String)">
+            <summary>
+            Konstruktor
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Ritual">
+            <summary>
+            Repräsentiert ein Ritual.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Ritual.Name">
+            <summary>
+            Name des Rituals.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Ritual.Herkunft">
+            <summary>
+            Kultur wo dieses Ritual bekannt ist.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Ritual.Ritualkenntnis">
+            <summary>
+            Talent/Ritualkenntnis worauf gewürfelt wird.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Ritual.Ritualprobe">
+            <summary>
+            Eigenschaften auf die gewürfelt wird.
+            </summary>
+            <remarks>Kann leer sein (<see cref="F:System.String.Empty"/>) falls die Ritualkenntnis ein Talent ist.</remarks>
+        </member>
+        <member name="P:DSAUtils.Ritual.RitualErschwernis">
+            <summary>
+            Evtl. Erschwernis auf die Ritualprobe.
+            </summary>
+        </member>
+        <member name="M:DSAUtils.Ritual.#ctor(System.String,System.String,System.String,System.String,System.Int32)">
+            <summary>
+            Konstruktor
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Schamanenritual">
+            <summary>
+            Repräsentiert ein Schamanenritual.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Schamanenritual.Name">
+            <summary>
+            Name des Rituals.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Schamanenritual.Grad">
+            <summary>
+            Grad des Rituals.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Schamanenritual.Herkunft">
+            <summary>
+            Kultur wo dieses Ritual bekannt ist.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Schamanenritual.Ritualkenntnis">
+            <summary>
+            Talent/Ritualkenntnis worauf gewürfelt wird.
+            </summary>
+        </member>
+        <member name="M:DSAUtils.Schamanenritual.#ctor(System.String,System.Int32,System.String,System.String)">
+            <summary>
+            Konstruktor
+            </summary>
+        </member>
+        <member name="T:DSAUtils.Trommelzauber">
+            <summary>
+            Repräsentiert einen Trommelzauber.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Trommelzauber.Name">
+            <summary>
+            Name des Rituals.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Trommelzauber.Herkunft">
+            <summary>
+            Kultur wo dieses Ritual bekannt ist.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Trommelzauber.Musizierenprobe">
+            <summary>
+            Erschwernis auf die Musizierenprobe.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Trommelzauber.Ritualprobe">
+            <summary>
+            Eigenschaften auf die gewürfelt wird.
+            </summary>
+        </member>
+        <member name="P:DSAUtils.Trommelzauber.RitualErschwernis">
+            <summary>
+            Evtl. Erschwernis auf die Ritualprobe.
+            </summary>
+        </member>
+        <member name="M:DSAUtils.Trommelzauber.#ctor(System.String,System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+            Konstruktor
+            </summary>
+        </member>
+    </members>
+</doc>

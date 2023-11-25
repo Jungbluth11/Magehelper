@@ -1,0 +1,155 @@
+﻿<Window
+    x:Class="Magehelper.WPF.SettingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:custom="clr-namespace:NumericUpDownLib;assembly=NumericUpDownLib"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Magehelper.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Einstellungen"
+    Width="610"
+    Height="340"
+    ResizeMode="NoResize"
+    ShowInTaskbar="False"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterOwner"
+    WindowStyle="ToolWindow"
+    mc:Ignorable="d">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <ComboBox
+                Name="DropdownSettings"
+                Width="150"
+                Margin="5"
+                SelectionChanged="DropdownSettings_SelectionChanged" />
+            <Button
+                Name="BtnAddSettings"
+                Width="20"
+                Height="20"
+                Margin="5"
+                Click="BtnAddSettings_Click">
+                <Image Margin="1" Source="pack://application:,,,/Resources/add_button.png" />
+            </Button>
+        </StackPanel>
+        <TabControl Name="TabControlMain" Grid.Row="1">
+            <TabItem Header="Allgemein">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <GroupBox
+                        Grid.Row="0"
+                        Grid.RowSpan="3"
+                        Grid.Column="0"
+                        Margin="5"
+                        Header="Tabs anzeigen">
+                        <ItemsControl Name="ShowTabsPanel">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox
+                                        Checked="CbTab_CheckedChanged"
+                                        Content="{Binding Path=TabName}"
+                                        IsChecked="{Binding Path=ShowTab}"
+                                        Unchecked="CbTab_CheckedChanged" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </GroupBox>
+                    <StackPanel
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="10">
+                        <CheckBox
+                            Name="CbWarnOtherVersionFiles"
+                            Checked="CbWarnOtherVersionFiles_CheckedChanged"
+                            Content="Warnung beim Laden von Dateinen andere Magehelper Versionen anzeigen"
+                            Unchecked="CbWarnOtherVersionFiles_CheckedChanged" />
+                    </StackPanel>
+                    <GroupBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="5"
+                        Header="Objektrituale (Artefaktzauber)">
+                        <StackPanel>
+                            <CheckBox
+                                Name="CbAllowRemoveSpells"
+                                Checked="CbAllowRemoveSpells_CheckedChanged"
+                                Content="Verhindere Entfernen von Zaubern nach Neuladen"
+                                Unchecked="CbAllowRemoveSpells_CheckedChanged" />
+                            <CheckBox
+                                Name="CbUseHeldentoolNames"
+                                Checked="CbUseHeldentoolNames_CheckedChanged"
+                                Content="Heldentool- statt Regelbuchnamen verwenden."
+                                Unchecked="CbUseHeldentoolNames_CheckedChanged" />
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="5"
+                        Header="Updates">
+                        <StackPanel>
+                            <CheckBox
+                                Name="CbCheckForUpdates"
+                                Checked="CbCheckForUpdates_CheckedChanged"
+                                Content="Nach Updates suchen"
+                                Unchecked="CbCheckForUpdates_CheckedChanged" />
+                            <CheckBox
+                                Name="CbAutoinstallUpdates"
+                                Margin="20,0,0,0"
+                                Checked="CbAutoinstallUpdates_CheckedChanged"
+                                Content="Updates automatisch installieren"
+                                Unchecked="CbAutoinstallUpdates_CheckedChanged" />
+                            <Button
+                                Name="BtnForceUpdate"
+                                Width="90"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Click="BtnForceUpdate_Click"
+                                Content="Jetzt updaten" />
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Hausregeln">
+                <TabControl Name="TabControlArtifacts" />
+            </TabItem>
+        </TabControl>
+        <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                Name="BtnSave"
+                Margin="5"
+                Click="BtnSave_Click"
+                Content="Speichern" />
+            <Button
+                Name="BtnCancel"
+                Margin="5"
+                Click="BtnCancel_Click"
+                Content="Abbrechen" />
+        </StackPanel>
+    </Grid>
+</Window>
