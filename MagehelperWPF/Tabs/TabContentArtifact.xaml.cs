@@ -51,12 +51,12 @@ namespace Magehelper.WPF
                     BoneCubControl = new BoneCubControl(mainWindow.Core.BoneCub);
                     StackPanelArtifacts.Children.Add(new ArtifactControl(artifact, BoneCubControl));
                     break;
-                // only used with core.ReadFile()
+                // only used by core.ReadFile()
                 case "Kristallkugel":
                     CrystalBallControl = new CrystalBallControl(mainWindow.Core.CrystalBall);
                     StackPanelArtifacts.Children.Add(new ArtifactControl(artifact, CrystalBallControl));
                     break;
-                // only used with core.ReadFile() and core.ReadFileLegacy()
+                // only used by core.ReadFile() and core.ReadFileLegacy()
                 case "Magierstab":
                     StaffControl = new StaffControl(mainWindow.Core.Staff, mainWindow);
                     StackPanelArtifacts.Children.Add(new ArtifactControl(artifact, StaffControl));

@@ -11,7 +11,7 @@
         /// </summary>
         public string Guid { get; set; }
         /// <summary>
-        /// THe points this spell used up. (Only used from <see cref="Staff"/>.)
+        /// THe points this spell used up. (only used by <see cref="Staff"/>.)
         /// </summary>
         public int Points { get; set; }
         /// <summary>

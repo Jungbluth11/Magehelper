@@ -353,10 +353,10 @@ namespace Magehelper.Core
             string xml = File.ReadAllText(path);
             try
             {
-                XmlDocument xmlDoc = new XmlDocument();
+                XmlDocument xmlDoc = new();
                 xmlDoc.LoadXml(xml);
 
-#pragma warning disable CS8600 
+#pragma warning disable CS8600
                 XmlNode root = xmlDoc.SelectSingleNode("magehelper");
 #pragma warning restore CS8600
 #pragma warning disable CS8602
@@ -501,7 +501,7 @@ namespace Magehelper.Core
                 }
                 if (SpellStorage != null && xml.SelectSingleNode("//spellStorage").HasChildNodes)
                 {
-                    List<int> spellStorages = new List<int>();
+                    List<int> spellStorages = new();
                     foreach (XmlNode volume in xml.GetElementsByTagName("volume"))
                     {
                         spellStorages.Add(int.Parse(volume.InnerText));
@@ -533,7 +533,7 @@ namespace Magehelper.Core
                         p[0].SetValue(Pet, int.Parse(attribute.Attributes["current"].Value));
                         p[1].SetValue(Pet, int.Parse(attribute.Attributes["start"].Value));
                     }
-                    List<PetSpell> knownSpells = new List<PetSpell>();
+                    List<PetSpell> knownSpells = new();
                     foreach (XmlNode spell in xml.SelectNodes("//pet/spells/spell"))
                     {
                         knownSpells.Add(Pet.SpellsAvailable.Single(p => p.Name == spell.InnerText));
@@ -605,7 +605,7 @@ namespace Magehelper.Core
                 AddArtifactGUIAction?.Invoke("Magierstab");
                 if (SpellStorage != null && xml.SelectSingleNode("//zauberspeicher").HasChildNodes)
                 {
-                    List<int> spellStorages = new List<int>();
+                    List<int> spellStorages = new();
                     foreach (XmlNode volume in xml.GetElementsByTagName("formatierung"))
                     {
                         spellStorages.Add(int.Parse(volume.InnerText));
@@ -631,6 +631,102 @@ namespace Magehelper.Core
                         Timer t = Timers.Add(text, duration);
                         AddTimerGUIAction?.Invoke(t);
                     }
+                }
+                XmlNode file_pet = xml.GetElementsByTagName("vertrautentier")[0];
+                if (Pet != null && file_pet != null && file_pet.HasChildNodes)
+                {
+                    XmlNode file_petData = xml.GetElementsByTagName("tier")[0];
+                    Pet.Species = file_petData.Attributes["tierart"].Value;
+                    Pet.IsMightyCompanion = file_petData.Attributes["machtvoll"].Value == "True";
+                    Pet.IsFlying = file_petData.Attributes["fliegend"].Value == "True";
+                    Pet.RKW = int.Parse(file_petData.Attributes["rkp"].Value);
+                    foreach (XmlNode node in xml.GetElementsByTagName("werte")[0].ChildNodes)
+                    {
+                        switch (node.Attributes["name"].Value)
+                        {
+                            case "Mut":
+                                Pet.MUStart = int.Parse(node.Attributes["startwert"].Value);
+                                Pet.MU = int.Parse(node.Attributes["gesamtwert"].Value);
+                                break;
+                            case "Klugheit":
+                                Pet.KLStart = int.Parse(node.Attributes["startwert"].Value);
+                                Pet.KL = int.Parse(node.Attributes["gesamtwert"].Value);
+                                break;
+                            case "Intuition":
+                                Pet.INStart = int.Parse(node.Attributes["startwert"].Value);
+                                Pet.IN = int.Parse(node.Attributes["gesamtwert"].Value);
+                                break;
+                            case "Charisma":
+                                Pet.CHStart = int.Parse(node.Attributes["startwert"].Value);
+                                Pet.CH = int.Parse(node.Attributes["gesamtwert"].Value);
+                                break;
+                            case "Fingerfertigkeit":
+                                Pet.FFStart = int.Parse(node.Attributes["startwert"].Value);
+                                Pet.FF = int.Parse(node.Attributes["gesamtwert"].Value);
+                                break;
+                            case "Gewandtheit":
+                                Pet.GEStart = int.Parse(node.Attributes["startwert"].Value);
+                                Pet.GE = int.Parse(node.Attributes["gesamtwert"].Value);
+                                break;
+                            case "Konstitution":
+                                Pet.KOStart = int.Parse(node.Attributes["startwert"].Value);
+                                Pet.KO = int.Parse(node.Attributes["gesamtwert"].Value);
+                                break;
+                            case "Körperkraft":
+                                Pet.KKStart = int.Parse(node.Attributes["startwert"].Value);
+                                Pet.KK = int.Parse(node.Attributes["gesamtwert"].Value);
+                                break;
+                            case "MR":
+                                Pet.MRStart = int.Parse(node.Attributes["startwert"].Value);
+                                Pet.MR = int.Parse(node.Attributes["gesamtwert"].Value);
+                                break;
+                            case "LeP":
+                                Pet.LeStart = int.Parse(node.Attributes["startwert"].Value);
+                                Pet.LE = int.Parse(node.Attributes["gesamtwert"].Value);
+                                Pet.LeP = int.Parse(node.Attributes["aktuell"].Value);
+                                break;
+                            case "AuP":
+                                Pet.AuStart = int.Parse(node.Attributes["startwert"].Value);
+                                Pet.AU = int.Parse(node.Attributes["gesamtwert"].Value);
+                                Pet.AuP = int.Parse(node.Attributes["aktuell"].Value);
+                                break;
+                            case "AsP":
+                                Pet.AE = int.Parse(node.Attributes["gesamtwert"].Value);
+                                Pet.AsP = int.Parse(node.Attributes["aktuell"].Value);
+                                break;
+                            case "attacke":
+                                Pet.AttackStart = int.Parse(node.Attributes["startwert"].Value);
+                                Pet.Attack = int.Parse(node.Attributes["gesamtwert"].Value);
+                                break;
+                            case "attacke_luft":
+                                Pet.AttackFlyingStart = int.Parse(node.Attributes["startwert"].Value);
+                                Pet.AttackFlying = int.Parse(node.Attributes["gesamtwert"].Value);
+                                break;
+                            case "parade":
+                                Pet.ParryStart = int.Parse(node.Attributes["startwert"].Value);
+                                Pet.Parry = int.Parse(node.Attributes["gesamtwert"].Value);
+                                break;
+                            case "parade_luft":
+                                Pet.ParryFlyingStart = int.Parse(node.Attributes["startwert"].Value);
+                                Pet.ParryFlying = int.Parse(node.Attributes["gesamtwert"].Value);
+                                break;
+                            case "gs":
+                                Pet.GSStart = double.Parse(node.Attributes["startwert"].Value);
+                                Pet.GS = double.Parse(node.Attributes["gesamtwert"].Value);
+                                break;
+                            default:
+                                Pet.GSFlyingStart = int.Parse(node.Attributes["startwert"].Value);
+                                Pet.GSFlying = int.Parse(node.Attributes["gesamtwert"].Value);
+                                break;
+                        }
+                    }
+                    List<PetSpell> knownSpells = new();
+                    foreach (XmlNode spell in xml.GetElementsByTagName("vertrautenzauber")[0])
+                    {
+                        knownSpells.Add(Pet.SpellsAvailable.Single(p => p.Name == spell.InnerText));
+                    }
+                    Pet.Knownspells = knownSpells;
+                    AddPetGUIAction?.Invoke();
                 }
             }
             catch (Exception)
