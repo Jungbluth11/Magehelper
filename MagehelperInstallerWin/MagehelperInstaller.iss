@@ -1,5 +1,5 @@
 #define MyAppName "Magehelper"
-#define MyAppVersion "3.0.0"
+#define MyAppVersion "3.0.1"
 #define MyAppPublisher "Jungbluth"
 #define MyAppURL "https://www.orkenspalter.de/index.php?thread/22038-dsa-magehelper/"
 #define MyAppExeName "magehelper.exe"
@@ -52,7 +52,7 @@ Source: "..\MagehelperUpdater\bin\Release\net6.0-windows10.0.17763.0\updater.run
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
+Name: "{group}\Einen Fehler melden"; Filename: "{#MyAppURL}"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: quicklaunchicon

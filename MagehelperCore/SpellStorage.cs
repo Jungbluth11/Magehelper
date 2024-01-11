@@ -121,7 +121,7 @@ namespace Magehelper.Core
         }
 
         /// <summary>
-        /// Resets the instance of this class. (Only used from <see cref="Core.ResetTool"/>.)
+        /// Resets the instance of this class. (only used by <see cref="Core.ResetTool"/>.)
         /// </summary>
         internal void ResetTool()
         {
