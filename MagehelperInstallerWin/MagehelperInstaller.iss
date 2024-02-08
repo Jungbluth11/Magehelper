@@ -1,5 +1,5 @@
 #define MyAppName "Magehelper"
-#define MyAppVersion "3.0.1"
+#define MyAppVersion "3.1.0"
 #define MyAppPublisher "Jungbluth"
 #define MyAppURL "https://www.orkenspalter.de/index.php?thread/22038-dsa-magehelper/"
 #define MyAppExeName "magehelper.exe"
@@ -29,7 +29,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 6.1; Check: not IsAdminInstallMode
 
 [Dirs]
-Name: "{localappdata}\magehelper\updaterDownloads"
+Name: "{localappdata}\magehelper\downloads"
 Name: "{localappdata}\magehelper\config"
 
 [Files]
@@ -49,6 +49,10 @@ Source: "..\MagehelperUpdater\bin\Release\net6.0-windows10.0.17763.0\updater.dll
 Source: "..\MagehelperUpdater\bin\Release\net6.0-windows10.0.17763.0\updater.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\MagehelperUpdater\bin\Release\net6.0-windows10.0.17763.0\updater.pdb"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\MagehelperUpdater\bin\Release\net6.0-windows10.0.17763.0\updater.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\MagehelperUrlHandler\bin\Release\net6.0\urlHandler.deps.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\MagehelperUrlHandler\bin\Release\net6.0\urlHandler.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\MagehelperUrlHandler\bin\Release\net6.0\urlHandler.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\MagehelperUrlHandler\bin\Release\net6.0\urlHandler.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -65,3 +69,7 @@ Root: HKLM; Subkey: "Software\Classes\.magehelper"; ValueType: string; ValueName
 Root: HKLM; Subkey: "Software\Classes\magehelper.file"; ValueType: string; ValueName: ""; ValueData: "Magehelper-Datei"; Flags: uninsdeletekey
 Root: HKLM; Subkey: "Software\Classes\magehelper.file\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
 Root: HKLM; Subkey: "Software\Classes\magehelper.file\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},1" 
+Root: HKCR; Subkey: "magehelper"; ValueType: "string"; ValueData: "URL:magehelper"; Flags: uninsdeletekey
+Root: HKCR; Subkey: "magehelper"; ValueType: "string"; ValueName: "URL Protocol"; ValueData: ""
+Root: HKCR; Subkey: "magehelper\DefaultIcon"; ValueType: "string"; ValueData: "{app}\urlHandler.exe,0"
+Root: HKCR; Subkey: "magehelper\shell\open\command"; ValueType: "string"; ValueData: """{app}\urlHandler.exe"" ""%1"""
