@@ -12,7 +12,7 @@ namespace Magehelper.WPF
     public partial class MainWindow : Window
     {
         internal Core.Core Core { get; set; }
-        internal TabContentArtifact TabContentArtifact { get; set; }
+        internal TabContentTraditionalArtifact TabContentTraditionalArtifact { get; set; }
         internal TabContentSpellStorage TabContentSpellStorage { get; set; }
         internal TabContentFlameSword TabContentFlameSword { get; set; }
         internal TabContentCharacter TabContentCharacter { get; set; }
@@ -43,8 +43,8 @@ namespace Magehelper.WPF
                     switch (tabSetting.TabName)
                     {
                         case "Traditionsartefakt":
-                            TabContentArtifact = new TabContentArtifact(this);
-                            tabContent = TabContentArtifact;
+                            TabContentTraditionalArtifact = new TabContentTraditionalArtifact(this);
+                            tabContent = TabContentTraditionalArtifact;
                             break;
                         case "Zauberspeicher":
                             TabContentSpellStorage = new TabContentSpellStorage(this);
@@ -132,9 +132,9 @@ namespace Magehelper.WPF
 
         private void ResetTool()
         {
-            if (TabContentArtifact != null)
+            if (TabContentTraditionalArtifact != null)
             {
-                TabContentArtifact.ResetTab();
+                TabContentTraditionalArtifact.ResetTab();
             }
             if (TabContentSpellStorage != null)
             {

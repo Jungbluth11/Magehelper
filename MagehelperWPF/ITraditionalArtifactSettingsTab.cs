@@ -2,7 +2,7 @@
 
 namespace Magehelper.WPF
 {
-    public interface IArtifactSettingsTab
+    public interface ITraditionalArtifactSettingsTab
     {
         public string SettingsHeader { get; }
         public ArtifactSpell[] ArtifactSpells { get; set; }

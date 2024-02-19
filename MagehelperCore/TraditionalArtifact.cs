@@ -7,7 +7,7 @@ namespace Magehelper.Core
     /// <summary>
     /// Artifact base class, all artifacts musst inherit it.
     /// </summary>
-    public abstract class Artifact
+    public abstract class TraditionalArtifact
     {
         protected ArtifactSpell[] spellsAvailable;
         protected readonly List<ArtifactSpell> boundSpells = new List<ArtifactSpell>();
@@ -37,7 +37,7 @@ namespace Magehelper.Core
         /// <param name="artifactName"> Name of the artifact. (See also <seealso cref="Name"/>)</param>
 #pragma warning disable CS8618
         // program files are corrupted if SpellsAvailable is null
-        public Artifact(Core core, string jsonSettingsFile, string artifactName)
+        public TraditionalArtifact(Core core, string jsonSettingsFile, string artifactName)
 #pragma warning restore CS8618
         {
             this.core = core;

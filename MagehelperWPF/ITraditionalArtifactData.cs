@@ -2,7 +2,7 @@
 
 namespace Magehelper.WPF
 {
-    public interface IArtifactData
+    public interface ITraditionalArtifactData
     {
         public ArtifactSpellsControl ArtifactSpellsControl { get; }
 

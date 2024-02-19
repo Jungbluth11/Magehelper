@@ -2,7 +2,7 @@
 
 namespace Magehelper.Core
 {
-    public class Staff : Artifact
+    public class Staff : TraditionalArtifact
     {
         private readonly List<string> merkmalsfoki = new List<string>();
         private int afvTotal;

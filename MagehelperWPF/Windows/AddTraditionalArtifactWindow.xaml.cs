@@ -5,28 +5,28 @@ using Magehelper.Core;
 namespace Magehelper.WPF
 {
     /// <summary>
-    /// Interaktionslogik für AddArtifactWindow.xaml
+    /// Interaktionslogik für AddTraditionalArtifactWindow.xaml
     /// </summary>
-    public partial class AddArtifactWindow : Window
+    public partial class AddTraditionalArtifactWindow : Window
     {
         private readonly MainWindow mainWindow;
         public string SelectedArtifact { get; private set; }
 
-        public AddArtifactWindow(MainWindow mainWindow)
+        public AddTraditionalArtifactWindow(MainWindow mainWindow)
         {
             InitializeComponent();
             this.mainWindow = mainWindow;
             List<string> artifactsNames = new List<string>(mainWindow.Core.ArtifactNames);
-            Artifact[] artifacts = new Artifact[]
+            TraditionalArtifact[] artifacts = new TraditionalArtifact[]
             {
-                mainWindow.TabContentArtifact.Staff,
-                mainWindow.TabContentArtifact.CrystalBall,
-                mainWindow.TabContentArtifact.Bowl,
-                mainWindow.TabContentArtifact.BoneCub,
-                mainWindow.TabContentArtifact.RingOfLife,
-                mainWindow.TabContentArtifact.ObsidianDagger
+                mainWindow.TabContentTraditionalArtifact.Staff,
+                mainWindow.TabContentTraditionalArtifact.CrystalBall,
+                mainWindow.TabContentTraditionalArtifact.Bowl,
+                mainWindow.TabContentTraditionalArtifact.BoneCub,
+                mainWindow.TabContentTraditionalArtifact.RingOfLife,
+                mainWindow.TabContentTraditionalArtifact.ObsidianDagger
             };
-            foreach (Artifact artifact in artifacts)
+            foreach (TraditionalArtifact artifact in artifacts)
             {
                 if (artifact != null)
                 {

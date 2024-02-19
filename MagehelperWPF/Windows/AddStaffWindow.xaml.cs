@@ -8,9 +8,9 @@ namespace Magehelper.WPF
     /// </summary>
     public partial class AddStaffWindow : Window
     {
-        private readonly TabContentArtifact tabContentArtifact;
+        private readonly TabContentTraditionalArtifact tabContentArtifact;
 
-        public AddStaffWindow(TabContentArtifact tabContentArtifact)
+        public AddStaffWindow(TabContentTraditionalArtifact tabContentArtifact)
         {
             InitializeComponent();
             this.tabContentArtifact = tabContentArtifact;

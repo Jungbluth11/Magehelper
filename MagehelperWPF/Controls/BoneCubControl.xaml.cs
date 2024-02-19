@@ -8,7 +8,7 @@ namespace Magehelper.WPF
     /// <summary>
     /// Interaktionslogik für BoneCubControl.xaml
     /// </summary>
-    public partial class BoneCubControl : UserControl, IArtifactData
+    public partial class BoneCubControl : UserControl, ITraditionalArtifactData
     {
         private readonly BoneCub boneCub;
         public ArtifactSpellsControl ArtifactSpellsControl { get; }

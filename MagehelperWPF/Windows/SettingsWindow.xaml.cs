@@ -42,7 +42,7 @@ namespace Magehelper.WPF
             ArtifactSettingsControl boneCubSettings = new ArtifactSettingsControl(settings.BoneCubSpells);
             ArtifactSettingsControl ringOfLifeSettings = new ArtifactSettingsControl(settings.RingOfLifeSpells);
             ArtifactSettingsControl obsidianDaggerSettings = new ArtifactSettingsControl(settings.ObsidianDaggerSpells);
-            IArtifactSettingsTab[] artifactSettings = new IArtifactSettingsTab[]
+            ITraditionalArtifactSettingsTab[] artifactSettings = new ITraditionalArtifactSettingsTab[]
             {
                 staffSettings,
                 crystalBallSettings,
@@ -51,7 +51,7 @@ namespace Magehelper.WPF
                 ringOfLifeSettings,
                 obsidianDaggerSettings
             };
-            foreach (IArtifactSettingsTab setting in artifactSettings)
+            foreach (ITraditionalArtifactSettingsTab setting in artifactSettings)
             {
                 TabItem tabItem = new TabItem();
                 tabItem.Header = setting.SettingsHeader;

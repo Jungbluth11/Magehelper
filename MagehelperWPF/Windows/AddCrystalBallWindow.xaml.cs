@@ -8,9 +8,9 @@ namespace Magehelper.WPF
     /// </summary>
     public partial class AddCrystalBallWindow : Window
     {
-        private readonly TabContentArtifact tabContentArtifact;
+        private readonly TabContentTraditionalArtifact tabContentArtifact;
 
-        public AddCrystalBallWindow(TabContentArtifact tabContentArtifact)
+        public AddCrystalBallWindow(TabContentTraditionalArtifact tabContentArtifact)
         {
             InitializeComponent();
             this.tabContentArtifact = tabContentArtifact;

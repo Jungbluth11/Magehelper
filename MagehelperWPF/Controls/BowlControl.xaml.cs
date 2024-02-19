@@ -8,7 +8,7 @@ namespace Magehelper.WPF
     /// <summary>
     /// Interaktionslogik für BowlControl.xaml
     /// </summary>
-    public partial class BowlControl : UserControl, IArtifactData
+    public partial class BowlControl : UserControl, ITraditionalArtifactData
     {
         private readonly Bowl bowl;
         public ArtifactSpellsControl ArtifactSpellsControl { get; }

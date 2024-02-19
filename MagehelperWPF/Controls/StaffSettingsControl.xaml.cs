@@ -7,7 +7,7 @@ namespace Magehelper.WPF
     /// <summary>
     /// Interaktionslogik für StaffSettings.xaml
     /// </summary>
-    public partial class StaffSettingsControl : UserControl, IArtifactSettingsTab
+    public partial class StaffSettingsControl : UserControl, ITraditionalArtifactSettingsTab
     {
         public string SettingsHeader { get; }
         public ArtifactSpell[] ArtifactSpells { get; set; }

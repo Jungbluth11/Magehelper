@@ -11,11 +11,11 @@ namespace Magehelper.WPF
     /// </summary>
     public partial class ArtifactSpellsControl : UserControl
     {
-        private readonly Artifact artifact;
+        private readonly TraditionalArtifact artifact;
         private readonly Func<ArtifactSpell?> addSpellFunction;
         private readonly ObservableCollection<ArtifactSpell> spells = new ObservableCollection<ArtifactSpell>();
 
-        public ArtifactSpellsControl(string artifactSpellName, Artifact artifact, Func<ArtifactSpell?> addSpellFunction, string artifactSpellCounterText = null)
+        public ArtifactSpellsControl(string artifactSpellName, TraditionalArtifact artifact, Func<ArtifactSpell?> addSpellFunction, string artifactSpellCounterText = null)
         {
             InitializeComponent();
             this.artifact = artifact;

@@ -7,7 +7,7 @@ namespace Magehelper.WPF
     /// <summary>
     /// Interaktionslogik für TabContentArtifact.xaml
     /// </summary>
-    public partial class TabContentArtifact : UserControl
+    public partial class TabContentTraditionalArtifact : UserControl
     {
         private readonly MainWindow mainWindow;
         public Staff Staff { get; private set; }
@@ -23,16 +23,16 @@ namespace Magehelper.WPF
         public RingOfLifeControl RingOfLifeControl { get; private set; }
         public ObsidianDaggerControl ObsidianDaggerControl { get; private set; }
 
-        public TabContentArtifact(MainWindow mainWindow)
+        public TabContentTraditionalArtifact(MainWindow mainWindow)
         {
             InitializeComponent();
             this.mainWindow = mainWindow;
-            mainWindow.Core.AddArtifactGUIAction = AddArtifact;
+            mainWindow.Core.AddTraditionalArtifactGUIAction = AddTraditionalArtifact;
         }
 
-        public void AddArtifact(string artifact)
+        public void AddTraditionalArtifact(string artifact)
         {
-            BtnAddArtifact.Visibility = Visibility.Collapsed;
+            BtnTraditionalAddArtifact.Visibility = Visibility.Collapsed;
             switch (artifact)
             {
                 case "Alchemistenschale":
@@ -94,7 +94,7 @@ namespace Magehelper.WPF
             Staff.Pasp = pasp;
             Staff.AfvTotal();
             StaffControl = new StaffControl(Staff, mainWindow);
-            BtnAddArtifact.Visibility = Visibility.Collapsed;
+            BtnTraditionalAddArtifact.Visibility = Visibility.Collapsed;
             StackPanelArtifacts.Children.Add(new ArtifactControl(Staff.Name, StaffControl));
             if (length == 1)
             {
@@ -108,22 +108,22 @@ namespace Magehelper.WPF
             CrystalBall = new CrystalBall(mainWindow.Core);
             CrystalBall.Material = crystalBallKind;
             CrystalBallControl = new CrystalBallControl(CrystalBall);
-            BtnAddArtifact.Visibility = Visibility.Collapsed;
+            BtnTraditionalAddArtifact.Visibility = Visibility.Collapsed;
             StackPanelArtifacts.Children.Add(new ArtifactControl(CrystalBall.Name, CrystalBallControl));
         }
 
         internal void ResetTab()
         {
             StackPanelArtifacts.Children.Clear();
-            BtnAddArtifact.Visibility = Visibility.Visible;
+            BtnTraditionalAddArtifact.Visibility = Visibility.Visible;
         }
 
-        private void BtnAddArtifact_Click(object sender, RoutedEventArgs e)
+        private void BtnAddTraditionalArtifact_Click(object sender, RoutedEventArgs e)
         {
-            AddArtifactWindow addArtifactWindow = new AddArtifactWindow(mainWindow);
-            if (addArtifactWindow.ShowDialog() == true)
+            AddTraditionalArtifactWindow addTraditionalArtifactWindow = new AddTraditionalArtifactWindow(mainWindow);
+            if (addTraditionalArtifactWindow.ShowDialog() == true)
             {
-                switch (addArtifactWindow.SelectedArtifact)
+                switch (addTraditionalArtifactWindow.SelectedArtifact)
                 {
                     case "Magierstab":
                         new AddStaffWindow(this).ShowDialog();
@@ -132,7 +132,7 @@ namespace Magehelper.WPF
                         new AddCrystalBallWindow(this).ShowDialog();
                         break;
                     default:
-                        AddArtifact(addArtifactWindow.SelectedArtifact);
+                        AddTraditionalArtifact(addTraditionalArtifactWindow.SelectedArtifact);
                         break;
                 }
             }

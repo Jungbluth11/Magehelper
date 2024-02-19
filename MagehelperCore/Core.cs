@@ -83,9 +83,13 @@ namespace Magehelper.Core
         /// </summary>
         public ObsidianDagger? ObsidianDagger { get; internal set; }
         /// <summary>
+        /// Current instance of <see cref="Magehelper.Core.Artifacts"/>.
+        /// </summary>
+        public Artifacts? Artifacts { get; internal set; }
+        /// <summary>
         /// GUI action to perform for artifacts when loading a save file.
         /// </summary>
-        public Action<string>? AddArtifactGUIAction { get; set; }
+        public Action<string>? AddTraditionalArtifactGUIAction { get; set; }
         /// <summary>
         /// GUI action to perform for spell storage when loading a save file.
         /// </summary>
@@ -194,7 +198,7 @@ namespace Magehelper.Core
         {
 #pragma warning disable CS8602
 #pragma warning disable CS8601
-            Artifact[] artifacts = new Artifact[] { Bowl, BoneCub, CrystalBall, Staff, RingOfLife, ObsidianDagger };
+            TraditionalArtifact[] artifacts = new TraditionalArtifact[] { Bowl, BoneCub, CrystalBall, Staff, RingOfLife, ObsidianDagger };
 #pragma warning restore CS8601
             using (XmlWriter xw = XmlWriter.Create(FileName))
             {
@@ -226,7 +230,7 @@ namespace Magehelper.Core
                     xw.WriteElementString("asp", null);
                 }
                 xw.WriteStartElement("artifacts");
-                foreach (Artifact artifact in artifacts)
+                foreach (TraditionalArtifact artifact in artifacts)
                 {
                     if (artifact != null)
                     {
@@ -407,7 +411,7 @@ namespace Magehelper.Core
 #pragma warning disable CS8601
             try
             {
-                Artifact[] artifacts = new Artifact[] { Bowl, BoneCub, CrystalBall, Staff, RingOfLife, ObsidianDagger };
+                TraditionalArtifact[] artifacts = new TraditionalArtifact[] { Bowl, BoneCub, CrystalBall, Staff, RingOfLife, ObsidianDagger };
 #pragma warning restore CS8601
                 string? aup = xml.SelectSingleNode("//aup").Value;
                 if (aup != null)
@@ -429,7 +433,7 @@ namespace Magehelper.Core
                 }
                 for (int i = 0; i < artifacts.Length; i++)
                 {
-                    Artifact artifact = artifacts[i];
+                    TraditionalArtifact artifact = artifacts[i];
                     XmlNode? artifactNode = xml.SelectSingleNode("//artifact/data[@name='" + ArtifactNames[i] + "']/..");
                     if (artifactNode != null)
                     {
@@ -496,7 +500,7 @@ namespace Magehelper.Core
                                 artifact.AddSpell(name, guid);
                             }
                         }
-                        AddArtifactGUIAction?.Invoke(ArtifactNames[i]);
+                        AddTraditionalArtifactGUIAction?.Invoke(ArtifactNames[i]);
                     }
                 }
                 if (SpellStorage != null && xml.SelectSingleNode("//spellStorage").HasChildNodes)
@@ -602,7 +606,7 @@ namespace Magehelper.Core
                     int points = int.Parse(boundSpell.Attributes["volumenpunkte"].InnerText);
                     Staff.AddSpell(name, characteristic, points);
                 }
-                AddArtifactGUIAction?.Invoke("Magierstab");
+                AddTraditionalArtifactGUIAction?.Invoke("Magierstab");
                 if (SpellStorage != null && xml.SelectSingleNode("//zauberspeicher").HasChildNodes)
                 {
                     List<int> spellStorages = new();

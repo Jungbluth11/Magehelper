@@ -1,6 +1,6 @@
 ﻿namespace Magehelper.Core
 {
-    public class RingOfLife : Artifact, IMaxSpellArtifact
+    public class RingOfLife : TraditionalArtifact, IMaxSpellArtifact
     {
         public int MaxSpells => 6;
         public int SpellsRemain => MaxSpells - boundSpells.Count;

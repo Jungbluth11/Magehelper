@@ -7,7 +7,7 @@ namespace Magehelper.WPF
     /// <summary>
     /// Interaktionslogik für ArtifactSettingsControl.xaml
     /// </summary>
-    public partial class ArtifactSettingsControl : UserControl, IArtifactSettingsTab
+    public partial class ArtifactSettingsControl : UserControl, ITraditionalArtifactSettingsTab
     {
         public ArtifactSpell[] ArtifactSpells { get; set; }
         public string SettingsHeader { get; }

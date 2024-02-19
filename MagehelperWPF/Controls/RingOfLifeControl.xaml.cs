@@ -7,7 +7,7 @@ namespace Magehelper.WPF
     /// <summary>
     /// Interaktionslogik für RingOfLiveControl.xaml
     /// </summary>
-    public partial class RingOfLifeControl : UserControl, IArtifactData
+    public partial class RingOfLifeControl : UserControl, ITraditionalArtifactData
     {
         private readonly RingOfLife ringOfLife;
         public ArtifactSpellsControl ArtifactSpellsControl { get; }

@@ -8,7 +8,7 @@ namespace Magehelper.WPF
     /// <summary>
     /// Interaktionslogik für ObsidianDaggerControl.xaml
     /// </summary>
-    public partial class ObsidianDaggerControl : UserControl, IArtifactData
+    public partial class ObsidianDaggerControl : UserControl, ITraditionalArtifactData
     {
         private readonly ObsidianDagger obsidianDagger;
         public ArtifactSpellsControl ArtifactSpellsControl { get; }

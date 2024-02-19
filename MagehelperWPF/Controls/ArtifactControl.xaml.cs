@@ -14,7 +14,7 @@ namespace Magehelper.WPF
             StringArtifactName.Content = artifactName;
             userControl.VerticalAlignment = VerticalAlignment.Top;
             userControl.HorizontalAlignment = HorizontalAlignment.Left;
-            ArtifactSpellsControl artifactSpellsControl = (userControl as IArtifactData).ArtifactSpellsControl;
+            ArtifactSpellsControl artifactSpellsControl = (userControl as ITraditionalArtifactData).ArtifactSpellsControl;
             artifactSpellsControl.VerticalAlignment = VerticalAlignment.Top;
             artifactSpellsControl.HorizontalAlignment = HorizontalAlignment.Right;
             Grid.SetColumn(userControl, 0);

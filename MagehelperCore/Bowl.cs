@@ -1,6 +1,6 @@
 ﻿namespace Magehelper.Core
 {
-    public class Bowl : Artifact
+    public class Bowl : TraditionalArtifact
     {
         private readonly int[] temperatureCategoryValues = new int[]
         {

@@ -12,7 +12,7 @@ namespace Magehelper.WPF
     {
         public string SpellName { get; private set; }
 
-        public AddArtifactSpellWindow(string artifactSpellName, Artifact artifact)
+        public AddArtifactSpellWindow(string artifactSpellName, TraditionalArtifact artifact)
         {
             InitializeComponent();
             Title = artifactSpellName + " hinzufügen";

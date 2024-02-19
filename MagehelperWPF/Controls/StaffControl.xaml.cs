@@ -8,7 +8,7 @@ namespace Magehelper.WPF
     /// <summary>
     /// Interaktionslogik für StaffControl.xaml
     /// </summary>
-    public partial class StaffControl : UserControl, IArtifactData
+    public partial class StaffControl : UserControl, ITraditionalArtifactData
     {
         private readonly Staff staff;
         private readonly MainWindow mainWindow;

@@ -8,7 +8,7 @@ namespace Magehelper.WPF
     /// <summary>
     /// Interaktionslogik für CrystalballControl.xaml
     /// </summary>
-    public partial class CrystalBallControl : UserControl, IArtifactData
+    public partial class CrystalBallControl : UserControl, ITraditionalArtifactData
     {
         private readonly CrystalBall crystalBall;
         public ArtifactSpellsControl ArtifactSpellsControl { get; }

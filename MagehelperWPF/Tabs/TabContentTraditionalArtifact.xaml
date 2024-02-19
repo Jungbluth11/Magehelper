@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="Magehelper.WPF.TabContentArtifact"
+    x:Class="Magehelper.WPF.TabContentTraditionalArtifact"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,9 +10,9 @@
     mc:Ignorable="d">
     <StackPanel Margin="5" Orientation="Vertical">
         <Button
-            Name="BtnAddArtifact"
+            Name="BtnTraditionalAddArtifact"
             HorizontalAlignment="Left"
-            Click="BtnAddArtifact_Click"
+            Click="BtnAddTraditionalArtifact_Click"
             Content="Traditionsartefakt hinzufügen" />
         <StackPanel Name="StackPanelArtifacts" Orientation="Vertical" />
     </StackPanel>
