@@ -84,7 +84,6 @@ namespace Magehelper.WPF
                 TabControl.Visibility = Visibility.Visible;
                 StringNoTabs.Visibility = Visibility.Collapsed;
             }
-#if RELEASE
             if (Properties.Settings.Default.CheckForUpdates)
             {
                 Updater updater = new Updater();
@@ -100,7 +99,6 @@ namespace Magehelper.WPF
                     }
                 }
             }
-#endif
             if (args.Length == 1)
             {
                 Core.ReadFileVersionSelector(args[0]);
