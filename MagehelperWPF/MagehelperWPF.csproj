@@ -8,11 +8,11 @@
     <StartupObject>Magehelper.WPF.App</StartupObject>
     <AssemblyName>magehelper</AssemblyName>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-    <Version>3.0.1</Version>
+    <Version>3.0.2</Version>
     <Win32Resource>C:\Users\Jungbluth\source\repos\Magehelper\MagehelperWPF\Resource.res</Win32Resource>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
-    <AssemblyVersion>3.0.1</AssemblyVersion>
-    <FileVersion>3.0.1</FileVersion>
+    <AssemblyVersion>3.0.2</AssemblyVersion>
+    <FileVersion>3.0.2</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
