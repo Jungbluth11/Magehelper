@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Text.Json;
 using System.Windows;
 
 namespace Magehelper.WPF
@@ -17,8 +18,18 @@ namespace Magehelper.WPF
         {
             try
             {
-                string version = webClient.DownloadString("https://api.jungbluthcloud.de/updates/magehelper/version");
-                if (version != Assembly.GetExecutingAssembly().GetName().Version.ToString())
+                WebClient webClient = new();
+                Version lastVersion = JsonSerializer.Deserialize<Version>(webClient.DownloadString("https://api.jungbluthcloud.de/updates/dsametatalente/version"));
+                System.Version? currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+                if (currentVersion.Major < lastVersion.Major)
+                {
+                    return true;
+                }
+                else if (currentVersion.Minor < lastVersion.Minor)
+                {
+                    return true;
+                }
+                else if (currentVersion.Build < lastVersion.Build)
                 {
                     return true;
                 }
