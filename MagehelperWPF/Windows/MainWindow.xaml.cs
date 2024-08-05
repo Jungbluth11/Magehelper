@@ -170,6 +170,17 @@ namespace Magehelper.WPF
             return false;
         }
 
+        public void ShowOpenFileDialog()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Magehelper-Dateien | *.magehelper";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                ResetTool();
+                Core.ReadFileVersionSelector(openFileDialog.FileName);
+            }
+        }
+
         private void MenuItemFileNew_Click(object sender, RoutedEventArgs e)
         {
             Core.ResetTool();
@@ -178,11 +189,21 @@ namespace Magehelper.WPF
 
         private void MenuItemFileLoad_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Magehelper-Dateien | *.magehelper";
-            if (openFileDialog.ShowDialog() == true)
+            if (Core.FileChanged)
             {
-                Core.ReadFileVersionSelector(openFileDialog.FileName);
+                MessageBoxResult messageBoxResult = MessageBox.Show("Sollen die Änderungen gespeichert werden?", "Magehelper", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                if (messageBoxResult == MessageBoxResult.Yes || messageBoxResult == MessageBoxResult.No)
+                {
+                    if (messageBoxResult == MessageBoxResult.Yes)
+                    {
+                        SaveFile();
+                    }
+                    ShowOpenFileDialog();
+                }
+            }
+            else
+            {
+                ShowOpenFileDialog();
             }
         }
 

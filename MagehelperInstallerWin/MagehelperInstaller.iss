@@ -1,5 +1,5 @@
 #define MyAppName "Magehelper"
-#define MyAppVersion "3.0.2"
+#define MyAppVersion "3.0.3"
 #define MyAppPublisher "Jungbluth"
 #define MyAppURL "https://www.orkenspalter.de/index.php?thread/22038-dsa-magehelper/"
 #define MyAppExeName "magehelper.exe"

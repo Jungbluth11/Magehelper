@@ -43,6 +43,7 @@ namespace Magehelper.WPF
             BtnAddSpell.IsEnabled = false;
             StringNone.Visibility = Visibility.Visible;
             WrapPanelStorages.Visibility = Visibility.Collapsed;
+            WrapPanelStorages.Children.Clear();
             SpellStorageList.Clear();
         }
 
