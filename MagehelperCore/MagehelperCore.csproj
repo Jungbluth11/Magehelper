@@ -5,7 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<RootNamespace>Magehelper.Core</RootNamespace>
-	<Version>3.0.1</Version>
+	<Version>3.0.3</Version>
+	<AssemblyVersion>3.0.3</AssemblyVersion>
+	<FileVersion>3.0.3</FileVersion>
   </PropertyGroup>
 
 <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>

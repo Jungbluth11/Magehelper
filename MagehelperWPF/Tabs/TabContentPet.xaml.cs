@@ -79,8 +79,9 @@ namespace Magehelper.WPF
             GridPetData.IsEnabled = false;
         }
 
-        private void IncreaseAttribute(string attribute)
+        private bool IncreaseAttribute(string attribute)
         {
+            bool isMax = false;
             try
             {
                 Pet.IncreaseAttribute(attribute);
@@ -88,7 +89,9 @@ namespace Magehelper.WPF
             catch
             {
                 MessageBox.Show("Maximum erreicht!", "Attribut Steigern - Magehelper", MessageBoxButton.OK);
+                isMax = true;
             }
+            return isMax;
         }
 
         private void NumericUpDownMU_ValueChanged(object sender, RoutedPropertyChangedEventArgs<int> e)
@@ -153,95 +156,158 @@ namespace Magehelper.WPF
 
         private void BtnAddPet_Click(object sender, RoutedEventArgs e)
         {
-            PetGeneratorWindow petGeneratorWindow = new PetGeneratorWindow(Pet, AddPet);
+            PetGeneratorWindow petGeneratorWindow = new(Pet, AddPet);
             petGeneratorWindow.ShowDialog();
         }
 
         private void BtnAddSpell_Click(object sender, RoutedEventArgs e)
         {
-            AddPetSpellWindow addPetSpellWindow = new AddPetSpellWindow(Pet);
+            AddPetSpellWindow addPetSpellWindow = new(Pet);
             addPetSpellWindow.ShowDialog();
             DataGridSpells.Items.Refresh();
         }
 
         private void BtnIncreaseMU_Click(object sender, RoutedEventArgs e)
         {
-            IncreaseAttribute("MU");
+            if (!IncreaseAttribute("MU"))
+            {
+                NumericUpDownMU.Value++;
+            }
         }
 
         private void BtnIncreaseKL_Click(object sender, RoutedEventArgs e)
         {
-            IncreaseAttribute("KL");
+            if (!IncreaseAttribute("KL"))
+            {
+                NumericUpDownKL.Value++;
+            }
         }
 
         private void BtnIncreaseIN_Click(object sender, RoutedEventArgs e)
         {
-            IncreaseAttribute("IN");
+            if (!IncreaseAttribute("IN"))
+            {
+                NumericUpDownIN.Value++;
+            }
         }
 
         private void BtnIncreaseCH_Click(object sender, RoutedEventArgs e)
         {
-            IncreaseAttribute("CH");
+            if (!IncreaseAttribute("CH"))
+            {
+                NumericUpDownCH.Value++;
+            }
         }
 
         private void BtnIncreaseFF_Click(object sender, RoutedEventArgs e)
         {
-            IncreaseAttribute("FF");
+            if (!IncreaseAttribute("FF"))
+            {
+                NumericUpDownFF.Value++;
+            }
         }
 
         private void BtnIncreaseGE_Click(object sender, RoutedEventArgs e)
         {
-            IncreaseAttribute("GE");
+            if (!IncreaseAttribute("GE"))
+            {
+                NumericUpDownGE.Value++;
+            }
         }
 
         private void BtnIncreaseKO_Click(object sender, RoutedEventArgs e)
         {
-            IncreaseAttribute("KO");
+            if (!IncreaseAttribute("KO"))
+            {
+                NumericUpDownKO.Value++;
+            }
         }
 
         private void BtnIncreaseKK_Click(object sender, RoutedEventArgs e)
         {
-            IncreaseAttribute("KK");
+            if (!IncreaseAttribute("KK"))
+            {
+                NumericUpDownKK.Value++;
+            }
         }
 
         private void BtnIncreaseMR_Click(object sender, RoutedEventArgs e)
         {
-            IncreaseAttribute("MR");
+            if (!IncreaseAttribute("MR"))
+            {
+                NumericUpDownMR.Value++;
+            }
         }
 
         private void BtnIncreaseRkw_Click(object sender, RoutedEventArgs e)
         {
-            IncreaseAttribute("RkW");
+            if (!IncreaseAttribute("RKW"))
+            {
+                StringRkw.Content = (int)StringRkw.Content + 1;
+            }
         }
 
         private void BtnIncreaseAttack_Click(object sender, RoutedEventArgs e)
         {
-            IncreaseAttribute("Attack");
+            if (!IncreaseAttribute("Attack"))
+            {
+                string[] values = (StringAttack.Content as string).Split("/");
+                StringAttack.Content = (int.Parse(values[0]) + 1).ToString();
+                if (Pet.IsFlying)
+                {
+                    StringAttack.Content += "/" + (int.Parse(values[1]) + 1).ToString();
+                }
+            }
         }
 
         private void BtnIncreaseParry_Click(object sender, RoutedEventArgs e)
         {
-            IncreaseAttribute("Parry");
+            if (!IncreaseAttribute("Parry"))
+            {
+                string[] values = (StringParry.Content as string).Split("/");
+                StringParry.Content = (int.Parse(values[0]) + 1).ToString();
+                if (Pet.IsFlying)
+                {
+                    StringParry.Content += "/" + (int.Parse(values[1]) + 1).ToString();
+                }
+            }
         }
 
         private void BtnIncreaseGs_Click(object sender, RoutedEventArgs e)
         {
-            IncreaseAttribute("GS");
+            if (!IncreaseAttribute("GS"))
+            {
+                string[] values = (StringGs.Content as string).Split("/");
+                StringGs.Content = (int.Parse(values[0]) + 1).ToString();
+                if (Pet.IsFlying)
+                {
+                    StringGs.Content += "/" + (int.Parse(values[1]) + 1).ToString();
+                }
+            }
         }
 
         private void BtnIncreaseAup_Click(object sender, RoutedEventArgs e)
         {
-            IncreaseAttribute("AU");
+            if (!IncreaseAttribute("AU"))
+            {
+                NumericUpDownAup.Value++;
+            }
         }
 
         private void BtnIncreaseLep_Click(object sender, RoutedEventArgs e)
         {
-            IncreaseAttribute("LE");
+            if (!IncreaseAttribute("LE"))
+            {
+                NumericUpDownLep.Value++;
+            }
         }
 
         private void BtnIncreaseAsp_Click(object sender, RoutedEventArgs e)
         {
-            IncreaseAttribute("AE");
+            if (!IncreaseAttribute("AE"))
+            {
+                NumericUpDownAsp.Value++;
+            }
         }
 
         private void BtnResetAup_Click(object sender, RoutedEventArgs e)
@@ -265,7 +331,7 @@ namespace Magehelper.WPF
         private void BtnSpell_Click(object sender, RoutedEventArgs e)
         {
             string[] result = Pet.RollSpell(Pet.KnownSpells.Single(c => c.Name == (sender as Button).Tag.ToString()));
-            Wuerfelfenster wuerfelfenster = new Wuerfelfenster(result);
+            Wuerfelfenster wuerfelfenster = new(result);
             wuerfelfenster.WindowStyle = WindowStyle.ToolWindow;
             wuerfelfenster.ShowDialog();
         }

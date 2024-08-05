@@ -17,7 +17,7 @@ namespace Magehelper.Core
         /// </summary>
         public string Name { get; }
         /// <summary>
-        /// If artifact has the apport spell or not
+        /// If artifact has the "Apport" spell or not
         /// </summary>
         public bool HasApport { get; set; }
         /// <summary>
@@ -42,6 +42,7 @@ namespace Magehelper.Core
         {
             this.core = core;
             Name = artifactName;
+            core.FileChanged = true;
             try
             {
 #pragma warning disable CS8601
@@ -56,7 +57,6 @@ namespace Magehelper.Core
                 }
 #pragma warning restore CS8601
 #pragma warning restore CS8602
-
             }
             catch (Exception)
             {
@@ -71,7 +71,8 @@ namespace Magehelper.Core
         /// <param name="guid">GUID of the spell. (Only used by <see cref="Core.ReadFile"/>)</param>
         /// <returns>An instance of <see cref="ArtifactSpell"/> that contains data about the chosen spell.</returns>
         /// <exception cref="ArgumentException"/>
-        /// /// <exception cref="InvalidOperationException"/>
+        /// <exception cref="InvalidOperationException"/>
+        /// <remarks>Some artifacts may provide their own AddSpell class</remarks>
         public ArtifactSpell AddSpell(string spellName, string? guid = null)
         {
             try
@@ -155,6 +156,7 @@ namespace Magehelper.Core
         /// </summary>
         /// <param name="guid">The GUID of the that should be removed.</param>
         /// <exception cref="ArgumentException"/>
+        /// <remarks>Some artifacts may provide their own RemoveSpell class</remarks>
         public void RemoveSpell(string guid)
         {
             try

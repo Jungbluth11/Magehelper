@@ -171,11 +171,12 @@ namespace Magehelper.Core
         {
 #pragma warning disable CS8605
             PropertyInfo[] p = GetAttribute(attribute);
-            int currentValue = (int)p[0].GetValue(this);
+            int currentValue = Convert.ToInt32(p[0].GetValue(this));
             currentValue++;
             if (attribute != "RKW" && attribute != "AE")
             {
-                int maxValue = (int)((double)p[1].GetValue(this) * 1.5);
+                int maxValue = Convert.ToInt32(Convert.ToInt32(p[1].GetValue(this)) * 1.5);
+                var temp = currentValue - maxValue;
                 if (currentValue <= maxValue)
                 {
                     p[0].SetValue(this, currentValue);

@@ -80,7 +80,7 @@ namespace Magehelper.Core
         /// <param name="cost">Cost of the Spell</param>
         /// <param name="zfp">ZfP of the spell.</param>
         /// <param name="storage">index of the storage where the spell will be stored.</param>
-        /// <param name="guid">GUID of the spell. (Only used by <see cref="Core.ReadFile"/>)</param> 
+        /// <param name="guid">GUID of the spell. (Only used by <see cref="Core.ReadFile"/>)</param>
         /// <returns></returns>
         public StoragedSpell AddSpell(string name, string characteristics, string komplex, int cost, int? zfp, int storage, string? guid = null)
         {

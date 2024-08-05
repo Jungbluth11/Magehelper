@@ -15,3 +15,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~P:Magehelper.Core.Staff.HammerRkp")]
 [assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~M:Magehelper.Core.Staff.AfvTotal")]
 [assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~P:Magehelper.Core.Timers.DurationKRMultplier")]
+[assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~P:Magehelper.Core.Artifact.HasApport")]
