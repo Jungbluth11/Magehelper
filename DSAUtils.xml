@@ -372,62 +372,56 @@
             </summary>
             <returns>Gibt true zurück wenn das Heldentool installiert ist, anderenfalls false. Gibt ebenfalls false zurück wenn die Datei ".heldEinstellungen4_1.xml" nicht gelesen werden kann.</returns>
         </member>
-        <member name="T:DSAUtils.UI.WPF.About">
+        <member name="T:DSAUtils.UI.AboutWindow">
             <summary>
             Zeigt die Version sowie das Fanprojekt-Logo und die Copyright Hinweise gemäß den Fanrichtlinien an. 
             </summary>
-            <summary>
-            About
-            </summary>
         </member>
-        <member name="M:DSAUtils.UI.WPF.About.#ctor(System.String,System.String)">
+        <member name="M:DSAUtils.UI.AboutWindow.#ctor(System.String,System.String)">
             <summary>
             Konstruktor
             </summary>
             <param name="name">Names des Programms.</param>
             <param name="version">Version des Programms.</param>
         </member>
-        <member name="M:DSAUtils.UI.WPF.About.InitializeComponent">
+        <member name="M:DSAUtils.UI.AboutWindow.InitializeComponent(System.Boolean)">
             <summary>
-            InitializeComponent
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
             </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
         </member>
-        <member name="T:DSAUtils.UI.WPF.Wuerfelfenster">
-            <summary>
-            Interaktionslogik für wuerfelfensterWPF.xaml
-            </summary>
-            <summary>
-            Wuerfelfenster
-            </summary>
-        </member>
-        <member name="P:DSAUtils.UI.WPF.Wuerfelfenster.Add">
-            <summary>
-            Gibt an oder bestimmt ob die Würfelergebnisse addiert werden. Der Standard ist false. (Dieser Wert wird nur gelesen wenn das <see cref="E:System.Windows.Window.ContentRendered" />-Ereigniss ausgelöst wird.)
-            </summary>
-        </member>
-        <member name="M:DSAUtils.UI.WPF.Wuerfelfenster.#ctor(System.Int32[],System.String)">
+        <member name="M:DSAUtils.UI.DiceWindow.#ctor(System.Int32[],System.String,System.Boolean)">
             <summary>
             Konstruktor
             </summary>
             <param name="dice">Die Würfelergebnisse.</param>
             <param name="append">Der Text Der angezeigt werden soll. (Für gewöhnlich Patzer oder kritischer Treffer. ACHTUNG! Der Platz ist stark begrenzt und es findet kein Zeilenumbruch statt)</param>
+            <param name="add">Gibt an ob die Würfelergebnisse addiert werden sollen. Der Standartwert ist false</param>
         </member>
-        <member name="M:DSAUtils.UI.WPF.Wuerfelfenster.#ctor(System.Int32[])">
+        <member name="M:DSAUtils.UI.DiceWindow.#ctor(System.Int32[],System.Boolean)">
             <summary>
             Konstruktor
             </summary>
             <param name="dice">Die Würfelergebnisse.</param>
+            <param name="add">Gibt an ob die Würfelergebnisse addiert werden sollen. Der Standartwert ist false</param>
         </member>
-        <member name="M:DSAUtils.UI.WPF.Wuerfelfenster.#ctor(System.Object[])">
+        <member name="M:DSAUtils.UI.DiceWindow.#ctor(System.ValueTuple{System.Int32[],System.String})">
             <summary>
             Konstruktor
             </summary>
             <param name="input">Gedacht zur direkten Verwendung mit <see cref="M:DSAUtils.DSA.Probe(System.Int32)"/>.</param>
         </member>
-        <member name="M:DSAUtils.UI.WPF.Wuerfelfenster.InitializeComponent">
+        <member name="M:DSAUtils.UI.DiceWindow.#ctor(System.ValueTuple{System.Int32,System.Int32[],System.String})">
             <summary>
-            InitializeComponent
+            Konstruktor
             </summary>
+            <param name="input">Gedacht zur direkten Verwendung mit <see cref="M:DSAUtils.DSA.TaP(System.Int32,System.Int32,System.Int32,System.Int32)"/>.</param>
+        </member>
+        <member name="M:DSAUtils.UI.DiceWindow.InitializeComponent(System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
         </member>
         <member name="T:DSAUtils.UI.Logo">
             <summary>
@@ -544,7 +538,7 @@
         </member>
         <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Liturgien.LkP(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
-            Würfelt eine Talentprobe und gibt die übrig behaltenen Liturgienkentnispunkte aus.
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Liturgienkentnispunkte aus. Alias von <see cref="M:DSAUtils.DSA.TaP(System.Int32,System.Int32,System.Int32,System.Int32)"/>.
             </summary>
             <param name="MU">Mut des Charakters.</param>
             <param name="IN">Intuition des Charakters.</param>
@@ -554,7 +548,7 @@
         </member>
         <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Liturgien.LkP(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
-            Würfelt eine Talentprobe und gibt die übrig behaltenen Liturgienkentnispunkte aus.
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Liturgienkentnispunkte aus. Alias von <see cref="M:DSAUtils.DSA.TaP(System.Int32,System.Int32,System.Int32,System.Int32)"/>.
             </summary>
             /// <param name="MU">Mut des Charakters.</param>
             <param name="IN">Intuition des Charakters.</param>
@@ -565,7 +559,7 @@
         </member>
         <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Liturgien.LkP(System.Int32[],System.Int32)">
             <summary>
-            Würfelt eine Talentprobe und gibt die übrig behaltenen Liturgienkentnispunkte aus.
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Liturgienkentnispunkte aus. Alias von <see cref="M:DSAUtils.DSA.TaP(System.Int32,System.Int32,System.Int32,System.Int32)"/>.
             </summary>
             <param name="eigenschaften">Die Eigenschaften Mut, Intuition, Charisma des Charakters als Array.</param>
             <param name="LkW">Der Liturgienkenntniswert.</param>
@@ -573,7 +567,7 @@
         </member>
         <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Liturgien.LkP(System.Int32[],System.Int32,System.Int32)">
             <summary>
-            Würfelt eine Talentprobe und gibt die übrig behaltenen Liturgienkentnispunkte aus.
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Liturgienkentnispunkte aus. Alias von <see cref="M:DSAUtils.DSA.TaP(System.Int32,System.Int32,System.Int32,System.Int32)"/>.
             </summary>
             <param name="eigenschaften">Die Eigenschaften Mut, Intuition, Charisma des Charakters als Array.</param>
             <param name="LkW">Der Liturgienkenntniswert.</param>
@@ -816,7 +810,7 @@
         </member>
         <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.ZfP(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
-            Würfelt eine Talentprobe und gibt die übrig behaltenen Zauberfertigkeitspunkte aus.
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Zauberfertigkeitspunkte aus. Alias von <see cref="M:DSAUtils.DSA.TaP(System.Int32,System.Int32,System.Int32,System.Int32)"/>.
             </summary>
             <param name="eigenschaft1">Die erste beteiligte Eigenschaft.</param>
             <param name="eigenschaft2">Die zweite beteiligte Eigenschaft.</param>
@@ -826,7 +820,7 @@
         </member>
         <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.ZfP(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
-            Würfelt eine Talentprobe und gibt die übrig behaltenen Zauberfertigkeitspunkte aus.
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Zauberfertigkeitspunkte aus. Alias von <see cref="M:DSAUtils.DSA.TaP(System.Int32,System.Int32,System.Int32,System.Int32)"/>.
             </summary>
             <param name="eigenschaft1">Die erste beteiligte Eigenschaft.</param>
             <param name="eigenschaft2">Die zweite beteiligte Eigenschaft.</param>
@@ -837,7 +831,7 @@
         </member>
         <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.ZfP(System.Int32[],System.Int32)">
             <summary>
-            Würfelt eine Talentprobe und gibt die übrig behaltenen Zauberfertigkeitspunkte aus.
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Zauberfertigkeitspunkte aus. Alias von <see cref="M:DSAUtils.DSA.TaP(System.Int32,System.Int32,System.Int32,System.Int32)"/>.
             </summary>
             <param name="eigenschaften">Ein Array der 3 beteiligten Eigenschaften.</param>
             <param name="ZfW">Der Zauberfertigkeitswert.</param>
@@ -845,7 +839,7 @@
         </member>
         <member name="M:DSAUtils.Settings.Aventurien.Aventurien.Zauber.ZfP(System.Int32[],System.Int32,System.Int32)">
             <summary>
-            Würfelt eine Talentprobe und gibt die übrig behaltenen Zauberfertigkeitspunkte aus.
+            Würfelt eine Talentprobe und gibt die übrig behaltenen Zauberfertigkeitspunkte aus. Alias von <see cref="M:DSAUtils.DSA.TaP(System.Int32,System.Int32,System.Int32,System.Int32)"/>.
             </summary>
             <param name="eigenschaften">Ein Array der 3 beteiligten Eigenschaften.</param>
             <param name="ZfW">Der Zauberfertigkeitswert.</param>

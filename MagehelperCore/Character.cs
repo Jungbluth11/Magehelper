@@ -373,17 +373,17 @@ namespace Magehelper.Core
                         break;
                 }
             }
-            object[] result = DSA.TaP(attrinuteValues, value, mod);
+            (int points, int[] dice, string text) result = DSA.TaP(attrinuteValues, value, mod);
 #pragma warning disable CS8602
             for (int i = 0; i < 3; i++)
             {
-                diceResults += (result[1] as dynamic[])[i].ToString();
+                diceResults += result.dice[i].ToString();
                 if (i < 2)
                 {
                     diceResults += ", ";
                 }
             }
-            return ((int)result[0], diceResults, (result[1] as dynamic[])[3]);
+            return (result.points, diceResults, result.text);
 #pragma warning restore CS8602
         }
 
