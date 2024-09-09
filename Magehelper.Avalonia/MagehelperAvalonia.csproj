@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <AssemblyName>Magehelper</AssemblyName>
+    <RootNamespace>Magehelper.Avalonia</RootNamespace>
+    <FileVersion>4.0.0</FileVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+    <Folder Include="ViewModels\Controls\" />
+    <Folder Include="ViewModels\Tabs\" />
+    <Folder Include="Views\Controls\" />
+    <Folder Include="Views\Tabs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.1.3" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.1.3" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.1.3" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.1.3" />
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.1.3" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="MessageBox.Avalonia" Version="3.1.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MagehelperCore\MagehelperCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="BaseSettings\appSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="BaseSettings\tabSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Magehelper.Avalonia.ViewModels" />
+    <Using Include="Magehelper.Avalonia.ViewModels.Controls" />
+    <Using Include="Magehelper.Avalonia.ViewModels.Tabs" />
+    <Using Include="Magehelper.Avalonia.ViewModels.Windows" />
+    <Using Include="Magehelper.Avalonia.Views.Controls" />
+    <Using Include="Magehelper.Avalonia.Views.Tabs" />
+    <Using Include="Magehelper.Avalonia.Views.Windows" />
+    <Using Include="Magehelper.Core" />
+  </ItemGroup>
+</Project>
