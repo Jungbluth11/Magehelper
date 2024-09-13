@@ -6,8 +6,9 @@ namespace Magehelper.Avalonia.Views.Controls;
 
 public partial class ArtifactSpellsControl : UserControl
 {
-    public ArtifactSpellsControl()
+    public ArtifactSpellsControl(string artifactSpellName, Artifact artifact, Func<ArtifactSpell?> addSpellFunction, string artifactSpellCounterText = null)
     {
+        DataContext = new ArtifactSpellsControlViewModel(artifactSpellName, artifact, addSpellFunction, artifactSpellCounterText);
         InitializeComponent();
     }
 }

@@ -7,6 +7,8 @@
     Title="AddArtifactWindow"
     d:DesignHeight="450"
     d:DesignWidth="800"
+	    xmlns:vm="using:Magehelper.Avalonia.ViewModels.Windows"
+
     mc:Ignorable="d">
     Welcome to Avalonia!
 </Window>

@@ -11,10 +11,12 @@
     <FileVersion>4.0.0</FileVersion>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+  <PropertyGroup Label="Avalonia">
+    <AvaloniaNameGeneratorDefaultFieldModifier>Public</AvaloniaNameGeneratorDefaultFieldModifier>
+  </PropertyGroup>
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
-    <Folder Include="ViewModels\Controls\" />
     <Folder Include="ViewModels\Tabs\" />
     <Folder Include="Views\Controls\" />
     <Folder Include="Views\Tabs\" />
@@ -45,6 +47,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Using Include="CommunityToolkit.Mvvm.ComponentModel" />
     <Using Include="Magehelper.Avalonia.ViewModels" />
     <Using Include="Magehelper.Avalonia.ViewModels.Controls" />
     <Using Include="Magehelper.Avalonia.ViewModels.Tabs" />
