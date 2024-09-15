@@ -7,20 +7,12 @@ namespace Magehelper.Avalonia.Views.Controls;
 
 public partial class ArtifactControl : UserControl
 {
-#if DEBUG
-    public ArtifactControl()
-    {
-        InitializeComponent();
-        // used for view in designer
-    }
-#endif
-
     public ArtifactControl(string artifactName, UserControl userControl)
     {
-        if (userControl is null)
-        {
-            throw new ArgumentNullException(nameof(userControl));
-        }
+        ArgumentNullException.ThrowIfNull(artifactName);
+        ArgumentNullException.ThrowIfNull(userControl);
+
+        DataContext = new ArtifactControlViewModel(artifactName, userControl);
 
         InitializeComponent();
         StringArtifactName.Content = artifactName;

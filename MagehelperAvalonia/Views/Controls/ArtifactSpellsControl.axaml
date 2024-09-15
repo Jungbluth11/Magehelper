@@ -18,14 +18,18 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Label Name="StringArtifactSpellCounterText" />
-            <Label Name="StringArtifactSpellCounterValue" Margin="-7,0,0,0" />
+            <Label Name="StringArtifactSpellCounterText" Content="{Binding ArtifactSpellCounterText}" />
+            <Label
+                Name="StringArtifactSpellCounterValue"
+                Margin="-7,0,0,0"
+                Content="{Binding ArtifactSpellCounterValue}" />
         </StackPanel>
         <Button
             x:Name="BtnAddArtifactSpell"
             Grid.Row="0"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
+            Command="{Binding AddArtifactSpellCommand}"
             Content="Zauber hinzufügen" />
         <Label
             Name="StringArtifactSpellName"
@@ -35,7 +39,8 @@
         <ItemsControl
             Name="ArtifactSpellPanel"
             Grid.Row="2"
-            Margin="5">
+            Margin="5"
+            ItemsSource="{Binding Spells}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Name="StackPanelArtifactSpells" Orientation="Vertical" />
@@ -54,6 +59,8 @@
                             Grid.Column="1"
                             Width="20"
                             Height="20"
+                            Command="{Binding Path=$parent[ItemsControl].((vm:ArtifactSpellsControlViewModel)DataContext).RemoveArtifactSpellCommand}"
+                            CommandParameter="{Binding Path=$self.Tag}"
                             IsEnabled="{Binding Path=IsNew}"
                             Tag="{Binding}">
                             <Image Margin="2" Source="avares://Magehelper/Assets/del_button.png" />

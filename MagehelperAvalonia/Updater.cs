@@ -21,7 +21,7 @@ namespace Magehelper.Avalonia
             try
             {
                 WebClient webClient = new();
-                Version lastVersion = JsonSerializer.Deserialize<Version>(webClient.DownloadString("https://api.jungbluthcloud.de/updates/dsametatalente/version"));
+                Version lastVersion = JsonSerializer.Deserialize<Version>(webClient.DownloadString("https://api.jungbluthcloud.de/updates/magehelper/version"));
                 System.Version? currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
                 if (currentVersion.Major < lastVersion.Major)
                 {
