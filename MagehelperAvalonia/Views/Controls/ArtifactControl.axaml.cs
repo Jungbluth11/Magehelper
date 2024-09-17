@@ -1,6 +1,4 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using Avalonia.Layout;
 
 namespace Magehelper.Avalonia.Views.Controls;
@@ -12,10 +10,9 @@ public partial class ArtifactControl : UserControl
         ArgumentNullException.ThrowIfNull(artifactName);
         ArgumentNullException.ThrowIfNull(userControl);
 
-        DataContext = new ArtifactControlViewModel(artifactName, userControl);
+        DataContext = new ArtifactControlViewModel(artifactName);
 
         InitializeComponent();
-        StringArtifactName.Content = artifactName;
         userControl.VerticalAlignment = VerticalAlignment.Top;
         userControl.HorizontalAlignment = HorizontalAlignment.Left;
         ArtifactSpellsControl artifactSpellsControl = ((IArtifactData)userControl).ArtifactSpellsControl;

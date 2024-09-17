@@ -345,7 +345,7 @@ namespace Magehelper.Core
         }
 
         /// <summary>
-        /// Read a save file.
+        /// Reads a saved file.
         /// </summary>
         /// <param name="path"></param>
         public void ReadFileVersionSelector(string path)

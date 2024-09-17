@@ -2,14 +2,14 @@
 
 namespace Magehelper.Avalonia
 {
-    internal static class ErrorMessages
+    public static class ErrorMessages
     {
-        internal static void ReqError(string reqirements)
+        public static void ReqError(string reqirements)
         {
             Error("Zauber kann nicht gewählt werden!\nVoraussetzungen: " + reqirements);
         }
 
-        internal static void Error(string msg)
+        public static void Error(string msg)
         {
             //MessageBox.Show(msg, "Magehelper", MessageBoxButton.OK, MessageBoxImage.Exclamation);
         }

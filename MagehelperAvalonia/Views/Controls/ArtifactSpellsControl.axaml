@@ -53,15 +53,15 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="20" />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Content="{Binding Path=DisplayText}" />
+                        <Label Grid.Column="0" Content="{Binding DisplayText}" />
                         <Button
                             Name="BtnRemoveArtifactSpell"
                             Grid.Column="1"
                             Width="20"
                             Height="20"
-                            Command="{Binding Path=$parent[ItemsControl].((vm:ArtifactSpellsControlViewModel)DataContext).RemoveArtifactSpellCommand}"
-                            CommandParameter="{Binding Path=$self.Tag}"
-                            IsEnabled="{Binding Path=IsNew}"
+                            Command="{Binding $parent[ItemsControl].((vm:ArtifactSpellsControlViewModel)DataContext).RemoveArtifactSpellCommand}"
+                            CommandParameter="{Binding $self.Tag}"
+                            IsEnabled="{Binding IsNew}"
                             Tag="{Binding}">
                             <Image Margin="2" Source="avares://Magehelper/Assets/del_button.png" />
                         </Button>

@@ -1,6 +1,6 @@
 ﻿namespace Magehelper.Avalonia
 {
-    internal struct Version
+    public struct Version
     {
         public int Major { get; set; }
         public int Minor { get; set; }

@@ -1,10 +1,43 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-			     xmlns:vm="using:Magehelper.Avalonia.ViewModels.Controls"
-
-             x:Class="Magehelper.Avalonia.Views.Controls.CrystalBallControl">
-  Welcome to Avalonia!
+<UserControl
+    x:Class="Magehelper.Avalonia.Views.Controls.CrystalBallControl"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Magehelper.Avalonia.ViewModels.Controls"
+    Width="184"
+    Height="84"
+    x:DataType="vm:CrystalBallControlViewModel"
+    mc:Ignorable="d">
+    <Grid Grid.Row="1" Grid.Column="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="5"
+            Content="Material:" />
+        <Label
+            Name="StringMaterial"
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="5" />
+        <CheckBox
+            Name="CbApport"
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="10,5,5,5"
+            HorizontalAlignment="Left"
+            Command="{Binding ApportCommand}"
+            CommandParameter="{Binding $self.IsChecked}"
+            Content="Apport"
+            FlowDirection="RightToLeft" />
+    </Grid>
 </UserControl>

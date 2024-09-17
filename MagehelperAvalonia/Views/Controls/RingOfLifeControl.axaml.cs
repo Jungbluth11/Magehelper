@@ -1,13 +1,18 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 
 namespace Magehelper.Avalonia.Views.Controls;
 
-public partial class RingOfLifeControl : UserControl
+public partial class RingOfLifeControl : UserControl, IArtifactData
 {
-    public RingOfLifeControl()
+    public ArtifactSpellsControl ArtifactSpellsControl { get; }
+
+    public RingOfLifeControl(Settings settings, RingOfLife ringOfLife)
     {
+        ArgumentNullException.ThrowIfNull(settings);
+        ArgumentNullException.ThrowIfNull(ringOfLife);
+
+        ArtifactSpellsControl = new ArtifactSpellsControl(settings, "Schlangenringzauber", ringOfLife, "Verbleibende Zauber:");
+        DataContext = new RingOfLifeControlViewModel(ringOfLife);
         InitializeComponent();
     }
 }

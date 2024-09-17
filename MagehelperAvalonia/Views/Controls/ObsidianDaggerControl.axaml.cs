@@ -1,13 +1,18 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 
 namespace Magehelper.Avalonia.Views.Controls;
 
-public partial class ObsidianDaggerControl : UserControl
+public partial class ObsidianDaggerControl : UserControl, IArtifactData
 {
-    public ObsidianDaggerControl()
+    public ArtifactSpellsControl ArtifactSpellsControl { get; }
+    public ObsidianDaggerControl(Settings settings, ObsidianDagger obsidianDagger)
     {
+        ArgumentNullException.ThrowIfNull(settings);
+        ArgumentNullException.ThrowIfNull(obsidianDagger);
+
+        ArtifactSpellsControl = new ArtifactSpellsControl(settings, "Dolchzauber", obsidianDagger, "Verbleibende Zauber:");
+        DataContext = new ObsidianDaggerControlViewModel(obsidianDagger);
         InitializeComponent();
     }
+
 }

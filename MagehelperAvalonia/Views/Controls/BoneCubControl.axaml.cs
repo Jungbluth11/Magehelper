@@ -1,13 +1,18 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 
 namespace Magehelper.Avalonia.Views.Controls;
 
-public partial class BoneCubControl : UserControl
+public partial class BoneCubControl : UserControl, IArtifactData
 {
-    public BoneCubControl()
+    public ArtifactSpellsControl ArtifactSpellsControl { get; }
+
+    public BoneCubControl(Settings settings, BoneCub boneCub)
     {
+        ArgumentNullException.ThrowIfNull(settings);
+        ArgumentNullException.ThrowIfNull(boneCub);
+
+        ArtifactSpellsControl = new ArtifactSpellsControl(settings, "Keulenzauber", boneCub, "Verbleibende Zauber:");
+        DataContext = new BoneCubControlViewModel(boneCub);
         InitializeComponent();
     }
 }

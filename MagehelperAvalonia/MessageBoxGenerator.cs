@@ -13,7 +13,7 @@ using MsBox.Avalonia.Models;
 
 namespace Magehelper.Avalonia
 {
-    internal static class MessageBoxGenerator
+    public static class MessageBoxGenerator
     {
         public static dynamic GetErrorMessageBox(string msg)
         {

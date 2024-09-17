@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Magehelper.Avalonia
 {
-    internal static class ObservableCollectionExtensions
+    public static class ObservableCollectionExtensions
     {
         public static void Sort<TSource, TKey>(this ObservableCollection<TSource> source, Func<TSource, TKey> keySelector)
         {

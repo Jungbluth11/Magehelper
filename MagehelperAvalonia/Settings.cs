@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿#nullable disable
+using System.Collections.ObjectModel;
 using System.Text.Json;
 using DSAUtils.HeldentoolInterop;
 using Microsoft.Extensions.Configuration;
@@ -40,8 +41,8 @@ namespace Magehelper.Avalonia
         public Settings()
         {
             settings = new ConfigurationBuilder()
-            .AddJsonFile("appsSttings.json")
-            .Build().GetSection("aettings");
+            .AddJsonFile("appSettings.json")
+            .Build().GetSection("settings");
             BaseSettingsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "magehelper", "config");
 #if DEBUG
             CurrentSettingsPath = Path.Combine(AppContext.BaseDirectory, "BaseSettings");
@@ -63,7 +64,7 @@ namespace Magehelper.Avalonia
             }
             else
             {
-                CurrentSettingsPath = settings["CurrrentSettingsPath"] = null!;
+                CurrentSettingsPath = settings["CurrrentSettingsPath"];
                 LoadConfig();
             }
             string[] directoryList = Directory.GetDirectories(BaseSettingsPath);
@@ -73,9 +74,9 @@ namespace Magehelper.Avalonia
             }
         }
 
-        public static TabSetting[] GetTabSettings(string configPath)
+        public TabSetting[] GetTabSettings()
         {
-            return JsonSerializer.Deserialize<TabSetting[]>(File.ReadAllText(Path.Combine(configPath, "tabSettings.json")));
+            return JsonSerializer.Deserialize<TabSetting[]>(File.ReadAllText(Path.Combine(CurrentSettingsPath, "tabSettings.json")));
         }
 
         public string AddConfig(string configName)
@@ -134,7 +135,7 @@ namespace Magehelper.Avalonia
 
         public void SaveConfigFile()
         {
-            AppSettings appSettings = new AppSettings
+            AppSettings appSettings = new()
             {
                 SpellStoragePoints = SpellStoragePoints,
                 AllowRemoveSpells = AllowRemoveSpells,

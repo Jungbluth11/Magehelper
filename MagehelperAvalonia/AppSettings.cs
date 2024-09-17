@@ -1,6 +1,6 @@
 ﻿namespace Magehelper.Avalonia
 {
-    internal struct AppSettings
+    public struct AppSettings
     {
         public int SpellStoragePoints { get; set; }
         public bool UseHeldentoolNames { get; set; }

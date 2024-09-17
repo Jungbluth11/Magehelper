@@ -1,13 +1,17 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 
 namespace Magehelper.Avalonia.Views.Controls;
 
-public partial class StaffSettingsControl : UserControl
+public partial class StaffSettingsControl : UserControl, IArtifactSettingsTab
 {
-    public StaffSettingsControl()
+    public string SettingsHeader { get; }
+
+    public StaffSettingsControl(ArtifactSpell[] artifactSpells)
     {
+        ArgumentNullException.ThrowIfNull(artifactSpells);
+
+        DataContext = new StaffSettingsControlViewModel(artifactSpells);
+        SettingsHeader = artifactSpells[0].Type;
         InitializeComponent();
     }
 }

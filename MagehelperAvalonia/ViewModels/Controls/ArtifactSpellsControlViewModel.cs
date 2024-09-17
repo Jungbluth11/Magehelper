@@ -1,23 +1,20 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using CommunityToolkit.Mvvm.Input;
 
 namespace Magehelper.Avalonia.ViewModels.Controls
 {
     public partial class ArtifactSpellsControlViewModel : ObservableObject
     {
         private readonly Artifact artifact;
-        private readonly Func<ArtifactSpell?> addSpellFunction;
         public string ArtifactSpellName { get; set; }
         public string ArtifactSpellCounterText { get; set; }
         public int ArtifactSpellCounterValue { get; set; }
         public ObservableCollection<ArtifactSpell> Spells => [];
 
-        public ArtifactSpellsControlViewModel(Settings settings, string artifactSpellName, Artifact artifact, Func<ArtifactSpell?> addSpellFunction, string artifactSpellCounterText = "")
+        public ArtifactSpellsControlViewModel(Settings settings, string artifactSpellName, Artifact artifact, string artifactSpellCounterText = "")
         {
             ArgumentNullException.ThrowIfNull(settings);
             ArgumentNullException.ThrowIfNull(artifact);
-            ArgumentNullException.ThrowIfNull(addSpellFunction);
 
             if (string.IsNullOrEmpty(artifactSpellName))
             {
@@ -25,7 +22,6 @@ namespace Magehelper.Avalonia.ViewModels.Controls
             }
 
             this.artifact = artifact;
-            this.addSpellFunction = addSpellFunction;
             ArtifactSpellName = artifactSpellName;
             ArtifactSpellCounterText = artifactSpellName;
             foreach (ArtifactSpell spell in artifact.BoundSpells)
@@ -66,11 +62,10 @@ namespace Magehelper.Avalonia.ViewModels.Controls
         [RelayCommand]
         private void AddArtifactSpell()
         {
-            ArtifactSpell? artifactSpell = addSpellFunction();
-            if (artifactSpell != null)
-            {
-                Spells.Add((ArtifactSpell)artifactSpell);
-            }
+            //if (artifactSpell != null)
+            //{
+            //    Spells.Add((ArtifactSpell)artifactSpell);
+            //}
         }
 
         [RelayCommand]
