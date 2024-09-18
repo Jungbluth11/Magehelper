@@ -10,4 +10,9 @@ public partial class TabContentFlameSword : UserControl
     {
         InitializeComponent();
     }
+
+    public void ResetTab()
+    {
+
+    }
 }

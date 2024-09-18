@@ -8,5 +8,11 @@ namespace Magehelper.Avalonia.ViewModels.Tabs
 {
     public class TabContentPetViewModel
     {
+        private static TabContentPetViewModel _instance = new();
+        public static TabContentPetViewModel Instance => _instance;
+
+        public TabContentPetViewModel()
+        {
+        }
     }
 }

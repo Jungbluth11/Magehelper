@@ -8,6 +8,7 @@ public partial class LoadFromToolWindow : Window
 {
     public LoadFromToolWindow()
     {
+        DataContext = new LoadFromToolWindowViewModel();
         InitializeComponent();
     }
 }

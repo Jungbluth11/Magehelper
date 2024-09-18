@@ -6,7 +6,6 @@ namespace Magehelper.Core
 {
     public class Core
     {
-        private readonly string magehelperFileVersion = "3.0.0";
         internal int FileAupValue { get; set; }
         internal int FileLepValue { get; set; }
         internal int FileAspValue { get; set; }
@@ -18,6 +17,10 @@ namespace Magehelper.Core
         internal Character? Character { get; set; }
         internal Pet? Pet { get; set; }
         internal Timers? Timers { get; set; }
+        /// <summary>
+        /// Last Version with changes of file structure/>
+        /// </summary>
+        public string MagehelperFileVersion => "3.0.0";
         /// <summary>
         /// Maximum of Points to be used in <see cref="Magehelper.Core.SpellStorage"/>
         /// </summary>
@@ -34,10 +37,6 @@ namespace Magehelper.Core
         /// File name of the loaded save or name to create these.
         /// </summary>
         public string FileName { get; set; } = string.Empty;
-        /// <summary>
-        /// Show warning when a magehelper file with version different from <see cref="magehelperFileVersion"/> is loaded.
-        /// </summary>
-        public bool WarnOtherVersionFiles { get; set; }
         /// <summary>
         /// Has the application changed?
         /// </summary>
@@ -98,10 +97,6 @@ namespace Magehelper.Core
         /// GUI action to perform for timers when loading a save file.
         /// </summary>
         public Action<Timer>? AddTimerGUIAction { get; set; }
-        /// <summary>
-        /// GUI function to perform when <see cref="WarnOtherVersionFiles"/> is set to true.
-        /// </summary>
-        public Func<bool, bool>? WarnOtherVersionFilesGUIFunc { get; set; }
         /// <summary>
         /// Names of the artifacts.
         /// </summary>
@@ -200,7 +195,7 @@ namespace Magehelper.Core
             {
                 xw.WriteStartDocument();
                 xw.WriteStartElement("magehelper");
-                xw.WriteAttributeString("versionCreated", magehelperFileVersion);
+                xw.WriteAttributeString("versionCreated", MagehelperFileVersion);
                 if (FileAup)
                 {
                     xw.WriteElementString("aup", FileAupValue.ToString());
@@ -345,6 +340,25 @@ namespace Magehelper.Core
         }
 
         /// <summary>
+        /// Gets the Version of a Magehelper File
+        /// </summary>
+        /// <param name="path"> Path to the File</param>
+        /// <returns></returns>
+        public string GetFileVersion(string path)
+        {
+            string xml = File.ReadAllText(path);
+            XmlDocument xmlDoc = new();
+            xmlDoc.LoadXml(xml);
+
+#pragma warning disable CS8600
+            XmlNode root = xmlDoc.SelectSingleNode("magehelper");
+#pragma warning restore CS8600
+#pragma warning disable CS8602
+            return root.Attributes["versionCreated"] == null ? "0" : root.Attributes["versionCreated"].Value;
+#pragma warning restore CS8602
+        }
+
+        /// <summary>
         /// Reads a saved file.
         /// </summary>
         /// <param name="path"></param>
@@ -355,28 +369,11 @@ namespace Magehelper.Core
             {
                 XmlDocument xmlDoc = new();
                 xmlDoc.LoadXml(xml);
-
-#pragma warning disable CS8600
-                XmlNode root = xmlDoc.SelectSingleNode("magehelper");
-#pragma warning restore CS8600
-#pragma warning disable CS8602
-                string? version = root.Attributes["versionCreated"] == null ? null : root.Attributes["versionCreated"].Value;
-#pragma warning restore CS8602
                 bool isLegacy = false;
-                if (version == null)
+                string version = GetFileVersion(path);
+                if(version == "0")
                 {
                     isLegacy = true;
-                    version = "0";
-                }
-                if (version != magehelperFileVersion && WarnOtherVersionFiles)
-                {
-#pragma warning disable CS8602
-                    bool loadFile = WarnOtherVersionFilesGUIFunc(isLegacy);
-#pragma warning restore CS8602
-                    if (!loadFile)
-                    {
-                        return;
-                    }
                 }
                 ResetTool();
                 if (isLegacy)

@@ -8,5 +8,9 @@ namespace Magehelper.Avalonia.ViewModels.Tabs
 {
     public class TabContentModViewModel
     {
+        public TabContentModViewModel()
+        {
+            
+        }
     }
 }

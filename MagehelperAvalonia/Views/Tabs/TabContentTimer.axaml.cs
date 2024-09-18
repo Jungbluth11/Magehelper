@@ -10,4 +10,9 @@ public partial class TabContentTimer : UserControl
     {
         InitializeComponent();
     }
+
+    public void ResetTab()
+    {
+
+    }
 }

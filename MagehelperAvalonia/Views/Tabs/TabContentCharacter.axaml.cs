@@ -10,4 +10,9 @@ public partial class TabContentCharacter : UserControl
     {
         InitializeComponent();
     }
+
+    public void ResetTab()
+    {
+
+    }
 }

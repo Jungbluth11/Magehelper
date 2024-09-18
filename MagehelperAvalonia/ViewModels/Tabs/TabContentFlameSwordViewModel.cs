@@ -8,5 +8,11 @@ namespace Magehelper.Avalonia.ViewModels.Tabs
 {
     public class TabContentFlameSwordViewModel
     {
+        private static TabContentFlameSwordViewModel _instance = new();
+        public static TabContentFlameSwordViewModel Instance => _instance;
+
+        public TabContentFlameSwordViewModel()
+        {
+        }
     }
 }

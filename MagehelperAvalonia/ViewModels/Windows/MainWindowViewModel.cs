@@ -1,99 +1,85 @@
-﻿using DSAUtils.HeldentoolInterop;
+﻿using System.Diagnostics.Contracts;
+using Avalonia.Platform.Storage;
+using DSAUtils.HeldentoolInterop;
+using MsBox.Avalonia.Base;
+using MsBox.Avalonia.Enums;
 
 namespace Magehelper.Avalonia.ViewModels.Windows
 {
     public partial class MainWindowViewModel : ObservableObject
     {
         private static readonly MainWindowViewModel _instance = new();
-        public static MainWindowViewModel Instance => _instance;
-        public bool CanLoadCharacter => TabContentCharacter != null;
         public bool CanLoadCharacterFromTool => HeldentoolInterop.IsInstalled();
+        public static FilePickerFileType MagehelperFileType => new("Magehelper-Datei")
+        {
+            Patterns = ["*.magehelper"],
+            MimeTypes = ["xml/*"]
+        };
+        public static MainWindowViewModel Instance => _instance;
         public Settings Settings { get; }
         public Core.Core Core { get; set; }
-        public TabContentArtifactViewModel? TabContentArtifact { get; set; }
-        public TabContentSpellStorageViewModel? TabContentSpellStorage { get; set; }
-        public TabContentFlameSwordViewModel? TabContentFlameSword { get; set; }
-        public TabContentCharacterViewModel? TabContentCharacter { get; set; }
-        public TabContentPetViewModel? TabContentPet { get; set; }
-        public TabContentTimerViewModel? TabContentTimer { get; set; }
 
         public MainWindowViewModel()
         {
-            Settings = new Settings();
-            Core = new Core.Core(Settings.CurrentSettingsPath)
+            Settings = new();
+            Core = new (Settings.CurrentSettingsPath)
             {
                 SpellStoragePoints = Settings.SpellStoragePoints,
-                WarnOtherVersionFiles = Settings.WarnOtherVersionFiles
             };
-            
             
             if (Settings.CheckForUpdates)
             {
-                Updater updater = new();
-                if (updater.CheckForUpdates())
-                {
-                    if (Settings.AutoInstallUpdates)
-                    {
-                        updater.Update();
-                    }
-                    //else if (MessageBox.Show("Es ist ein Update vorhanden, soll es installiert werden?", "Magehelper", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-                    //{
-                    //    updater.Update();
-                    //}
-                }
+                Update();
             }
         }
 
-
-        [RelayCommand]
-        private void NewFile()
+        public void NewFile()
         {
             Core.ResetTool();
-            ResetTool();
         }
 
-        public void LoadFile(string fileName)
+        public void LoadFile(string path)
         {
-            ResetTool();
-            Core.ReadFileVersionSelector(fileName);
+            Core.ReadFileVersionSelector(path);
         }
 
-        [RelayCommand]
-        private void SaveFile(string fileName)
+        public void SaveFile(string path)
         {
             if (string.IsNullOrEmpty(Core.FileName))
             {
-                Core.FileName = fileName;
+                Core.FileName = path;
             }
             Core.WriteFile();
         }
 
-        public void ResetTool()
+        public string WarnOtherVersionFilesMessage(bool isLegacy)
         {
-            //if (TabContentArtifact != null)
-            //{
-            //    TabContentArtifact.ResetTab();
-            //}
-            //if (TabContentSpellStorage != null)
-            //{
-            //    TabContentSpellStorage.ResetTab();
-            //}
-            //if (TabContentFlameSword != null)
-            //{
-            //    TabContentFlameSword.ResetTab();
-            //}
-            //if (TabContentCharacter != null)
-            //{
-            //    TabContentCharacter.ResetTab();
-            //}
-            //if (tabContentPet != null)
-            //{
-            //    tabContentPet.ResetTab();
-            //}
-            //if (TabContentTimer != null)
-            //{
-            //    TabContentTimer.ResetTab();
-            //}
+            if (isLegacy)
+            {
+                return "Achtung! Diese Datei wurde mit einer Version vor 3.0.0 erstellt. Wenn sie gespeichert wird kann nicht wieder in Magehelper vor Version 3.0.0 geöffnet werden!";
+            }
+            return "Achtung! Die Datei wurde mit einer anderen Version von Magehelper erstellt.\nFalls diese Datei mit einer neueren Version erstellt wurde, werden eventuell nicht alle Funktionen unterstützt und es können Daten verloren gehen wenn sie gespeichert wird.";
+        }
+
+        private async void Update()
+        {
+            Updater updater = new();
+            if (updater.CheckForUpdates())
+            {
+                if (Settings.AutoInstallUpdates)
+                {
+                    updater.Update();
+                }
+                else
+                {
+                    IMsBox<string> messageBox = MessageBoxGenerator.GetMessageBox("Es ist ein Update vorhanden, soll es installiert werden?", MessageBoxGenerator.Buttons.YesNo, Icon.Question);
+                    string result = await messageBox.ShowAsync();
+                    if(result == "Ja")
+                    {
+                        updater.Update();
+                    }
+                }
+            }
         }
     }
 }

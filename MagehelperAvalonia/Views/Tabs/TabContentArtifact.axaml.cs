@@ -10,4 +10,9 @@ public partial class TabContentArtifact : UserControl
     {
        InitializeComponent();
     }
+
+    public void ResetTab()
+    {
+
+    }
 }

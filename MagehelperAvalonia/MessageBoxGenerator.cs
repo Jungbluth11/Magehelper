@@ -1,29 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MsBox.Avalonia.Enums;
-using MsBox.Avalonia;
-using Avalonia;
+﻿using Avalonia.Controls;
 using Avalonia.Media.Imaging;
-using Avalonia.Platform;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Base;
 using MsBox.Avalonia.Dto;
+using MsBox.Avalonia.Enums;
 using MsBox.Avalonia.Models;
 
 namespace Magehelper.Avalonia
 {
     public static class MessageBoxGenerator
     {
-        public static dynamic GetErrorMessageBox(string msg)
+        public enum Buttons
         {
-            Bitmap imageIcon = new Bitmap(AssetLoader.Open(new Uri("avares://magehelper/Assets/exclamation.png")));
-            return MessageBoxManager.GetMessageBoxCustom(new MessageBoxCustomParams { ImageIcon = imageIcon, ContentTitle = "Magehelper", ContentMessage = msg,
-                ButtonDefinitions = new List<ButtonDefinition>
+            OK,
+            YesNo,
+            YesNoCancel
+        }
+
+        public static IMsBox<string> GetMessageBox(string msg, Buttons buttons, Bitmap? imageIcon = null)
+        {
+            return CreateMessageBox(msg, buttons, imageIcon);
+        }
+
+        public static IMsBox<string> GetMessageBox(string msg, Buttons buttons, Icon? icon = null)
+        {
+            return CreateMessageBox(msg, buttons, null, icon);
+        }
+
+        private static IMsBox<string> CreateMessageBox(string msg, Buttons buttons, Bitmap? imageIcon = null, Icon? icon = null)
+        {
+            List<ButtonDefinition> buttonDefinitions = [];
+            if (buttons == Buttons.YesNo || buttons == Buttons.YesNoCancel)
+            {
+                buttonDefinitions.AddRange([new ButtonDefinition { Name = "Ja" }, new ButtonDefinition { Name = "Nein" }]);
+                if (buttons == Buttons.YesNoCancel)
                 {
-                    new ButtonDefinition()
-                },
-            });
+                    buttonDefinitions.Add(new ButtonDefinition { Name = "Abbrechen", IsCancel = true });
+                }
+            }
+            else
+            {
+                buttonDefinitions.Add(new ButtonDefinition { Name = "OK" });
+            }
+
+            MessageBoxCustomParams MessageBoxParams = new()
+            {
+                ContentTitle = "Magehelper",
+                ContentMessage = msg,
+                Topmost = true,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                ShowInCenter = true,
+                ButtonDefinitions = buttonDefinitions,
+            };
+            if (imageIcon != null)
+            {
+                MessageBoxParams.ImageIcon = imageIcon;
+            }
+            if (icon != null)
+            {
+                MessageBoxParams.Icon = (Icon)icon;
+            }
+
+            return MessageBoxManager.GetMessageBoxCustom(MessageBoxParams);
         }
     }
 }

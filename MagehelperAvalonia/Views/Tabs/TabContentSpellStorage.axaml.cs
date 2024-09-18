@@ -10,4 +10,9 @@ public partial class TabContentSpellStorage : UserControl
     {
         InitializeComponent();
     }
+
+    public void ResetTab()
+    {
+
+    }
 }

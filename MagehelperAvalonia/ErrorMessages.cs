@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 
 namespace Magehelper.Avalonia
 {
@@ -11,7 +13,9 @@ namespace Magehelper.Avalonia
 
         public static void Error(string msg)
         {
-            //MessageBox.Show(msg, "Magehelper", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            Bitmap imageIcon = new(AssetLoader.Open(new Uri("avares://magehelper/Assets/exclamation.png")));
+
+            MessageBoxGenerator.GetMessageBox(msg, MessageBoxGenerator.Buttons.OK, imageIcon).ShowAsync();
         }
     }
 }

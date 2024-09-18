@@ -2,8 +2,6 @@
     x:Class="Magehelper.Avalonia.Views.Windows.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:TabView="using:Magehelper.Avalonia.Views.Tabs"
-    xmlns:TabViewModel="using:Magehelper.Avalonia.ViewModels.Tabs"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Magehelper.Avalonia.ViewModels.Windows"
@@ -11,6 +9,7 @@
     Width="850"
     Height="450"
     x:DataType="vm:MainWindowViewModel"
+    Closing="Window_Closing"
     Icon="avares://Magehelper/Assets/magehelper.ico"
     WindowStartupLocation="Manual"
     mc:Ignorable="d">
@@ -23,7 +22,7 @@
             <MenuItem Header="Datei">
                 <MenuItem
                     Name="MenuItemFileNew"
-                    Command="{Binding NewFileCommand}"
+                    Click="MenuItemFileNew_Click"
                     Header="Neu" />
                 <MenuItem
                     Name="MenuItemFileLoad"
@@ -31,7 +30,7 @@
                     Header="Laden" />
                 <MenuItem
                     Name="MenuItemFileSave"
-                    Command="{Binding SaveFileCommand}"
+                    Click="MenuItemFileSave_Click"
                     Header="Speichern" />
                 <MenuItem
                     Name="MenuItemFileSaveAs"
@@ -41,7 +40,7 @@
             <MenuItem
                 Name="MenuItemCharacter"
                 Header="Charakter laden"
-                IsEnabled="{Binding CanLoadCharacter}">
+                IsEnabled="False">
                 <MenuItem
                     Name="MenuItemCharacterLoadFromTool"
                     Click="MenuItemCharacterLoadFromTool_Click"

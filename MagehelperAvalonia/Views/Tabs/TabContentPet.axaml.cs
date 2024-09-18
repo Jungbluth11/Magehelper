@@ -10,4 +10,9 @@ public partial class TabContentPet : UserControl
     {
         InitializeComponent();
     }
+
+    public void ResetTab()
+    {
+
+    }
 }
