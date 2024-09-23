@@ -8,6 +8,7 @@ public partial class AddArtifactWindow : Window
 {
     public AddArtifactWindow()
     {
+        DataContext = new AddArtifactWindowViewModel();
         InitializeComponent();
     }
 }

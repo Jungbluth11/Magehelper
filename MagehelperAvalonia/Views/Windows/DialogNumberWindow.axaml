@@ -1,11 +1,45 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		    xmlns:vm="using:Magehelper.Avalonia.ViewModels.Windows"
-
-        x:Class="Magehelper.Avalonia.Views.Windows.DialogNumberWindow"
-        Title="DialogNumberWindow">
-  Welcome to Avalonia!
+<Window
+    x:Class="Magehelper.Avalonia.Views.Windows.DialogNumberWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Magehelper.Avalonia.ViewModels.Windows"
+    Name="dialogNumberWindow"
+    Title="{Binding Caption}"
+    MinWidth="240"
+    MinHeight="120"
+    x:DataType="vm:DialogNumberWindowViewModel"
+    CanResize="False"
+    ShowInTaskbar="False"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+    <StackPanel>
+        <Label Name="StringDialogText" />
+        <NumericUpDown
+            Increment="1"
+            Minimum="0"
+            Value="{Binding NumberValue, UpdateSourceTrigger=PropertyChanged}" />
+        <StackPanel
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <Button
+                Margin="5"
+                Command="{Binding RollCommand}"
+                IsVisible="{Binding BtnRollVisible}">
+                <StackPanel Margin="5,2,2,2" Orientation="Horizontal">
+                    <Image Source="avares://Magehelper/Assets/dice.png" />
+                    <Label Content="{Binding BtnRollName}" />
+                </StackPanel>
+            </Button>
+            <Button
+                Margin="5"
+                Command="{Binding SubmitCommand}"
+                CommandParameter="{Binding ElementName=dialogNumberWindow}"
+                Content="OK"
+                IsDefault="True" />
+        </StackPanel>
+    </StackPanel>
 </Window>

@@ -11,8 +11,8 @@ public partial class BoneCubControl : UserControl, IArtifactData
         ArgumentNullException.ThrowIfNull(settings);
         ArgumentNullException.ThrowIfNull(boneCub);
 
-        ArtifactSpellsControl = new ArtifactSpellsControl(settings, "Keulenzauber", boneCub, "Verbleibende Zauber:");
-        DataContext = new BoneCubControlViewModel(boneCub);
+        ArtifactSpellsControl = new ArtifactSpellsControl(settings, "Keulenzauber", boneCub);
+        DataContext = new BoneCubControlViewModel(boneCub, ArtifactSpellsControl.DataContext as ArtifactSpellsControlViewModel);
         InitializeComponent();
     }
 }

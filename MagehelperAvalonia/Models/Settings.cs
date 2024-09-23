@@ -4,7 +4,7 @@ using System.Text.Json;
 using DSAUtils.HeldentoolInterop;
 using Microsoft.Extensions.Configuration;
 
-namespace Magehelper.Avalonia
+namespace Magehelper.Avalonia.Models
 {
     public class Settings
     {

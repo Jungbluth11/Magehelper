@@ -118,7 +118,7 @@ public partial class MainWindow : Window
         IStorageFile? file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
             Title = "Datei Speichern - Magehelper",
-            FileTypeChoices = [MainWindowViewModel.MagehelperFileType],
+            FileTypeChoices = [FileTypes.MagehelperFileType],
             DefaultExtension = ".magehelper",
             ShowOverwritePrompt = true
         });
@@ -166,29 +166,41 @@ public partial class MainWindow : Window
         IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Datei Öffnen - Magehelper",
-            FileTypeFilter = [MainWindowViewModel.MagehelperFileType],
+            FileTypeFilter = [FileTypes.MagehelperFileType],
             AllowMultiple = false
         });
 
         if (files.Count == 1)
         {
-            string fileVersion = viewModel.Core.GetFileVersion(files[0].Path.AbsolutePath);
-            if (fileVersion != viewModel.Core.MagehelperFileVersion && viewModel.Settings.WarnOtherVersionFiles)
+            try
             {
-                bool isLegacy = false;
-                if (fileVersion == "0")
+                string fileVersion = viewModel.Core.GetFileVersion(files[0].Path.AbsolutePath);
+                if (fileVersion != viewModel.Core.MagehelperFileVersion && viewModel.Settings.WarnOtherVersionFiles)
                 {
-                    isLegacy = true;
+                    bool isLegacy = false;
+                    if (fileVersion == "0")
+                    {
+                        isLegacy = true;
+                    }
+                    IMsBox<string> WarnOtherVersionFileSDialog = MessageBoxGenerator.GetMessageBox(viewModel.WarnOtherVersionFilesMessage(isLegacy), MessageBoxGenerator.Buttons.YesNo, MsBox.Avalonia.Enums.Icon.Question);
+                    string DialogResult = await WarnOtherVersionFileSDialog.ShowAsync();
+                    if (DialogResult == "Nein")
+                    {
+                        return;
+                    }
                 }
-                IMsBox<string> WarnOtherVersionFileSDialog = MessageBoxGenerator.GetMessageBox(viewModel.WarnOtherVersionFilesMessage(isLegacy), MessageBoxGenerator.Buttons.YesNo, MsBox.Avalonia.Enums.Icon.Question);
-                string DialogResult = await WarnOtherVersionFileSDialog.ShowAsync();
-                if(DialogResult == "Nein")
-                {
-                    return;
-                }
+                ResetTool();
+                viewModel.LoadFile(files[0].Path.AbsolutePath);
             }
-            ResetTool();
-            viewModel.LoadFile(files[0].Path.AbsolutePath);
+            catch (Exception ex)
+            {
+                string errorMsg = ex.Message;
+                if (ex.Message.Contains("is not a valid magehelper file"))
+                {
+                    errorMsg = files[0].Path.AbsolutePath + " ist keine gültige Magehelper-Datei!";
+                }
+                ErrorMessages.Error(errorMsg);
+            }
         }
     }
 
@@ -204,7 +216,7 @@ public partial class MainWindow : Window
 
     private void MenuItemCharacterLoadFromTool_Click(object? sender, RoutedEventArgs e)
     {
-        new LoadFromToolWindow().Show();
+        new LoadFromToolWindow().ShowDialog(this);
     }
 
     private async void MenuItemCharacterLoadFromFile_Click(object? sender, RoutedEventArgs e)
@@ -212,7 +224,7 @@ public partial class MainWindow : Window
         IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Datei Öffnen - Magehelper",
-            FileTypeFilter = [MainWindowViewModel.MagehelperFileType],
+            FileTypeFilter = [FileTypes.XmlFileType],
             AllowMultiple = false
         });
 
@@ -225,7 +237,7 @@ public partial class MainWindow : Window
 
     private void MenuItemSettings_Click(object? sender, RoutedEventArgs e)
     {
-        new SettingsWindow().Show();
+        new SettingsWindow().ShowDialog(this);
     }
 
     private void MenuItemAbout_Click(object? sender, RoutedEventArgs e)
@@ -236,7 +248,7 @@ public partial class MainWindow : Window
         new AboutWindow("Magehelper", major + "." + minor + "." + build).ShowDialog(this);
     }
 
-#pragma warning disable CS1998 //suppress error message for missing 'await' when in debug
+#pragma warning disable CS1998 //suppress error message for missing 'await' when in debug configuration
     private async void Window_Closing(object? sender, WindowClosingEventArgs e)
 #pragma warning restore CS1998 
     {

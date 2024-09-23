@@ -1,6 +1,6 @@
 ﻿using DSAUtils.HeldentoolInterop;
 
-namespace Magehelper.Avalonia
+namespace Magehelper.Avalonia.Models
 {
     public struct CharakterListItem
     {

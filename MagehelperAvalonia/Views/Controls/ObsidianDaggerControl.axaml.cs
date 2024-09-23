@@ -11,7 +11,7 @@ public partial class ObsidianDaggerControl : UserControl, IArtifactData
         ArgumentNullException.ThrowIfNull(obsidianDagger);
 
         ArtifactSpellsControl = new ArtifactSpellsControl(settings, "Dolchzauber", obsidianDagger, "Verbleibende Zauber:");
-        DataContext = new ObsidianDaggerControlViewModel(obsidianDagger);
+        DataContext = new ObsidianDaggerControlViewModel(obsidianDagger, ArtifactSpellsControl.DataContext as ArtifactSpellsControlViewModel);
         InitializeComponent();
     }
 

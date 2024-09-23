@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Magehelper.Avalonia.Models;
 
 namespace Magehelper.Avalonia.Views.Controls;
 

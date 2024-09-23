@@ -6,7 +6,7 @@ using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Enums;
 using MsBox.Avalonia.Models;
 
-namespace Magehelper.Avalonia
+namespace Magehelper.Avalonia.Models
 {
     public static class MessageBoxGenerator
     {
@@ -15,6 +15,11 @@ namespace Magehelper.Avalonia
             OK,
             YesNo,
             YesNoCancel
+        }
+
+        public static IMsBox<string> GetMessageBox(string msg, Buttons buttons)
+        {
+            return CreateMessageBox(msg, buttons);
         }
 
         public static IMsBox<string> GetMessageBox(string msg, Buttons buttons, Bitmap? imageIcon = null)

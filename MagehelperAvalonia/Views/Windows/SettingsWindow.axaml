@@ -1,11 +1,136 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		    xmlns:vm="using:Magehelper.Avalonia.ViewModels.Windows"
-
-        x:Class="Magehelper.Avalonia.Views.Windows.SettingsWindow"
-        Title="SettingsWindow">
-  Welcome to Avalonia!
+<Window
+    x:Class="Magehelper.Avalonia.Views.Windows.SettingsWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:gb="using:GroupBox.Avalonia.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:Magehelper.Avalonia.ViewModels.Tabs"
+    xmlns:views="using:Magehelper.Avalonia.Views.Tabs"
+    xmlns:vm="using:Magehelper.Avalonia.ViewModels.Windows"
+    Name="settingsWindow"
+    Title="Einstellungen"
+    Width="610"
+    Height="340"
+    x:DataType="vm:SettingsWindowViewModel"
+    CanResize="False"
+    ShowInTaskbar="False"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <ComboBox
+                Width="150"
+                Margin="5"
+                ItemsSource="{Binding ConfigNames}"
+                SelectedValue="{Binding CurrentConfigName, UpdateSourceTrigger=PropertyChanged}"
+                SelectionChanged="ComboBox_SelectionChanged" />
+            <Button
+                Width="20"
+                Height="20"
+                Margin="5">
+                <Image Margin="1" Source="avares://Magehelper/Assets/add_button.png" />
+            </Button>
+        </StackPanel>
+        <TabControl Name="TabControlMain" Grid.Row="1">
+            <TabItem Header="Allgemein">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <gb:GroupBox
+                        Grid.Row="0"
+                        Grid.RowSpan="3"
+                        Grid.Column="0"
+                        Margin="5"
+                        Header="Tabs anzeigen"
+                        Theme="{StaticResource GroupBoxClassic}">
+                        <ItemsControl Name="ShowTabsPanel" ItemsSource="{Binding TabSettings}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding Path=TabName}" IsChecked="{Binding Path=ShowTab, UpdateSourceTrigger=PropertyChanged}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </gb:GroupBox>
+                    <StackPanel
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="10">
+                        <CheckBox Content="Warnung beim Laden von Dateien andere Magehelper Versionen anzeigen" IsChecked="{Binding WarnOtherVersionFiles, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                    <gb:GroupBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="5"
+                        Header="Objektrituale (Artefaktzauber)"
+                        Theme="{StaticResource GroupBoxClassic}">
+                        <StackPanel>
+                            <CheckBox Content="Verhindere Entfernen von Zaubern nach Neuladen" IsChecked="{Binding AllowRemoveSpells, UpdateSourceTrigger=PropertyChanged}" />
+                            <CheckBox Content="Heldentool- statt Regelbuchnamen verwenden." IsChecked="{Binding UseHeldentoolNames, UpdateSourceTrigger=PropertyChanged}" />
+                        </StackPanel>
+                    </gb:GroupBox>
+                    <gb:GroupBox
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="5"
+                        Header="Updates"
+                        Theme="{StaticResource GroupBoxClassic}">
+                        <StackPanel>
+                            <CheckBox Content="Nach Updates suchen" IsChecked="{Binding CheckForUpdates, UpdateSourceTrigger=PropertyChanged}" />
+                            <CheckBox
+                                Margin="20,0,0,0"
+                                Content="Updates automatisch installieren"
+                                IsChecked="{Binding AutoinstallUpdates, UpdateSourceTrigger=PropertyChanged}" />
+                            <Button
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Click="Button_Click"
+                                Content="Jetzt updaten" />
+                        </StackPanel>
+                    </gb:GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Hausregeln">
+                <TabControl Name="TabControlArtifacts" />
+            </TabItem>
+        </TabControl>
+        <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                Margin="5"
+                Command="{Binding SaveCommand}"
+                CommandParameter="{Binding ElementName=settingsWindow}"
+                Content="Speichern" />
+            <Button
+                Margin="5"
+                Command="{Binding CancelCommand}"
+                CommandParameter="{Binding ElementName=settingsWindow}"
+                Content="Abbrechen" />
+        </StackPanel>
+    </Grid>
 </Window>

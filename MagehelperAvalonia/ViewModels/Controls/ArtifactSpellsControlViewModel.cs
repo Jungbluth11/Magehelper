@@ -1,11 +1,16 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Magehelper.Avalonia.Models;
 
 namespace Magehelper.Avalonia.ViewModels.Controls
 {
     public partial class ArtifactSpellsControlViewModel : ObservableObject
     {
         private readonly Artifact artifact;
+        public Func<Window, ArtifactSpell?> AddSpellFunc { get; set; }
         public string ArtifactSpellName { get; set; }
         public string ArtifactSpellCounterText { get; set; }
         public int ArtifactSpellCounterValue { get; set; }
@@ -22,6 +27,7 @@ namespace Magehelper.Avalonia.ViewModels.Controls
             }
 
             this.artifact = artifact;
+            this.AddSpellFunc = AddSpellFunc;
             ArtifactSpellName = artifactSpellName;
             ArtifactSpellCounterText = artifactSpellName;
             foreach (ArtifactSpell spell in artifact.BoundSpells)
@@ -62,10 +68,14 @@ namespace Magehelper.Avalonia.ViewModels.Controls
         [RelayCommand]
         private void AddArtifactSpell()
         {
-            //if (artifactSpell != null)
-            //{
-            //    Spells.Add((ArtifactSpell)artifactSpell);
-            //}
+            if (AddSpellFunc != null)
+            {
+                ArtifactSpell? artifactSpell = AddSpellFunc((Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow);
+                if (artifactSpell != null)
+                {
+                    Spells.Add((ArtifactSpell)artifactSpell);
+                }
+            }
         }
 
         [RelayCommand]

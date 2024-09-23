@@ -1,8 +1,7 @@
-﻿using System.Windows;
-using Avalonia.Media.Imaging;
+﻿using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 
-namespace Magehelper.Avalonia
+namespace Magehelper.Avalonia.Models
 {
     public static class ErrorMessages
     {

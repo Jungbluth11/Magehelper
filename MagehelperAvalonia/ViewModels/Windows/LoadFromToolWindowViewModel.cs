@@ -1,4 +1,5 @@
 ﻿using DSAUtils.HeldentoolInterop;
+using Magehelper.Avalonia.Models;
 
 namespace Magehelper.Avalonia.ViewModels.Windows
 {

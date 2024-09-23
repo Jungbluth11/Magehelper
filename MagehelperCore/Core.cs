@@ -351,11 +351,18 @@ namespace Magehelper.Core
             xmlDoc.LoadXml(xml);
 
 #pragma warning disable CS8600
-            XmlNode root = xmlDoc.SelectSingleNode("magehelper");
+            try
+            {
+                XmlNode root = xmlDoc.SelectSingleNode("magehelper");
 #pragma warning restore CS8600
 #pragma warning disable CS8602
-            return root.Attributes["versionCreated"] == null ? "0" : root.Attributes["versionCreated"].Value;
+                return root.Attributes["versionCreated"] == null ? "0" : root.Attributes["versionCreated"].Value;
 #pragma warning restore CS8602
+            }
+            catch 
+            {
+                throw new Exception(path + " is not a valid magehelper file");
+            }
         }
 
         /// <summary>
@@ -404,7 +411,7 @@ namespace Magehelper.Core
 #pragma warning disable CS8601
             try
             {
-                Artifact[] artifacts = new Artifact[] { Bowl, BoneCub, CrystalBall, Staff, RingOfLife, ObsidianDagger };
+                Artifact[] artifacts = [Bowl, BoneCub, CrystalBall, Staff, RingOfLife, ObsidianDagger];
 #pragma warning restore CS8601
                 string? aup = xml.SelectSingleNode("//aup").Value;
                 if (aup != null)

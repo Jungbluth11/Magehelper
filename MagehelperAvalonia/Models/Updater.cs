@@ -5,7 +5,7 @@ using System.Text.Json;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 
-namespace Magehelper.Avalonia
+namespace Magehelper.Avalonia.Models
 {
     public class Updater
     {

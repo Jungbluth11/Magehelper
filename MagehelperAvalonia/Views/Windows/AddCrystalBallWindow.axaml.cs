@@ -8,6 +8,7 @@ public partial class AddCrystalBallWindow : Window
 {
     public AddCrystalBallWindow()
     {
+        DataContext = new AddCrystalBallWindowViewModel();
         InitializeComponent();
     }
 }

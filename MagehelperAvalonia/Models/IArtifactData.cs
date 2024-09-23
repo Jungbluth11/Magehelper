@@ -1,6 +1,6 @@
 ﻿using Magehelper.Core;
 
-namespace Magehelper.Avalonia
+namespace Magehelper.Avalonia.Models
 {
     public interface IArtifactData
     {

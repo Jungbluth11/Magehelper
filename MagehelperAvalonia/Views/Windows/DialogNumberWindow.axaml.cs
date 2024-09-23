@@ -1,13 +1,12 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 
 namespace Magehelper.Avalonia.Views.Windows;
 
 public partial class DialogNumberWindow : Window
 {
-    public DialogNumberWindow()
+    public DialogNumberWindow(string caption, string dialogText, Action<int> action, bool btnRollVisible = false, string btnRollName = "", Func<int>? btnRollFunc = null)
     {
+        DataContext = new DialogNumberWindowViewModel(caption, dialogText, action, btnRollVisible, btnRollName);
         InitializeComponent();
     }
 }

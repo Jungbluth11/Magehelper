@@ -1,23 +1,34 @@
-﻿namespace Magehelper.Avalonia.ViewModels.Controls
-{
-    public partial class BoneCubControlViewModel(BoneCub boneCub) : ObservableObject
-    {
-        private readonly BoneCub boneCub = boneCub;
+﻿using Avalonia.Controls;
 
-        public ArtifactSpell? AddSpell()
+namespace Magehelper.Avalonia.ViewModels.Controls
+{
+    public partial class BoneCubControlViewModel : ObservableObject
+    {
+        private readonly BoneCub boneCub;
+        private readonly ArtifactSpellsControlViewModel artifactSpellsControlViewModel;
+
+        public BoneCubControlViewModel(BoneCub boneCub, ArtifactSpellsControlViewModel artifactSpellsControlViewModel)
         {
-            //AddArtifactSpellWindow addArtifactSpellWindow = new AddArtifactSpellWindow("Keulenzauber", boneCub);
-            //if (addArtifactSpellWindow.ShowDialog() == true)
-            //{
-            //    try
-            //    {
-            //        return boneCub.AddSpell(addArtifactSpellWindow.SpellName);
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        ErrorMessages.Error(e.Message);
-            //    }
-            //}
+            this.boneCub = boneCub;
+            this.artifactSpellsControlViewModel = artifactSpellsControlViewModel;
+            this.artifactSpellsControlViewModel.AddSpellFunc = AddSpell;
+        }
+
+        public ArtifactSpell? AddSpell(Window window)
+        {
+            AddArtifactSpellWindow addArtifactSpellWindow = new("Keulenzauber", boneCub);
+            string result = addArtifactSpellWindow.ShowDialog<string>(window).Result;
+            if (result != null)
+            {
+                try
+                {
+                    return boneCub.AddSpell(result);
+                }
+                catch (Exception ex)
+                {
+                    ErrorMessages.Error(ex.Message);
+                }
+            }
             return null;
         }
 

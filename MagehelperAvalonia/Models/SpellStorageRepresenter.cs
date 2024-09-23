@@ -1,4 +1,4 @@
-﻿namespace Magehelper.Avalonia
+﻿namespace Magehelper.Avalonia.Models
 {
     public struct SpellStorageRepresenter
     {

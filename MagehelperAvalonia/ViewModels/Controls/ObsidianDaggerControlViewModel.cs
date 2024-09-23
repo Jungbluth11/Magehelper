@@ -1,23 +1,35 @@
-﻿namespace Magehelper.Avalonia.ViewModels.Controls
-{
-    public partial class ObsidianDaggerControlViewModel(ObsidianDagger obsidianDagger) : ObservableObject
-    {
-        private readonly ObsidianDagger obsidianDagger = obsidianDagger;
+﻿using Avalonia.Controls;
 
-        public ArtifactSpell? AddSpell()
+namespace Magehelper.Avalonia.ViewModels.Controls
+{
+    public partial class ObsidianDaggerControlViewModel : ObservableObject
+    {
+        private readonly ObsidianDagger obsidianDagger;
+        readonly ArtifactSpellsControlViewModel artifactSpellsControlViewModel;
+
+        public ObsidianDaggerControlViewModel(ObsidianDagger obsidianDagger, ArtifactSpellsControlViewModel artifactSpellsControlViewModel)
         {
-            //AddArtifactSpellWindow addArtifactSpellWindow = new AddArtifactSpellWindow("Dolchzauber", obsidianDagger);
-            //if (addArtifactSpellWindow.ShowDialog() == true)
-            //{
-            //    try
-            //    {
-            //        return obsidianDagger.AddSpell(addArtifactSpellWindow.SpellName);
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        ErrorMessages.Error(e.Message);
-            //    }
-            //}
+            this.obsidianDagger = obsidianDagger;
+            this.artifactSpellsControlViewModel = artifactSpellsControlViewModel;
+            this.artifactSpellsControlViewModel.AddSpellFunc = AddSpell;
+        }
+
+
+        public ArtifactSpell? AddSpell(Window window)
+        {
+            AddArtifactSpellWindow addArtifactSpellWindow = new("Dolchzauber", obsidianDagger);
+            string result = addArtifactSpellWindow.ShowDialog<string>(window).Result;
+            if (result != null)
+            {
+                try
+                {
+                    return obsidianDagger.AddSpell(result);
+                }
+                catch (Exception ex)
+                {
+                    ErrorMessages.Error(ex.Message);
+                }
+            }
             return null;
         }
 

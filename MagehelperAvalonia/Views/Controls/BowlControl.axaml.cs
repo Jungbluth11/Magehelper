@@ -12,7 +12,7 @@ public partial class BowlControl : UserControl, IArtifactData
         ArgumentNullException.ThrowIfNull(bowl);
 
         ArtifactSpellsControl = new ArtifactSpellsControl(settings, "Schalenzauber", bowl);
-        DataContext = new BowlControlViewModel(bowl);
+        DataContext = new BowlControlViewModel(bowl, ArtifactSpellsControl.DataContext as ArtifactSpellsControlViewModel);
         InitializeComponent();
         DropdownTemperatureCategoryStart.ItemsSource = Bowl.TemperatureCategoryStrings;
         DropdownTemperatureCategoryTarget.ItemsSource = Bowl.TemperatureCategoryStrings;

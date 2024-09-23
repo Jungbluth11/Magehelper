@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Magehelper.Avalonia
+namespace Magehelper.Avalonia.Models
 {
     public static class ObservableCollectionExtensions
     {

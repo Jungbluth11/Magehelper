@@ -63,6 +63,7 @@
   <ItemGroup>
     <Using Include="CommunityToolkit.Mvvm.ComponentModel" />
     <Using Include="CommunityToolkit.Mvvm.Input" />
+    <Using Include="Magehelper.Avalonia.Models" />
     <Using Include="Magehelper.Avalonia.ViewModels" />
     <Using Include="Magehelper.Avalonia.ViewModels.Controls" />
     <Using Include="Magehelper.Avalonia.ViewModels.Tabs" />

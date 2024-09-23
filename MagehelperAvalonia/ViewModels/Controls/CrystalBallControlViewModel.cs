@@ -1,37 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Magehelper.Core;
+﻿using Avalonia.Controls;
 
 namespace Magehelper.Avalonia.ViewModels.Controls
 {
-    public partial  class CrystalBallControlViewModel: ObservableObject
+    public partial class CrystalBallControlViewModel : ObservableObject
     {
         private readonly CrystalBall crystalBall;
+        private readonly ArtifactSpellsControlViewModel artifactSpellsControlViewModel;
+
         public string Material { get; }
 
-        public CrystalBallControlViewModel(CrystalBall crystalBall)
+        public CrystalBallControlViewModel(CrystalBall crystalBall, ArtifactSpellsControlViewModel artifactSpellsControlViewModel)
         {
-            this.crystalBall = crystalBall;
+            this.crystalBall = crystalBall ?? throw new ArgumentNullException(nameof(crystalBall));
+            this.artifactSpellsControlViewModel = artifactSpellsControlViewModel ?? throw new ArgumentNullException(nameof(artifactSpellsControlViewModel));
+            this.artifactSpellsControlViewModel.AddSpellFunc = AddSpell;
             Material = CrystalBall.MaterialStrings[(int)crystalBall.Material];
         }
 
-        public ArtifactSpell? AddSpell()
+        public ArtifactSpell? AddSpell(Window window)
         {
-            //AddCrystalBallSpellWindow addCrystalBallSpellWindow = new AddCrystalBallSpellWindow(crystalBall);
-            //if (addCrystalBallSpellWindow.ShowDialog() == true)
-            //{
-            //    try
-            //    {
-            //        return crystalBall.AddSpell(addCrystalBallSpellWindow.SpellName);
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        ErrorMessages.Error(e.Message);
-            //    }
-            //}
+            AddCrystalBallSpellWindow addCrystalBallSpellWindow = new(crystalBall);
+            try
+            {
+                (string sepllName, string spellVariant) result = addCrystalBallSpellWindow.ShowDialog<(string, string)>(window).Result;
+                return crystalBall.AddSpell(result.sepllName, result.spellVariant);
+            }
+            catch (Exception e)
+            {
+                ErrorMessages.Error(e.Message);
+            }
             return null;
         }
 

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Contracts;
-using Avalonia.Platform.Storage;
+﻿using Avalonia.Platform.Storage;
 using DSAUtils.HeldentoolInterop;
 using MsBox.Avalonia.Base;
 using MsBox.Avalonia.Enums;
@@ -10,11 +9,6 @@ namespace Magehelper.Avalonia.ViewModels.Windows
     {
         private static readonly MainWindowViewModel _instance = new();
         public bool CanLoadCharacterFromTool => HeldentoolInterop.IsInstalled();
-        public static FilePickerFileType MagehelperFileType => new("Magehelper-Datei")
-        {
-            Patterns = ["*.magehelper"],
-            MimeTypes = ["xml/*"]
-        };
         public static MainWindowViewModel Instance => _instance;
         public Settings Settings { get; }
         public Core.Core Core { get; set; }
@@ -22,11 +16,11 @@ namespace Magehelper.Avalonia.ViewModels.Windows
         public MainWindowViewModel()
         {
             Settings = new();
-            Core = new (Settings.CurrentSettingsPath)
+            Core = new(Settings.CurrentSettingsPath)
             {
                 SpellStoragePoints = Settings.SpellStoragePoints,
             };
-            
+
             if (Settings.CheckForUpdates)
             {
                 Update();
@@ -74,7 +68,7 @@ namespace Magehelper.Avalonia.ViewModels.Windows
                 {
                     IMsBox<string> messageBox = MessageBoxGenerator.GetMessageBox("Es ist ein Update vorhanden, soll es installiert werden?", MessageBoxGenerator.Buttons.YesNo, Icon.Question);
                     string result = await messageBox.ShowAsync();
-                    if(result == "Ja")
+                    if (result == "Ja")
                     {
                         updater.Update();
                     }
