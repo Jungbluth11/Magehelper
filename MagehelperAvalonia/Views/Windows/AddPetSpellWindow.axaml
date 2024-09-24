@@ -1,11 +1,118 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		    xmlns:vm="using:Magehelper.Avalonia.ViewModels.Windows"
-
-        x:Class="Magehelper.Avalonia.Views.Windows.AddPetSpellWindow"
-        Title="AddPetSpellWindow">
-  Welcome to Avalonia!
+<Window
+    x:Class="Magehelper.Avalonia.Views.Windows.AddPetSpellWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:gb="using:GroupBox.Avalonia.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Magehelper.Avalonia.ViewModels.Windows"
+    Name="addPetSpellWindow"
+    Title="Vertrautenzauber hinzufügen"
+    Width="480"
+    Height="280"
+    x:DataType="vm:AddPetSpellWindowViewModel"
+    ShowInTaskbar="True"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <gb:GroupBox
+            Grid.Row="0"
+            Height="115"
+            Header="verfügbare Zauber"
+            Theme="{StaticResource GroupBoxClassic}">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserSortColumns="False"
+                HeadersVisibility="Column"
+                IsReadOnly="True"
+                ItemsSource="{Binding SpellsAvailable}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="180"
+                        Binding="{Binding Path=Name}"
+                        Header="Name" />
+                    <DataGridTextColumn
+                        Width="70"
+                        Binding="{Binding Path=AttributeString}"
+                        Header="Probe" />
+                    <DataGridTextColumn
+                        Width="160"
+                        Binding="{Binding Path=Characteristics}"
+                        Header="Merkmale" />
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Width="50"
+                                    Height="20"
+                                    Command="{Binding $parent[DataGrid].((vm:AddPetSpellWindowViewModel)DataContext).AddSpellCommand}"
+                                    CommandParameter="{Binding $self.Tag}"
+                                    Tag="{Binding}">
+                                    <Image Source="avares://Magehelper/Assets/add_button.png" />
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </gb:GroupBox>
+        <gb:GroupBox
+            Grid.Row="1"
+            Height="115"
+            Header="gewählte Zauber"
+            Theme="{StaticResource GroupBoxClassic}">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserSortColumns="False"
+                HeadersVisibility="None"
+                IsReadOnly="True"
+                ItemsSource="{Binding SpellsToLearn}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="180" Binding="{Binding Path=Name}" />
+                    <DataGridTextColumn Width="70" Binding="{Binding Path=AttributeString}" />
+                    <DataGridTextColumn Width="160" Binding="{Binding Path=Characteristics}" />
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Width="50"
+                                    Height="20"
+                                    Command="{Binding $parent[DataGrid].((vm:AddPetSpellWindowViewModel)DataContext).RemoveSpellCommand}"
+                                    CommandParameter="{Binding $self.Tag}"
+                                    Tag="{Binding}">
+                                    <Image Source="avares://Magehelper/Assets/del_button.png" />
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </gb:GroupBox>
+        <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                Width="65"
+                Margin="5"
+                Command="{Binding SubmitCommand}"
+                CommandParameter="{Binding ElementName=addPetSpellWindow}"
+                Content="OK"
+                IsDefault="True" />
+            <Button
+                Width="65"
+                Margin="5"
+                Command="{Binding CancelCommand}"
+                CommandParameter="{Binding ElementName=addPetSpellWindow}"
+                Content="Abbrechen"
+                IsCancel="True" />
+        </StackPanel>
+    </Grid>
 </Window>

@@ -1,11 +1,146 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		    xmlns:vm="using:Magehelper.Avalonia.ViewModels.Windows"
-
-        x:Class="Magehelper.Avalonia.Views.Windows.AddSpellWindow"
-        Title="AddSpellWindow">
-  Welcome to Avalonia!
+<Window
+    x:Class="Magehelper.Avalonia.Views.Windows.AddSpellWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Magehelper.Avalonia.ViewModels.Windows"
+    Name="addSpellWindow"
+    Title="Zauber hinzufügen"
+    Width="298"
+    Height="269"
+    x:DataType="vm:AddSpellWindowViewModel"
+    CanResize="False"
+    ShowInTaskbar="False"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Name:" />
+        <TextBox
+            Grid.Row="0"
+            Grid.Column="1"
+            Width="165"
+            Margin="5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Merkmal:" />
+        <ComboBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="165"
+            Margin="5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            ItemsSource="{Binding CharacteristicStrings}"
+            SelectedValue="{Binding Characteristic, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Komplexität:" />
+        <ComboBox
+            Grid.Row="2"
+            Grid.Column="1"
+            Width="165"
+            Margin="5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            ItemsSource="{Binding KomplexStrings}"
+            SelectedValue="{Binding Komplex, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Kosten:" />
+        <TextBox
+            Grid.Row="3"
+            Grid.Column="1"
+            Width="165"
+            Margin="5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Grid.Row="4"
+            Grid.Column="0"
+            Margin="5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="ZfP:" />
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="1"
+            Width="165"
+            Margin="5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="{Binding Zfp, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Grid.Row="5"
+            Grid.Column="0"
+            Margin="5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Speichern in:" />
+        <ComboBox
+            Grid.Row="5"
+            Grid.Column="1"
+            Width="165"
+            Margin="5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            ItemsSource="{Binding SpellStorages}"
+            SelectedIndex="{Binding Spellstorage, UpdateSourceTrigger=PropertyChanged}" />
+        <StackPanel
+            Grid.Row="6"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                Margin="5"
+                Command="{Binding SubmitCommand}"
+                CommandParameter="{Binding ElementName=addSpellWindow}"
+                Content="Hinzufügen"
+                IsDefault="True" />
+            <Button
+                Margin="5"
+                Command="{Binding CancelCommand}"
+                CommandParameter="{Binding ElementName=addSpellWindow}"
+                Content="Abbrechen"
+                IsCancel="True" />
+        </StackPanel>
+    </Grid>
 </Window>
