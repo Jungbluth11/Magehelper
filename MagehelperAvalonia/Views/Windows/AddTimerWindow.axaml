@@ -1,11 +1,74 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		    xmlns:vm="using:Magehelper.Avalonia.ViewModels.Windows"
-
-        x:Class="Magehelper.Avalonia.Views.Windows.AddTimerWindow"
-        Title="AddTimerWindow">
-  Welcome to Avalonia!
+<Window
+    x:Class="Magehelper.Avalonia.Views.Windows.AddTimerWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Magehelper.Avalonia.ViewModels.Windows"
+    Name="addTimerWindow"
+    Title="Timer hinzufügen"
+    Width="260"
+    Height="165"
+    x:DataType="vm:AddTimerWindowViewModel"
+    CanResize="False"
+    ShowInTaskbar="False"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="110" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Content="Name" />
+        <TextBox
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="5"
+            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+        <ComboBox
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="5"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            SelectedIndex="0"
+            SelectedValue="{Binding DurationUnit, UpdateSourceTrigger=PropertyChanged}">
+            <ComboBoxItem Content="KR" />
+            <ComboBoxItem Content="SR" />
+            <ComboBoxItem Content="Tage" />
+        </ComboBox>
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="5"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            Text="{Binding DurationValue, UpdateSourceTrigger=PropertyChanged}" />
+        <Button
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="5"
+            Command="{Binding SubmitCommand}"
+            CommandParameter="{Binding ElementName=addTimerWindow}"
+            Content="Hinzufügen"
+            IsDefault="True" />
+        <Button
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="5"
+            Command="{Binding CancelCommand}"
+            CommandParameter="{Binding ElementName=addTimerWindow}"
+            Content="Abbrechen"
+            IsCancel="True" />
+    </Grid>
 </Window>

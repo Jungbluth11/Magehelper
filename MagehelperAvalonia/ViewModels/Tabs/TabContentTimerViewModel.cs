@@ -11,8 +11,11 @@ namespace Magehelper.Avalonia.ViewModels.Tabs
         private static TabContentTimerViewModel _instance = new();
         public static TabContentTimerViewModel Instance => _instance;
 
+        public Timers Timers { get; }
+
         public TabContentTimerViewModel()
         {
+            Timers = new Timers(MainWindowViewModel.Instance.Core);
         }
     }
 }

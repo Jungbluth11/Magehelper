@@ -8,6 +8,7 @@ public partial class AddStaffWindow : Window
 {
     public AddStaffWindow()
     {
+        DataContext = new AddStaffWindowViewModel();
         InitializeComponent();
     }
 }

@@ -8,5 +8,10 @@ namespace Magehelper.Avalonia.ViewModels.Tabs
         public TabContentArtifactViewModel()
         {
         }
+
+        public void AddStaff(string length, string material, int pasp)
+        {
+
+        }
     }
 }

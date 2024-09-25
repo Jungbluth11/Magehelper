@@ -46,10 +46,10 @@ Source: "..\MagehelperWPF\bin\Release\net6.0-windows10.0.17763.0\NumericUpDownLi
 Source: "..\MagehelperWPF\bin\Release\net6.0-windows10.0.17763.0\Microsoft.Windows.SDK.NET.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\MagehelperWPF\bin\Release\net6.0-windows10.0.17763.0\WinRT.Runtime.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\MagehelperWPF\bin\Release\net6.0-windows10.0.17763.0\BaseSettings\*"; DestDir: "{app}\BaseSettings"; Flags: ignoreversion
-Source: "..\MagehelperUpdater\bin\Release\net6.0-windows10.0.17763.0\updater.deps.json"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\MagehelperUpdater\bin\Release\net6.0-windows10.0.17763.0\updater.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\MagehelperUpdater\bin\Release\net6.0-windows10.0.17763.0\updater.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\MagehelperUpdater\bin\Release\net6.0-windows10.0.17763.0\updater.pdb"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\MagehelperUpdater\bin\Release\net6.0-windows10.0.17763.0\updater.deps.json"; DestDir: "{app}"; Flags: onlyifdoesntexist
+Source: "..\MagehelperUpdater\bin\Release\net6.0-windows10.0.17763.0\updater.dll"; DestDir: "{app}"; Flags: onlyifdoesntexist
+Source: "..\MagehelperUpdater\bin\Release\net6.0-windows10.0.17763.0\updater.exe"; DestDir: "{app}"; Flags: onlyifdoesntexist
+Source: "..\MagehelperUpdater\bin\Release\net6.0-windows10.0.17763.0\updater.pdb"; DestDir: "{app}"; Flags: onlyifdoesntexist
 Source: "..\MagehelperUpdater\bin\Release\net6.0-windows10.0.17763.0\updater.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]

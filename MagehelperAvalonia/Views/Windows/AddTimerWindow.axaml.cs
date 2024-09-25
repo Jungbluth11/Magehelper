@@ -8,6 +8,7 @@ public partial class AddTimerWindow : Window
 {
     public AddTimerWindow()
     {
+        DataContext = new AddTimerWindowViewModel();
         InitializeComponent();
     }
 }

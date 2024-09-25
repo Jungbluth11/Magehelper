@@ -25,11 +25,11 @@ namespace Magehelper.Core
         private readonly Pet pet;
         private readonly PetData[] baseData;
         /// <summary>
-        /// Amount of attribute points to increase a start in total.
+        /// Amount of attribute points to increase at start in total.
         /// </summary>
         public int PointsTotal { get; private set; } = 20;
         /// <summary>
-        /// Amount of attribute points to increase a start that be used.
+        /// Amount of attribute points to increase at start that be used.
         /// </summary>
         public int PointsRemain => PointsTotal - pointsUsed;
         /// <summary>

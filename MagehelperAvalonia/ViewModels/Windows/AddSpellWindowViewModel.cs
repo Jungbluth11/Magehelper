@@ -54,11 +54,7 @@ namespace Magehelper.Avalonia.ViewModels.Windows
         [RelayCommand(CanExecute = nameof(CanSubmit))]
         private void Submit(Window window)
         {
-            int? zfp = null;
-            if (!string.IsNullOrWhiteSpace(Zfp))
-            {
-                zfp = int.Parse(Zfp);
-            }
+            int? zfp = string.IsNullOrWhiteSpace(Zfp) ? null : int.Parse(Zfp);
             StoragedSpell  storagedSpell = TabContentSpellStorageViewModel.Instance.SpellStorage.AddSpell(Name, Characteristic, Komplex, int.Parse(Cost), zfp, Spellstorage);
             window.Close(storagedSpell);
         }
