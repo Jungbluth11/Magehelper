@@ -23,9 +23,12 @@
         public int KOStartMax { get; set; }
         public int KKStartMin { get; set; }
         public int KKStartMax { get; set; }
-        public int LEStart { get; set; }
-        public int AEStart { get; set; }
-        public int AUStart { get; set; }
+        public int LEStartMin { get; set; }
+        public int LEStartMax => LEStartMin + 3;
+        public int AEStartMin { get; set; }
+        public int AEStartMax => AEStartMin + 3;
+        public int AUStartMin { get; set; }
+        public int AUStartMax => AUStartMin + 3;
         public int MRStart { get; set; }
         public int AttackStart { get; set; }
         public int AttackFlyingStart { get; set; }

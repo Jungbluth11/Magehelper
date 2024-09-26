@@ -1,13 +1,12 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 
 namespace Magehelper.Avalonia.Views.Windows;
 
 public partial class PetGeneratorWindow : Window
 {
-    public PetGeneratorWindow()
+    public PetGeneratorWindow(Pet pet, Action action)
     {
+        DataContext = new PetGeneratorWindowViewModel(pet, action);
         InitializeComponent();
     }
 }

@@ -14,5 +14,10 @@ namespace Magehelper.Avalonia.ViewModels.Tabs
         public TabContentFlameSwordViewModel()
         {
         }
+
+        public void EnableTab()
+        {
+
+        }
     }
 }

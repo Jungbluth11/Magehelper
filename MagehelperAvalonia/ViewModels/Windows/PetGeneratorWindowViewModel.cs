@@ -55,9 +55,21 @@ namespace Magehelper.Avalonia.ViewModels.Windows
         [ObservableProperty]
         private int _le;
         [ObservableProperty]
+        private int _leMin;
+        [ObservableProperty]
+        private int _leMax;
+        [ObservableProperty]
         private int _ae;
         [ObservableProperty]
+        private int _aeMin;
+        [ObservableProperty]
+        private int _aeMax;
+        [ObservableProperty]
         private int _au;
+        [ObservableProperty]
+        private int _auMin;
+        [ObservableProperty]
+        private int _auMax;
         [ObservableProperty]
         private int _cost;
         [ObservableProperty]
@@ -66,8 +78,6 @@ namespace Magehelper.Avalonia.ViewModels.Windows
         private int _pointsRemain;
         [ObservableProperty]
         private string _species;
-        [ObservableProperty]
-        private bool _isFlying;
         [ObservableProperty]
         private bool _isMightyCompanion = false;
         private readonly PetGenerator petGenerator;
@@ -187,9 +197,15 @@ namespace Magehelper.Avalonia.ViewModels.Windows
             Kk = petGenerator.BaseData.KKStartMin;
             KkMin = petGenerator.BaseData.KKStartMin;
             KkMax = petGenerator.BaseData.KKStartMax;
-            Le = petGenerator.BaseData.LEStart;
-            Ae = petGenerator.BaseData.AEStart;
-            Au = petGenerator.BaseData.AUStart;
+            Le = petGenerator.BaseData.LEStartMin;
+            LeMin = petGenerator.BaseData.LEStartMin;
+            LeMax = petGenerator.BaseData.LEStartMax;
+            Ae = petGenerator.BaseData.AEStartMin;
+            AeMin = petGenerator.BaseData.AEStartMin;
+            AeMax = petGenerator.BaseData.AEStartMax;
+            Au = petGenerator.BaseData.AUStartMin;
+            AuMin = petGenerator.BaseData.AUStartMin;
+            AuMax = petGenerator.BaseData.AUStartMax;
             Cost = petGenerator.Cost;
         }
 

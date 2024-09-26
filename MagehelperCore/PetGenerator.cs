@@ -78,17 +78,17 @@ namespace Magehelper.Core
         }
         public int LE
         {
-            get => AdditionalLE + BaseData.LEStart;
+            get => AdditionalLE + BaseData.LEStartMin;
             set => ModAttribute("LE", value);
         }
         public int AE
         {
-            get => AdditionalAE + BaseData.AEStart;
+            get => AdditionalAE + BaseData.AEStartMin;
             set => ModAttribute("AE", value);
         }
         public int AU
         {
-            get => AdditionalAU + BaseData.AUStart;
+            get => AdditionalAU + BaseData.AUStartMin;
             set => ModAttribute("AU", value);
         }
         /// <summary>
@@ -167,9 +167,9 @@ namespace Magehelper.Core
                     KOStartMax = p[15].GetInt32(),
                     KKStartMin = p[16].GetInt32(),
                     KKStartMax = p[17].GetInt32(),
-                    LEStart = p[18].GetInt32(),
-                    AEStart = p[19].GetInt32(),
-                    AUStart = p[20].GetInt32(),
+                    LEStartMin = p[18].GetInt32(),
+                    AEStartMin = p[19].GetInt32(),
+                    AUStartMin = p[20].GetInt32(),
                     MRStart = p[21].GetInt32(),
                     AttackStart = p[22].GetInt32(),
                     AttackFlyingStart = p[23].GetInt32(),
@@ -212,11 +212,7 @@ namespace Magehelper.Core
 #pragma warning disable CS8600
 #pragma warning disable CS8602
 #pragma warning disable CS8605
-            string suffix = "Start";
-            if (attribute != "LE" && attribute != "AE" && attribute != "AU")
-            {
-                suffix += "Min";
-            }
+            string suffix = "StartMin";
             PropertyInfo attributeCurrent = GetAttribute("Additional" + attribute);
             PropertyInfo attributeBase = typeof(PetData).GetProperty(attribute + suffix);
             int value = totalValue - (int)attributeBase.GetValue(BaseData);
