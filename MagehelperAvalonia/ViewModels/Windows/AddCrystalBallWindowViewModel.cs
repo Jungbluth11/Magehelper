@@ -11,7 +11,8 @@ namespace Magehelper.Avalonia.ViewModels.Windows
         [RelayCommand]
         private void Submit(Window window)
         {
-            window.Close((CrystalBallMaterial)SelectedIndex);
+            TabContentArtifactViewModel.Instance.AddCrystalBall((CrystalBallMaterial)SelectedIndex);
+            window.Close();
         }
     }
 }

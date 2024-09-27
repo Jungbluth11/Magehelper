@@ -7,7 +7,7 @@ namespace Magehelper.Avalonia.ViewModels.Windows
         [ObservableProperty]
         private string _selectedSpellName;
         public string WindowTitle { get; }
-        IEnumerable<string> Spells { get; }
+        public IEnumerable<string> Spells { get; }
 
         public AddArtifactSpellWindowViewModel(string artifactSpellName, Artifact artifact)
         {

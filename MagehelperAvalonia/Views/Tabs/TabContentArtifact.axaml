@@ -11,8 +11,8 @@
     mc:Ignorable="d">
     <StackPanel Margin="5" Orientation="Vertical">
         <Button
-            Name="BtnAddArtifact"
             HorizontalAlignment="Left"
+            Click="Button_Click"
             Content="Traditionsartefakt hinzufügen" />
         <StackPanel Name="StackPanelArtifacts" Orientation="Vertical" />
     </StackPanel>

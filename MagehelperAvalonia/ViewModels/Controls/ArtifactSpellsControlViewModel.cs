@@ -3,18 +3,17 @@ using System.Collections.Specialized;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Magehelper.Avalonia.Models;
 
 namespace Magehelper.Avalonia.ViewModels.Controls
 {
     public partial class ArtifactSpellsControlViewModel : ObservableObject
     {
         private readonly Artifact artifact;
-        public Func<Window, ArtifactSpell?> AddSpellFunc { get; set; }
+        public Func<Window, Task<ArtifactSpell?>>? AddSpellFunc { get; set; }
         public string ArtifactSpellName { get; set; }
         public string ArtifactSpellCounterText { get; set; }
-        public int ArtifactSpellCounterValue { get; set; }
-        public ObservableCollection<ArtifactSpell> Spells => [];
+        public string ArtifactSpellCounterValue { get; set; } = string.Empty;
+        public ObservableCollection<ArtifactSpell> Spells { get; set; } = [];
 
         public ArtifactSpellsControlViewModel(Settings settings, string artifactSpellName, Artifact artifact, string artifactSpellCounterText = "")
         {
@@ -27,9 +26,9 @@ namespace Magehelper.Avalonia.ViewModels.Controls
             }
 
             this.artifact = artifact;
-            this.AddSpellFunc = AddSpellFunc;
+            AddSpellFunc = AddSpellFunc;
             ArtifactSpellName = artifactSpellName;
-            ArtifactSpellCounterText = artifactSpellName;
+            ArtifactSpellCounterText = artifactSpellCounterText;
             foreach (ArtifactSpell spell in artifact.BoundSpells)
             {
                 ArtifactSpell artifactSpell = spell;
@@ -56,7 +55,7 @@ namespace Magehelper.Avalonia.ViewModels.Controls
                 {
                     value = (artifact as IMaxSpellArtifact).SpellsRemain;
                 }
-                ArtifactSpellCounterValue = value;
+                ArtifactSpellCounterValue = value.ToString();
             }
         }
 
@@ -66,11 +65,11 @@ namespace Magehelper.Avalonia.ViewModels.Controls
         }
 
         [RelayCommand]
-        private void AddArtifactSpell()
+        private async void AddArtifactSpell()
         {
             if (AddSpellFunc != null)
             {
-                ArtifactSpell? artifactSpell = AddSpellFunc((Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow);
+                ArtifactSpell? artifactSpell = await AddSpellFunc((Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow);
                 if (artifactSpell != null)
                 {
                     Spells.Add((ArtifactSpell)artifactSpell);

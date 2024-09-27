@@ -1,3 +1,4 @@
+#pragma warning disable CS8604
 namespace Magehelper.Avalonia.ViewModels.Tabs
 {
     public class TabContentArtifactViewModel
@@ -24,6 +25,22 @@ namespace Magehelper.Avalonia.ViewModels.Tabs
             core = MainWindowViewModel.Instance.Core;
         }
 
+        public void ResetTab()
+        {
+           Staff = null;
+           CrystalBall = null;
+           Bowl = null;
+           BoneCub = null;
+           RingOfLife = null;
+           ObsidianDagger = null;
+           StaffControl = null;
+           CrystalBallControl = null;
+           BowlControl = null;
+           BoneCubControl = null;
+           RingOfLifeControl = null;
+           ObsidianDaggerControl  = null;
+        }
+
         public void AddArtifact(string artifact)
         {
             switch (artifact)
@@ -36,7 +53,7 @@ namespace Magehelper.Avalonia.ViewModels.Tabs
                     BowlControl = new BowlControl(MainWindowViewModel.Instance.Settings, Bowl);
                     break;
                 case "Knochenkeule":
-                    if (core.Bowl is null)
+                    if (core.BoneCub is null)
                     {
                         BoneCub = new BoneCub(core);
                     }
@@ -55,20 +72,18 @@ namespace Magehelper.Avalonia.ViewModels.Tabs
                     }
                     break;
                 case "Ring des Lebens":
-                    if (core.Bowl is null)
+                    if (core.RingOfLife is null)
                     {
                         RingOfLife = new RingOfLife(core);
                     }
                     RingOfLifeControl = new RingOfLifeControl(MainWindowViewModel.Instance.Settings, RingOfLife);
                     break;
                 case "Vulkanglasdolch":
-                    if (core.Bowl is null)
+                    if (core.ObsidianDagger is null)
                     {
                         ObsidianDagger = new ObsidianDagger(core);
                     }
                     ObsidianDaggerControl = new ObsidianDaggerControl(MainWindowViewModel.Instance.Settings, ObsidianDagger);
-                    break;
-                default:
                     break;
             }
         }
@@ -81,11 +96,6 @@ namespace Magehelper.Avalonia.ViewModels.Tabs
             Staff.Pasp = pasp;
             Staff.AfvTotal();
             StaffControl = new StaffControl(MainWindowViewModel.Instance.Settings, Staff);
-            if (Staff.Length == 1)
-            {
-                AddCrystalBallWindow addCrystalBallWindow = new();
-                addCrystalBallWindow.ShowDialog();
-            }
         }
 
         public void AddCrystalBall(CrystalBallMaterial crystalBallKind)

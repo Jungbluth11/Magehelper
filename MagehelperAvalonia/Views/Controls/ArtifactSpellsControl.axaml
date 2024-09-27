@@ -5,10 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Magehelper.Avalonia.ViewModels.Controls"
-    Width="320"
-    Height="400"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    MinWidth="320"
     x:DataType="vm:ArtifactSpellsControlViewModel"
     mc:Ignorable="d">
     <Grid Margin="10">
@@ -17,33 +14,26 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Label Name="StringArtifactSpellCounterText" Content="{Binding ArtifactSpellCounterText}" />
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" >
+            <Label VerticalAlignment="Center" Content="{Binding ArtifactSpellCounterText}" />
             <Label
-                Name="StringArtifactSpellCounterValue"
-                Margin="-7,0,0,0"
+                Margin="0,0,10,0"
+                VerticalAlignment="Center"
                 Content="{Binding ArtifactSpellCounterValue}" />
+            <Button Command="{Binding AddArtifactSpellCommand}" Content="Zauber hinzufügen" />
         </StackPanel>
-        <Button
-            x:Name="BtnAddArtifactSpell"
-            Grid.Row="0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            Command="{Binding AddArtifactSpellCommand}"
-            Content="Zauber hinzufügen" />
         <Label
-            Name="StringArtifactSpellName"
             Grid.Row="1"
             HorizontalAlignment="Center"
+            Content="{Binding ArtifactSpellName}"
             FontSize="14" />
         <ItemsControl
-            Name="ArtifactSpellPanel"
             Grid.Row="2"
             Margin="5"
             ItemsSource="{Binding Spells}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Name="StackPanelArtifactSpells" Orientation="Vertical" />
+                    <StackPanel Orientation="Vertical" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
@@ -55,7 +45,6 @@
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Content="{Binding DisplayText}" />
                         <Button
-                            Name="BtnRemoveArtifactSpell"
                             Grid.Column="1"
                             Width="20"
                             Height="20"

@@ -15,10 +15,10 @@ namespace Magehelper.Avalonia.ViewModels.Controls
         }
 
 
-        public ArtifactSpell? AddSpell(Window window)
+        public async  Task<ArtifactSpell?> AddSpell(Window window)
         {
             AddArtifactSpellWindow addArtifactSpellWindow = new("Dolchzauber", obsidianDagger);
-            string result = addArtifactSpellWindow.ShowDialog<string>(window).Result;
+            string result = await addArtifactSpellWindow.ShowDialog<string>(window);
             if (result != null)
             {
                 try

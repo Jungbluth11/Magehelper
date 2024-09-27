@@ -6,11 +6,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Magehelper.Avalonia.ViewModels.Windows"
     Name="addArtifactSpellWindow"
+    Title="{Binding WindowTitle}"
     Width="195"
     Height="85"
     x:DataType="vm:AddArtifactSpellWindowViewModel"
     CanResize="False"
-    ShowInTaskbar="True"
+    ShowInTaskbar="False"
     SizeToContent="WidthAndHeight"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">

@@ -144,6 +144,7 @@ public partial class MainWindow : Window
                 SelectFileSaveOption();
             }
         }
+        MainWindowViewModel.Instance.NewFile();
         ResetTool();
     }
 

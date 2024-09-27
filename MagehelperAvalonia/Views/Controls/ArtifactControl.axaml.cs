@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Layout;
-using Magehelper.Avalonia.Models;
 
 namespace Magehelper.Avalonia.Views.Controls;
 

@@ -7,19 +7,21 @@ namespace Magehelper.Avalonia.ViewModels.Windows
         [ObservableProperty]
         private string _selectedSpellName;
         [ObservableProperty]
-        private string _selectedSpellVariant = "Variante 1";
+        private string _selectedSpellVariant;
         [ObservableProperty]
         private string _variantDescription = string.Empty;
         [ObservableProperty]
         private bool _spellVariantVisible = false;
         [ObservableProperty]
         private bool _variantDescriptionVisible = false;
-        IEnumerable<string> Spells { get; }
+        public IEnumerable<string> Spells { get; }
+        public IEnumerable<string> SpellVariants { get; } = ["Variante 1", "Variante 2", "Beschreibung eingeben"];
 
         public AddCrystalBallSpellWindowViewModel(CrystalBall crystalBall)
         {
             Spells = from ArtifactSpell in crystalBall.SpellsAvailable select ArtifactSpell.Name;
             SelectedSpellName = Spells.First();
+            SelectedSpellVariant = SpellVariants.First();
         }
 
         partial void OnSelectedSpellNameChanged(string value)
@@ -31,6 +33,7 @@ namespace Magehelper.Avalonia.ViewModels.Windows
             else
             {
                 SpellVariantVisible = false;
+                SelectedSpellVariant = SpellVariants.First();
             }
         }
 

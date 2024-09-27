@@ -6,7 +6,6 @@ namespace Magehelper.Avalonia.ViewModels.Controls
     {
         private readonly CrystalBall crystalBall;
         private readonly ArtifactSpellsControlViewModel artifactSpellsControlViewModel;
-
         public string Material { get; }
 
         public CrystalBallControlViewModel(CrystalBall crystalBall, ArtifactSpellsControlViewModel artifactSpellsControlViewModel)
@@ -17,17 +16,20 @@ namespace Magehelper.Avalonia.ViewModels.Controls
             Material = CrystalBall.MaterialStrings[(int)crystalBall.Material];
         }
 
-        public ArtifactSpell? AddSpell(Window window)
+        public async Task<ArtifactSpell?> AddSpell(Window window)
         {
             AddCrystalBallSpellWindow addCrystalBallSpellWindow = new(crystalBall);
-            try
+            (string spellName, string spellVariant) result = await addCrystalBallSpellWindow.ShowDialog<(string, string)>(window);
+            if (result.spellName != null)
             {
-                (string sepllName, string spellVariant) result = addCrystalBallSpellWindow.ShowDialog<(string, string)>(window).Result;
-                return crystalBall.AddSpell(result.sepllName, result.spellVariant);
-            }
-            catch (Exception e)
-            {
-                ErrorMessages.Error(e.Message);
+                try
+                {
+                    return crystalBall.AddSpell(result.spellName, result.spellVariant);
+                }
+                catch (Exception e)
+                {
+                    ErrorMessages.Error(e.Message);
+                }
             }
             return null;
         }

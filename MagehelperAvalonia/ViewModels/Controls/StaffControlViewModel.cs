@@ -20,7 +20,7 @@ namespace Magehelper.Avalonia.ViewModels.Controls
             Pasp = staff.Pasp.ToString();
         }
 
-        public ArtifactSpell? AddSpell(Window window)
+        public async Task<ArtifactSpell?> AddSpell(Window window)
         {
             //AddStaffSpellWindow addStaffSpellWindow = new AddStaffSpellWindow(staff);
             //if (addStaffSpellWindow.ShowDialog() == true)
