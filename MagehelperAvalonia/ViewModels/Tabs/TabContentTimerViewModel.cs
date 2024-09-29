@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Magehelper.Avalonia.ViewModels.Tabs
 {
-    public class TabContentTimerViewModel
+    public partial class TabContentTimerViewModel : ObservableObject
     {
         private static TabContentTimerViewModel _instance = new();
         public static TabContentTimerViewModel Instance => _instance;

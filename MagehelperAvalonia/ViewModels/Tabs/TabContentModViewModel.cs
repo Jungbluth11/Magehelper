@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Magehelper.Avalonia.ViewModels.Tabs
 {
-    public class TabContentModViewModel
+    public partial class TabContentModViewModel : ObservableObject
     {
         public TabContentModViewModel()
         {

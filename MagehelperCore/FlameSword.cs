@@ -17,7 +17,18 @@ namespace Magehelper.Core
         public int[] Attack { get; private set; } = new int[] { 12, 0 };
         public int[] Parry { get; private set; } = new int[] { 3, 0 };
         public int[] GS { get; private set; } = new int[] { 3, 0 };
-
+        /// <summary>
+        /// Maximum amount of RkP* to increase Attack
+        /// </summary>
+        public int AttackMaxPoints => 6;
+        /// <summary>
+        /// Maximum amount of RkP* to increase Parry
+        /// </summary>
+        public int ParryMaxPoints = 10;
+        /// <summary>
+        /// Maximum amount of RkP* to increase GS
+        /// </summary>
+        public int GSMaxPoints = 10;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -32,7 +43,7 @@ namespace Magehelper.Core
         /// Rolls the activation of this Ritual.
         /// </summary>
         /// <returns>An result of<see cref="DSAUtils.DSA.TaP"/></returns>
-        public object RollActivation()
+        public (int, int[], string) RollActivation()
         {
             try
             {
@@ -53,7 +64,7 @@ namespace Magehelper.Core
         }
 
         /// <summary>
-        /// Modify's <see cref="TP"/> an recalculate <see cref="PointsRemain"/>.
+        /// Modify's <see cref="TP"/> and recalculate <see cref="PointsRemain"/>.
         /// </summary>
         /// <param name="points">points to use.</param>
         public void ModifyTp(int points)
@@ -63,7 +74,7 @@ namespace Magehelper.Core
         }
 
         /// <summary>
-        /// Modify's <see cref="Attack"/> an recalculate <see cref="PointsRemain"/>.
+        /// Modify's <see cref="Attack"/> and recalculate <see cref="PointsRemain"/>.
         /// </summary>
         /// <param name="points">points to use.</param>
         public void ModifyAttack(int points)
@@ -73,7 +84,7 @@ namespace Magehelper.Core
         }
 
         /// <summary>
-        /// Modify's <see cref="Parry"/> an recalculate <see cref="PointsRemain"/>.
+        /// Modify's <see cref="Parry"/> and recalculate <see cref="PointsRemain"/>.
         /// </summary>
         /// <param name="points">points to use.</param>
         public void ModifyParry(int points)
@@ -83,7 +94,7 @@ namespace Magehelper.Core
         }
 
         /// <summary>
-        /// Modify's <see cref="GS"/> an recalculate <see cref="PointsRemain"/>.
+        /// Modify's <see cref="GS"/> and recalculate <see cref="PointsRemain"/>.
         /// </summary>
         /// <param name="points">points to use.</param>
         public void ModifyGs(int points)

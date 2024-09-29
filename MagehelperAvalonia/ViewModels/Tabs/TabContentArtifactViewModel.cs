@@ -1,17 +1,11 @@
 #pragma warning disable CS8604
 namespace Magehelper.Avalonia.ViewModels.Tabs
 {
-    public class TabContentArtifactViewModel
+    public partial class TabContentArtifactViewModel : ObservableObject
     {
         private readonly Core.Core core;
         private static TabContentArtifactViewModel _instance = new();
         public static TabContentArtifactViewModel Instance => _instance;
-        public Staff? Staff { get; private set; }
-        public CrystalBall? CrystalBall { get; private set; }
-        public Bowl? Bowl { get; private set; }
-        public BoneCub? BoneCub { get; private set; }
-        public RingOfLife? RingOfLife { get; private set; }
-        public ObsidianDagger? ObsidianDagger { get; private set; }
         public StaffControl? StaffControl { get; private set; }
         public CrystalBallControl? CrystalBallControl { get; private set; }
         public BowlControl? BowlControl { get; private set; }
@@ -27,12 +21,6 @@ namespace Magehelper.Avalonia.ViewModels.Tabs
 
         public void ResetTab()
         {
-           Staff = null;
-           CrystalBall = null;
-           Bowl = null;
-           BoneCub = null;
-           RingOfLife = null;
-           ObsidianDagger = null;
            StaffControl = null;
            CrystalBallControl = null;
            BowlControl = null;
@@ -48,60 +36,62 @@ namespace Magehelper.Avalonia.ViewModels.Tabs
                 case "Alchemistenschale":
                     if (core.Bowl is null)
                     {
-                        Bowl = new Bowl(core);
+                        new Bowl(core);
                     }
-                    BowlControl = new BowlControl(MainWindowViewModel.Instance.Settings, Bowl);
+                    BowlControl = new BowlControl(MainWindowViewModel.Instance.Settings, core.Bowl);
                     break;
                 case "Knochenkeule":
                     if (core.BoneCub is null)
                     {
-                        BoneCub = new BoneCub(core);
+                        new BoneCub(core);
                     }
-                    BoneCubControl = new BoneCubControl(MainWindowViewModel.Instance.Settings, BoneCub);
+                    BoneCubControl = new BoneCubControl(MainWindowViewModel.Instance.Settings, core.BoneCub);
                     break;
                 // only used by core.ReadFile()
                 case "Kristallkugel":
-                    CrystalBallControl = new CrystalBallControl(MainWindowViewModel.Instance.Settings, CrystalBall);
+                    CrystalBallControl = new CrystalBallControl(MainWindowViewModel.Instance.Settings, core.CrystalBall);
                     break;
                 // only used by core.ReadFile() and core.ReadFileLegacy()
                 case "Magierstab":
-                    StaffControl = new StaffControl(MainWindowViewModel.Instance.Settings, Staff);
+                    StaffControl = new StaffControl(MainWindowViewModel.Instance.Settings, core.Staff);
                     if (core.HasFlameSword)
                     {
-                        TabContentFlameSwordViewModel.Instance.EnableTab();
+                        TabContentFlameSwordViewModel.Instance.FlameSwordExist = true;
                     }
                     break;
                 case "Ring des Lebens":
                     if (core.RingOfLife is null)
                     {
-                        RingOfLife = new RingOfLife(core);
+                        new RingOfLife(core);
                     }
-                    RingOfLifeControl = new RingOfLifeControl(MainWindowViewModel.Instance.Settings, RingOfLife);
+                    RingOfLifeControl = new RingOfLifeControl(MainWindowViewModel.Instance.Settings, core.RingOfLife);
                     break;
                 case "Vulkanglasdolch":
                     if (core.ObsidianDagger is null)
                     {
-                        ObsidianDagger = new ObsidianDagger(core);
+                        new ObsidianDagger(core);
                     }
-                    ObsidianDaggerControl = new ObsidianDaggerControl(MainWindowViewModel.Instance.Settings, ObsidianDagger);
+                    ObsidianDaggerControl = new ObsidianDaggerControl(MainWindowViewModel.Instance.Settings, core.ObsidianDagger);
                     break;
             }
         }
 
         public void AddStaff(string length, string material, int pasp)
         {
-            Staff = new Staff(core);
-            Staff.Length = Array.IndexOf(Staff.LengthStrings, length);
-            Staff.Material = Array.IndexOf(Staff.MaterialStrings, material);
-            Staff.Pasp = pasp;
-            Staff.AfvTotal();
-            StaffControl = new StaffControl(MainWindowViewModel.Instance.Settings, Staff);
+            Staff staff = new(core)
+            {
+                Length = Array.IndexOf(Staff.LengthStrings, length),
+                Material = Array.IndexOf(Staff.MaterialStrings, material),
+                Pasp = pasp
+            };
+            staff.AfvTotal();
+            StaffControl = new StaffControl(MainWindowViewModel.Instance.Settings, staff);
         }
 
         public void AddCrystalBall(CrystalBallMaterial crystalBallKind)
         {
-            CrystalBall = new CrystalBall(core) { Material = crystalBallKind };
-            CrystalBallControl = new CrystalBallControl(MainWindowViewModel.Instance.Settings, CrystalBall);
+            CrystalBall crystalBall = new(core) { Material = crystalBallKind };
+            CrystalBallControl = new CrystalBallControl(MainWindowViewModel.Instance.Settings, crystalBall);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 
 namespace Magehelper.Avalonia.Models
 {
@@ -9,9 +7,17 @@ namespace Magehelper.Avalonia.Models
         public static void Sort<TSource, TKey>(this ObservableCollection<TSource> source, Func<TSource, TKey> keySelector)
         {
             TSource[] sortedList;
-            sortedList = source.OrderBy(keySelector).ToArray();
+            sortedList = [.. source.OrderBy(keySelector)];
             source.Clear();
             foreach (TSource item in sortedList)
+            {
+                source.Add(item);
+            }
+        }
+
+        public static void AddRange<TSource>(this ObservableCollection<TSource> source, IEnumerable<TSource> collection)
+        {
+            foreach (TSource item in collection)
             {
                 source.Add(item);
             }

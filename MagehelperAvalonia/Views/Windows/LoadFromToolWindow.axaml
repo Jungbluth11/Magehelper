@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Magehelper.Avalonia.ViewModels.Windows"
+    Name="loadFromToolWindow"
     Title="Charakter laden"
     Width="500"
     Height="220     "
@@ -15,8 +16,11 @@
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
     <StackPanel Margin="10">
-        <TextBlock IsVisible="{Binding HasCharacters}" Text="Keine Charakter vorhanden" />
-        <ListBox Name="CharakterList" ItemsSource="{Binding Characters}">
+        <TextBlock IsVisible="{Binding ShowNoCharactersText}" Text="Keine Charaktere vorhanden" />
+        <ListBox
+            Name="CharakterList"
+            ItemsSource="{Binding Characters}"
+            SelectedIndex="{Binding SelectedCharacterIndex, UpdateSourceTrigger=PropertyChanged}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}" />
@@ -27,7 +31,7 @@
         <Button
             HorizontalAlignment="Center"
             Command="{Binding LoadCharacterCommand}"
-            CommandParameter="{Binding SelectedIndex, ElementName=CharakterList}"
+            CommandParameter="{Binding ElementName=loadFromToolWindow}"
             Content="OK" />
     </StackPanel>
 </Window>

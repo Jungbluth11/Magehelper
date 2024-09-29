@@ -278,32 +278,30 @@ namespace Magehelper.Core
             core.FileChanged = true;
         }
 
-        public string[] RollSpell(CharacterSpell spell)
+        public (int, int[], string) RollSpell(CharacterSpell spell)
         {
-            (int, string, string) result = GetResult(spell.Attributes, spell.Value, 0);
-            return new string[] { result.Item1.ToString(), result.Item2, result.Item3 };
+            return GetResult(spell.Attributes, spell.Value, 0);
         }
 
-        public string[] RollRitual(CharacterRitual ritual)
+        public (int, int[], string) RollRitual(CharacterRitual ritual)
         {
-            string[] returnData;
+            (int, int[], string) returnData;
             if (ritual.Type == RitualType.Shaman)
             {
                 (string[], int) skillData = GetSkillData(ritual.Skill);
-                (int, string, string) result = GetResult(skillData.Item1, skillData.Item2, 0);
-                returnData = new string[] { result.Item1.ToString(), result.Item2, result.Item3 };
+                returnData = GetResult(skillData.Item1, skillData.Item2, 0);
             }
             else if (ritual.Type == RitualType.Drum)
             {
                 (string[], int) skillData = GetSkillData("Musizieren");
-                (int, string, string) skillResult = GetResult(skillData.Item1, skillData.Item2, ritual.Mod[0]);
+                (int, int[], string) skillResult = GetResult(skillData.Item1, skillData.Item2, ritual.Mod[0]);
                 if (skillResult.Item1 >= 0 && !skillResult.Item3.Contains("Patzer"))
                 {
                     int modvalue = ritual.Mod[1] - skillResult.Item1;
                     (string[], int) ritualData = GetSkillData("Ritualkenntnis: Derwisch");
 
-                    (int, string, string) ritualResult = GetResult(ritual.Attributes.Split('/'), ritualData.Item2, modvalue);
-                    returnData = new string[] { ritualResult.Item1.ToString(), ritualResult.Item2, ritualResult.Item3 };
+                    returnData = GetResult(ritual.Attributes.Split('/'), ritualData.Item2, modvalue);
+
                 }
                 else
                 {
@@ -312,7 +310,7 @@ namespace Magehelper.Core
                     {
                         failedText += "; " + skillResult.Item3;
                     }
-                    returnData = new string[] { skillResult.Item1.ToString(), skillResult.Item2, failedText };
+                    returnData = (skillResult.Item1, skillResult.Item2, failedText);
                 }
             }
             else
@@ -331,16 +329,14 @@ namespace Magehelper.Core
                     attributes = skillData.Item1;
                     value = skillData.Item2;
                 }
-                (int, string, string) result = GetResult(attributes, value, ritual.Mod[0]);
-                returnData = new string[] { result.Item1.ToString(), result.Item2, result.Item3 };
+                returnData = GetResult(attributes, value, ritual.Mod[0]);
             }
             return returnData;
         }
 
-        private (int, string, string) GetResult(string[] attributes, int value, int mod)
+        private (int, int[], string) GetResult(string[] attributes, int value, int mod)
         {
             int[] attrinuteValues = new int[3];
-            string diceResults = string.Empty;
             for (int i = 0; i < 3; i++)
             {
                 switch (attributes[i])
@@ -373,17 +369,8 @@ namespace Magehelper.Core
                         break;
                 }
             }
-            (int points, int[] dice, string text) result = DSA.TaP(attrinuteValues, value, mod);
 #pragma warning disable CS8602
-            for (int i = 0; i < 3; i++)
-            {
-                diceResults += result.dice[i].ToString();
-                if (i < 2)
-                {
-                    diceResults += ", ";
-                }
-            }
-            return (result.points, diceResults, result.text);
+            return DSA.TaP(attrinuteValues, value, mod);
 #pragma warning restore CS8602
         }
 

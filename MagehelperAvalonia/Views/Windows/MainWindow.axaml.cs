@@ -3,6 +3,7 @@ using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
+using DSAUtils.HeldentoolInterop;
 using DSAUtils.UI;
 using MsBox.Avalonia.Base;
 
@@ -42,11 +43,11 @@ public partial class MainWindow : Window
                         tabContent = TabContentSpellStorage;
                         break;
                     case "Flammenschwert":
-                        TabContentFlameSword = new TabContentFlameSword();
+                        TabContentFlameSword = new TabContentFlameSword(this);
                         tabContent = TabContentFlameSword;
                         break;
                     case "Charakter":
-                        TabContentCharacter = new TabContentCharacter();
+                        TabContentCharacter = new TabContentCharacter(this);
                         tabContent = TabContentCharacter;
                         MenuItemCharacter.IsEnabled = true;
                         break;
@@ -67,7 +68,7 @@ public partial class MainWindow : Window
                     Header = tabSetting.TabName,
                     Content = tabContent
                 };
-                TabControl.Items.Add(tabItem);
+                this.Tabs.Items.Add(tabItem);
 
             }
         }
@@ -215,9 +216,9 @@ public partial class MainWindow : Window
         SaveFileDialog();
     }
 
-    private void MenuItemCharacterLoadFromTool_Click(object? sender, RoutedEventArgs e)
+    private async void MenuItemCharacterLoadFromTool_Click(object? sender, RoutedEventArgs e)
     {
-        new LoadFromToolWindow().ShowDialog(this);
+        await new LoadFromToolWindow().ShowDialog(this);
     }
 
     private async void MenuItemCharacterLoadFromFile_Click(object? sender, RoutedEventArgs e)
@@ -231,8 +232,7 @@ public partial class MainWindow : Window
 
         if (files.Count == 1)
         {
-            TabContentCharacter.ResetTab();
-            TabContentCharacterViewModel.Instance.LoadCharacterFromFile(files[0].Path.AbsolutePath);
+            TabContentCharacterViewModel.Instance.LoadCharacter(HeldentoolInterop.LoadFromXML(files[0].Path.AbsolutePath));
         }
     }
 

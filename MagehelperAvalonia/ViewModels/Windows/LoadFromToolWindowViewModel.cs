@@ -1,25 +1,33 @@
-﻿using DSAUtils.HeldentoolInterop;
-using Magehelper.Avalonia.Models;
+﻿using Avalonia.Controls;
+using DSAUtils.HeldentoolInterop;
 
 namespace Magehelper.Avalonia.ViewModels.Windows
 {
     public partial class LoadFromToolWindowViewModel : ObservableObject
     {
+        [ObservableProperty]
+        private int _selectedCharacterIndex = 0;
         public List<CharakterListItem> Characters { get; set; } = [];
-        public bool HasCharacters => Characters.Count > 0;
+        public bool ShowNoCharactersText => Characters.Count == 0;
 
         public LoadFromToolWindowViewModel()
         {
-            foreach (Charakter c in HeldentoolInterop.GetByAE())
+            foreach (Charakter c in TabContentCharacterViewModel.Instance.Character.GetCharactersFromTool())
             {
-                Characters.Add(new CharakterListItem { Name = c.ToString(), Charakter = c});
+                Characters.Add(new CharakterListItem { Name = c.ToString(), Charakter = c });
             }
         }
 
-        [RelayCommand]
-        private void LoadCharacter(int index)
+        private bool CanLoad()
         {
-            TabContentCharacterViewModel.Instance.LoadCharacterFromTool(Characters[index].Charakter);
+            return !ShowNoCharactersText;
+        }
+
+        [RelayCommand(CanExecute = nameof(CanLoad))]
+        private void LoadCharacter(Window window)
+        {
+            TabContentCharacterViewModel.Instance.LoadCharacter(Characters[SelectedCharacterIndex].Charakter);
+            window.Close();
         }
     }
 }

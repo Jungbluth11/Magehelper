@@ -61,6 +61,6 @@
                     Header="Über" />
             </MenuItem>
         </Menu>
-        <TabControl x:Name="TabControl" Grid.Row="1" />
+        <TabControl x:Name="Tabs" Grid.Row="1" />
     </Grid>
 </Window>

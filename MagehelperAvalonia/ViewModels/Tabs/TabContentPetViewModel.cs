@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Magehelper.Avalonia.ViewModels.Tabs
 {
-    public class TabContentPetViewModel
+    public partial class TabContentPetViewModel : ObservableObject
     {
         private static TabContentPetViewModel _instance = new();
         public static TabContentPetViewModel Instance => _instance;

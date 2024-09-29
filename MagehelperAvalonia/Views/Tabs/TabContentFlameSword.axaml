@@ -1,10 +1,165 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-			     xmlns:vm="using:Magehelper.Avalonia.ViewModels.Tabs"
-
-             x:Class="Magehelper.Avalonia.Views.Tabs.TabContentFlameSword">
-  Welcome to Avalonia!
+<UserControl
+    x:Class="Magehelper.Avalonia.Views.Tabs.TabContentFlameSword"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Magehelper.Avalonia.ViewModels.Tabs"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:TabContentFlameSwordViewModel"
+    mc:Ignorable="d">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            Margin="5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <Button
+                Width="100"
+                Margin="5"
+                Click="Button_Click"
+                Content="{Binding ButtonText}"
+                IsEnabled="{Binding FlameSwordExist}" />
+        </StackPanel>
+        <Grid
+            Grid.Row="1"
+            Margin="5"
+            IsEnabled="{Binding IsEnabled}"
+            IsVisible="{Binding FlameSwordExist}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250" />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70" />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="0"
+                Orientation="Horizontal">
+                <Label Content="RkP* verfügbar:" />
+                <Label
+                    Name="StringRkp"
+                    Margin="-7,0,0,0"
+                    Content="{Binding RkpValue}" />
+            </StackPanel>
+            <Label
+                Grid.Row="2"
+                Grid.Column="0"
+                Content="TP erhöhen (je 2 RkP*)" />
+            <Label
+                Grid.Row="3"
+                Grid.Column="0"
+                Content="Parade erschweren (je 2 RkP*, max 10)" />
+            <Label
+                Grid.Row="4"
+                Grid.Column="0"
+                Content="Nur bei Fernlenkung:" />
+            <Label
+                Grid.Row="5"
+                Grid.Column="0"
+                Content="Attacke erhöhen (je 1 RkP*, max 6)" />
+            <Label
+                Grid.Row="6"
+                Grid.Column="0"
+                Content="GS erhöhen (je 2 RkP*, max 10)" />
+            <NumericUpDown
+                Grid.Row="2"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Increment="2"
+                Minimum="0"
+                Value="{Binding TpRkp, UpdateSourceTrigger=PropertyChanged}" />
+            <NumericUpDown
+                Grid.Row="3"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Increment="2"
+                Maximum="{Binding ParryRkpMax}"
+                Minimum="0"
+                Value="{Binding ParryRkp, UpdateSourceTrigger=PropertyChanged}" />
+            <NumericUpDown
+                Grid.Row="5"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Increment="1"
+                Maximum="{Binding AttackRkpMax}"
+                Minimum="0"
+                Value="{Binding AttackRkp, UpdateSourceTrigger=PropertyChanged}" />
+            <NumericUpDown
+                Grid.Row="6"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Increment="2"
+                Maximum="{Binding GsRkpMax}"
+                Minimum="0"
+                Value="{Binding GsRkp, UpdateSourceTrigger=PropertyChanged}" />
+            <Label
+                Grid.Row="1"
+                Grid.Column="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="Werte des Flammenschwerts"
+                FontWeight="Bold" />
+            <StackPanel
+                Grid.Row="2"
+                Grid.Column="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
+                <Label Content="TP: 1W6 +" />
+                <Label Margin="-7,0,0,0" Content="{Binding TpValue}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="3"
+                Grid.Column="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
+                <Label Content="Paradeerschwernis:" />
+                <Label Margin="-7,0,0,0" Content="{Binding ParryValue}" />
+            </StackPanel>
+            <Label
+                Grid.Row="4"
+                Grid.Column="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="Nur bei Fernlenkung:" />
+            <StackPanel
+                Grid.Row="5"
+                Grid.Column="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
+                <Label Content="Attacke:" />
+                <Label Margin="-7,0,0,0" Content="{Binding AttackValue}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="6"
+                Grid.Column="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
+                <Label Content="GS:" />
+                <Label Margin="-7,0,0,0" Content="{Binding GsValue}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
 </UserControl>

@@ -55,7 +55,7 @@ namespace Magehelper.Avalonia.ViewModels.Windows
         private void Submit(Window window)
         {
             action(NumberValue);
-            window.Close();
+            window.Close(true);
         }
 
     }

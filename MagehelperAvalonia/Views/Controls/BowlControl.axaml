@@ -16,14 +16,13 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <CheckBox
-            Name="CbApport"
             Grid.Row="0"
             Margin="10,5,5,5"
             HorizontalAlignment="Left"
+            Command="{Binding ApportCommand}"
             Content="Apport"
             FlowDirection="RightToLeft" />
         <gb:GroupBox
-            Name="GroupBoxFireAndIce"
             Grid.Row="1"
             Header="Feuer und Eis"
             IsVisible="{Binding FireAndIceVisibility}"
