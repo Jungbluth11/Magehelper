@@ -8,8 +8,8 @@
     Name="dialogTextWindow"
     MinWidth="240"
     MinHeight="120"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    
+    
     x:DataType="vm:DialogTextWindowViewModel"
     CanResize="False"
     ShowInTaskbar="False"

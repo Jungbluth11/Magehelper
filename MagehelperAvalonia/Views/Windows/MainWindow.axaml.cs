@@ -52,7 +52,7 @@ public partial class MainWindow : Window
                         MenuItemCharacter.IsEnabled = true;
                         break;
                     case "Vertrautentier":
-                        TabContentPet = new TabContentPet();
+                        TabContentPet = new TabContentPet(this);
                         tabContent = TabContentPet;
                         break;
                     case "Timer":

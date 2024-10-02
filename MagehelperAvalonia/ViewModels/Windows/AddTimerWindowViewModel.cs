@@ -42,7 +42,7 @@ namespace Magehelper.Avalonia.ViewModels.Windows
                     break;
             }
 
-            TabContentTimerViewModel.Instance.Timers.Add(Name, duration);
+            TabContentTimerViewModel.Instance.AddTimer(Name, duration);
             window.Close();
         }
 

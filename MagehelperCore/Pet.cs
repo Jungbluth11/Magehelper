@@ -169,7 +169,6 @@ namespace Magehelper.Core
         /// <param name="attribute">Name of the attribute.</param>
         public void IncreaseAttribute(string attribute)
         {
-#pragma warning disable CS8605
             PropertyInfo[] p = GetAttribute(attribute);
             int currentValue = Convert.ToInt32(p[0].GetValue(this));
             currentValue++;
@@ -191,7 +190,6 @@ namespace Magehelper.Core
                 p[0].SetValue(this, currentValue);
             }
             Core.FileChanged = true;
-#pragma warning restore CS8605
         }
 
         /// <summary>
@@ -221,13 +219,12 @@ namespace Magehelper.Core
             Core.FileChanged = true;
         }
 
-        public string[] RollSpell(PetSpell spell)
+        public (int, int[], string) RollSpell(PetSpell spell)
         {
-            (int, string, string) result = GetResult(spell.Attributes, RKW, 0);
-            return new string[] { result.Item1.ToString(), result.Item2, result.Item3 };
+            return GetResult(spell.Attributes, RKW, 0);
         }
 
-        private (int, string, string) GetResult(string[] attributes, int value, int mod)
+        private (int, int[], string) GetResult(string[] attributes, int value, int mod)
         {
             int[] attrinuteValues = new int[3];
             string diceResults = string.Empty;
@@ -271,28 +268,21 @@ namespace Magehelper.Core
                         break;
                 }
             }
-            (int points, int[] dice, string text) result = DSA.TaP(attrinuteValues, value, mod);
 #pragma warning disable CS8602
-            for (int i = 0; i < 3; i++)
-            {
-                diceResults += result.dice[i].ToString();
-                if (i < 2)
-                {
-                    diceResults += ", ";
-                }
-            }
-            return (result.points, diceResults, result.text);
+            return DSA.TaP(attrinuteValues, value, mod);
 #pragma warning restore CS8602
         }
 
         private void SetSpells(string? species)
         {
+#pragma warning disable CS8604
             List<PetSpell> petSpells = new List<PetSpell>();
             foreach (Zauber zauber in Aventurien.Zauber.VertrautenzauberTier(species))
             {
                 petSpells.Add(new PetSpell { Name = zauber.Name, Attributes = zauber.Eigenschaften.Split('/'), Characteristics = zauber.MerkmaleToString() });
             }
             SpellsAvailable = petSpells.AsReadOnly();
+#pragma warning restore CS8604
         }
 
         /// <summary>

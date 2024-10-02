@@ -6,8 +6,6 @@
     xmlns:gb="using:GroupBox.Avalonia.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Magehelper.Avalonia.ViewModels.Tabs"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
     x:DataType="vm:TabContentCharacterViewModel"
     mc:Ignorable="d">
     <Grid>
@@ -21,9 +19,7 @@
             Margin="0,0,0,10"
             Header="Eigenschaften"
             Theme="{StaticResource GroupBoxClassic}">
-            <StackPanel
-                IsEnabled="{Binding IsCharacterLoaded}"
-                Orientation="Horizontal">
+            <StackPanel IsEnabled="{Binding IsCharacterLoaded}" Orientation="Horizontal">
                 <Label
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
@@ -112,9 +108,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="250" />
             </Grid.ColumnDefinitions>
-            <TabControl
-                Grid.Column="0"
-                IsEnabled="{Binding IsCharacterLoaded}">
+            <TabControl Grid.Column="0" IsEnabled="{Binding IsCharacterLoaded}">
                 <TabItem Name="TabSpells" Header="Zauber">
                     <DataGrid GridLinesVisibility="All" ItemsSource="{Binding Spells}">
                         <DataGrid.Columns>

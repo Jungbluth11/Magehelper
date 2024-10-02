@@ -1,10 +1,104 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-			     xmlns:vm="using:Magehelper.Avalonia.ViewModels.Tabs"
-
-             x:Class="Magehelper.Avalonia.Views.Tabs.TabContentTimer">
-  Welcome to Avalonia!
+<UserControl
+    x:Class="Magehelper.Avalonia.Views.Tabs.TabContentTimer"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Magehelper.Avalonia.ViewModels.Tabs"
+    x:DataType="vm:TabContentTimerViewModel"
+    mc:Ignorable="d">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Button
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="10"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Click="BtnAddTimer_Click"
+            Content="Timer hinzufügen" />
+        <ItemsControl
+            Grid.Row="1"
+            Grid.Column="0"
+            ItemsSource="{Binding TimersLeft}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Margin="5" Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Text}" />
+                        <TextBlock Grid.Column="1" Text="{Binding DurationString}" />
+                        <Button
+                            Grid.Column="2"
+                            Command="{Binding $parent[ItemsControl].((vm:TabContentTimerViewModel)DataContext).DecreaseKRCommand}"
+                            CommandParameter="{Binding $self.Tag}"
+                            Content="eine KR weiter"
+                            Tag="{Binding}" />
+                        <Button
+                            Grid.Column="3"
+                            Margin="5,0,0,0"
+                            Command="{Binding $parent[ItemsControl].((vm:TabContentTimerViewModel)DataContext).RemoveTimerCommand}"
+                            CommandParameter="{Binding $self.Tag}"
+                            Tag="{Binding}">
+                            <Image Source="avares://Magehelper/Assets/del_button.png" />
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ItemsControl
+            Grid.Row="1"
+            Grid.Column="1"
+            ItemsSource="{Binding TimersRight}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Margin="5" Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Text}" />
+                        <TextBlock Grid.Column="1" Text="{Binding DurationString}" />
+                        <Button
+                            Grid.Column="2"
+                            Command="{Binding $parent[ItemsControl].((vm:TabContentTimerViewModel)DataContext).DecreaseDayCommand}"
+                            CommandParameter="{Binding $self.Tag}"
+                            Content="einen Tag weiter"
+                            Tag="{Binding}" />
+                        <Button
+                            Grid.Column="3"
+                            Margin="5,0,0,0"
+                            Command="{Binding $parent[ItemsControl].((vm:TabContentTimerViewModel)DataContext).RemoveTimerCommand}"
+                            CommandParameter="{Binding $self.Tag}"
+                            Tag="{Binding}">
+                            <Image Source="avares://Magehelper/Assets/del_button.png" />
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
 </UserControl>

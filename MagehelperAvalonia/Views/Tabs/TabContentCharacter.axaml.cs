@@ -1,4 +1,4 @@
-#pragma warning disable 8602
+#nullable disable
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using DSAUtils;
