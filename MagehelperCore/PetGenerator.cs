@@ -1,4 +1,3 @@
-﻿using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Text.Json;
 
@@ -25,11 +24,11 @@ namespace Magehelper.Core
         private readonly Pet pet;
         private readonly PetData[] baseData;
         /// <summary>
-        /// Amount of attribute points to increase a start in total.
+        /// Amount of attribute points to increase at start in total.
         /// </summary>
         public int PointsTotal { get; private set; } = 20;
         /// <summary>
-        /// Amount of attribute points to increase a start that be used.
+        /// Amount of attribute points to increase at start that be used.
         /// </summary>
         public int PointsRemain => PointsTotal - pointsUsed;
         /// <summary>
@@ -78,17 +77,17 @@ namespace Magehelper.Core
         }
         public int LE
         {
-            get => AdditionalLE + BaseData.LEStart;
+            get => AdditionalLE + BaseData.LEStartMin;
             set => ModAttribute("LE", value);
         }
         public int AE
         {
-            get => AdditionalAE + BaseData.AEStart;
+            get => AdditionalAE + BaseData.AEStartMin;
             set => ModAttribute("AE", value);
         }
         public int AU
         {
-            get => AdditionalAU + BaseData.AUStart;
+            get => AdditionalAU + BaseData.AUStartMin;
             set => ModAttribute("AU", value);
         }
         /// <summary>
@@ -136,8 +135,8 @@ namespace Magehelper.Core
         // program files are corrupted if petData is null
         public PetGenerator(Pet pet)
 #pragma warning restore CS8618
-#pragma warning disable CS8600
-#pragma warning disable CS8602
+
+
         {
             this.pet = pet;
             List<string> speciesStrings = new List<string>();
@@ -167,9 +166,9 @@ namespace Magehelper.Core
                     KOStartMax = p[15].GetInt32(),
                     KKStartMin = p[16].GetInt32(),
                     KKStartMax = p[17].GetInt32(),
-                    LEStart = p[18].GetInt32(),
-                    AEStart = p[19].GetInt32(),
-                    AUStart = p[20].GetInt32(),
+                    LEStartMin = p[18].GetInt32(),
+                    AEStartMin = p[19].GetInt32(),
+                    AUStartMin = p[20].GetInt32(),
                     MRStart = p[21].GetInt32(),
                     AttackStart = p[22].GetInt32(),
                     AttackFlyingStart = p[23].GetInt32(),
@@ -183,8 +182,8 @@ namespace Magehelper.Core
             SpeciesStrings = speciesStrings.AsReadOnly();
             this.baseData = baseData.ToArray();
             Species = baseData[0].Species;
-#pragma warning restore CS8600
-#pragma warning restore CS8602
+
+
         }
 
         /// <summary>
@@ -193,7 +192,7 @@ namespace Magehelper.Core
         public void AddPet()
         {
             int[] attributes = new int[11];
-            string[] attributeStrings = new string[] { "MU", "KL", "IN", "CH", "FF", "GE", "KO", "KK", "LE", "AE", "AU" };
+            string[] attributeStrings = new[] { "MU", "KL", "IN", "CH", "FF", "GE", "KO", "KK", "LE", "AE", "AU" };
             if (pointsUsed <= PointsTotal)
             {
                 for (int i = 0; i < 11; i++)
@@ -209,14 +208,10 @@ namespace Magehelper.Core
 
         private void ModAttribute(string attribute, int totalValue)
         {
-#pragma warning disable CS8600
-#pragma warning disable CS8602
+
+
 #pragma warning disable CS8605
-            string suffix = "Start";
-            if (attribute != "LE" && attribute != "AE" && attribute != "AU")
-            {
-                suffix += "Min";
-            }
+            string suffix = "StartMin";
             PropertyInfo attributeCurrent = GetAttribute("Additional" + attribute);
             PropertyInfo attributeBase = typeof(PetData).GetProperty(attribute + suffix);
             int value = totalValue - (int)attributeBase.GetValue(BaseData);
@@ -230,8 +225,8 @@ namespace Magehelper.Core
             attributeCurrent.SetValue(this, value);
             pointsUsed += difference;
             abilityCost += difference * modifier;
-#pragma warning restore CS8600
-#pragma warning restore CS8602
+
+
 #pragma warning restore CS8605
         }
 

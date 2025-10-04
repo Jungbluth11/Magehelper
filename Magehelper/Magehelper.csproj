@@ -1,0 +1,180 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+	<TargetFrameworks>net9.0-desktop</TargetFrameworks>
+
+	<OutputType>Exe</OutputType>
+	<UnoSingleProject>true</UnoSingleProject>
+
+	<!-- Display name -->
+	<ApplicationTitle>Magehelper</ApplicationTitle>
+	<!-- App Identifier -->
+	<ApplicationId>com.Jungbluth.Magehelper</ApplicationId>
+	<!-- Versions -->
+	<ApplicationDisplayVersion>4.0.0</ApplicationDisplayVersion>
+	<ApplicationVersion>4</ApplicationVersion>
+	<!-- Package Publisher -->
+	<ApplicationPublisher>Jungbluth</ApplicationPublisher>
+	<!-- Package Description -->
+	<Description>Magehelper powered by Uno Platform.</Description>
+
+	<!--
+	  UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
+	  https://aka.platform.uno/singleproject-features
+	-->
+	<UnoFeatures>
+	  Lottie;
+	  Toolkit;
+	  Mvvm;
+	  ThemeService;
+	  SkiaRenderer;
+	</UnoFeatures>
+	<Version>4.0.0</Version>
+	<AssemblyVersion>4.0.0</AssemblyVersion>
+	<FileVersion>4.0.0</FileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+	<ProjectReference Include="..\MagehelperCore\MagehelperCore.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+	<Folder Include="ViewModels\Pages\" />
+  </ItemGroup>
+  <ItemGroup>
+	<PackageReference Include="Uno.CommunityToolkit.WinUI.UI" />
+	<PackageReference Include="UnoGroupBox" />
+  </ItemGroup>
+  <ItemGroup>
+	<Reference Include="DSAUtils">
+	  <HintPath>..\DSAUtils.dll</HintPath>
+	</Reference>
+  </ItemGroup>
+  <ItemGroup>
+	<Compile Update="Views\Pages\SettingsPage.xaml.cs">
+	  <DependentUpon>SettingsPage.xaml</DependentUpon>
+	</Compile>
+	<Compile Update="Views\Tabs\TabMod.xaml.cs">
+	  <DependentUpon>TabMod.xaml</DependentUpon>
+	</Compile>
+	<Compile Update="Views\Tabs\TabTimer.xaml.cs">
+	  <DependentUpon>TabTimer.xaml</DependentUpon>
+	</Compile>
+	<Compile Update="Views\Tabs\TabPet.xaml.cs">
+	  <DependentUpon>TabPet.xaml</DependentUpon>
+	</Compile>
+	<Compile Update="Views\Tabs\TabCharacter.xaml.cs">
+	  <DependentUpon>TabCharacter.xaml</DependentUpon>
+	</Compile>
+	<Compile Update="Views\Tabs\TabFlameSword.xaml.cs">
+	  <DependentUpon>TabFlameSword.xaml</DependentUpon>
+	</Compile>
+	<Compile Update="Views\Tabs\TabSpellStorage.xaml.cs">
+	  <DependentUpon>TabSpellStorage.xaml</DependentUpon>
+	</Compile>
+  </ItemGroup>
+  <ItemGroup>
+	<Page Update="Views\Pages\SettingsPage.xaml">
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+  </ItemGroup>
+  <ItemGroup>
+	<Page Update="Views\Tabs\TabArtifact.xaml">
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+  </ItemGroup>
+  <ItemGroup>
+	<Page Update="Views\Tabs\TabSpellStorage.xaml">
+	  <SubType>Designer</SubType>
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+  </ItemGroup>
+  <ItemGroup>
+	<Page Update="Views\Tabs\TabFlameSword.xaml">
+	  <SubType>Designer</SubType>
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+  </ItemGroup>
+  <ItemGroup>
+	<Page Update="Views\Tabs\TabCharacter.xaml">
+	  <SubType>Designer</SubType>
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+  </ItemGroup>
+  <ItemGroup>
+	<Page Update="Views\Tabs\TabPet.xaml">
+	  <SubType>Designer</SubType>
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+  </ItemGroup>
+  <ItemGroup>
+	<Page Update="Views\Tabs\TabMod.xaml">
+	  <SubType>Designer</SubType>
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+  </ItemGroup>
+  <ItemGroup>
+	<Page Update="Views\Tabs\TabTimer.xaml">
+	  <SubType>Designer</SubType>
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+  </ItemGroup>
+  <ItemGroup>
+	<Page Update="Views\Controls\StaffControl.xaml">
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+  </ItemGroup>
+  <ItemGroup>
+	<Page Update="Views\Controls\CrystalBallControl.xaml">
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+  </ItemGroup>
+  <ItemGroup>
+	<Page Update="Views\Controls\BowlControl.xaml">
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+  </ItemGroup>
+  <ItemGroup>
+	<Page Update="Views\Controls\BoneCubControl.xaml">
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+  </ItemGroup>
+  <ItemGroup>
+	<Page Update="Views\Controls\RingOfLifeControl.xaml">
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+  </ItemGroup>
+  <ItemGroup>
+	<Page Update="Views\Controls\ObsidianDaggerControl.xaml">
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+  </ItemGroup>
+  <ItemGroup>
+	<Page Update="Views\Controls\SpellStorageControl.xaml">
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+  </ItemGroup>
+  <ItemGroup>
+	<Page Update="Views\Dialogs\ContentDialog1.xaml">
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+  </ItemGroup>
+  <ItemGroup>
+	<Page Update="Views\Dialogs\AddTraditionArtifactDialog.xaml">
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Dialogs\AddArtifactSpellDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Dialogs\EnableSpellStorageDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Controls\TraditionArtifactControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+</Project>

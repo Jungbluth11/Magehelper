@@ -1,400 +1,450 @@
-﻿using System.Collections.ObjectModel;
 using System.Xml;
-using DSAUtils;
-using DSAUtils.HeldentoolInterop;
 using DSAUtils.Settings.Aventurien;
 
-namespace Magehelper.Core
+namespace Magehelper.Core;
+
+public class Character
 {
-    public class Character
+    private int _au;
+    private int _le;
+    private int _ae;
+    private readonly Core _core = Core.GetInstance();
+    public int Mu { get; set; }
+    public int Kl { get; set; }
+    public int In { get; set; }
+    public int Ch { get; set; }
+    public int Ff { get; set; }
+    public int Ge { get; set; }
+    public int Ko { get; set; }
+    public int Kk { get; set; }
+    public int Mr { get; set; }
+    public int AuP { get; set; }
+    public int LeP { get; set; }
+    public int AsP { get; set; }
+    // ReSharper disable once UnusedAutoPropertyAccessor.Local
+    public bool IsLoaded { get; private set; }
+    /// <summary>
+    /// The skills that character has.
+    /// </summary>
+    public ReadOnlyCollection<Ability>? Skills { get; private set; }
+    /// <summary>
+    /// The Spells this Character knows.
+    /// </summary>
+    public ReadOnlyCollection<CharacterSpell>? Spells { get; private set; }
+    /// <summary>
+    /// The Rituals this Character knows.
+    /// </summary>
+    public ReadOnlyCollection<CharacterRitual>? Rituals { get; private set; }
+
+    public Dictionary<string, int> Rkw = [];
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    public Character()
     {
-        private int au;
-        private int le;
-        private int ae;
-        private readonly Core core;
-        public int MU { get; set; }
-        public int KL { get; set; }
-        public int IN { get; set; }
-        public int CH { get; set; }
-        public int FF { get; set; }
-        public int GE { get; set; }
-        public int KO { get; set; }
-        public int KK { get; set; }
-        public int MR { get; set; }
-        public int AuP { get; set; }
-        public int LeP { get; set; }
-        public int AsP { get; set; }
-        public bool IsLoaded { get; private set; }
-        /// <summary>
-        /// The skills that character has.
-        /// </summary>
-        public ReadOnlyCollection<Ability>? Skills { get; private set; }
-        /// <summary>
-        /// The Spells this Character knows.
-        /// </summary>
-        public ReadOnlyCollection<CharacterSpell>? Spells { get; private set; }
-        /// <summary>
-        /// The Rituals this Character knows.
-        /// </summary>
-        public ReadOnlyCollection<CharacterRitual>? Rituals { get; private set; }
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="core">An instance of <see cref="Core"/>.</param>
-        public Character(Core core)
+        _core.Character = this;
+
+        if (_core.FileAup)
         {
-            core.Character = this;
-            this.core = core;
-            if (core.FileAup)
+            AuP = _core.FileAupValue;
+        }
+
+        if (_core.FileLep)
+        {
+            LeP = _core.FileLepValue;
+        }
+
+        if (_core.FileAsp)
+        {
+            AsP = _core.FileAspValue;
+        }
+    }
+
+    /// <summary>
+    /// Loads all characters that can be used.
+    /// </summary>
+    /// <returns>An array of <see cref="DSAUtils.HeldentoolInterop.Charakter"/></returns>
+    /// <exception cref="FileNotFoundException"/>
+    public Charakter[] GetCharactersFromTool()
+    {
+        return HeldentoolInterop.IsInstalled() ? HeldentoolInterop.GetByAE() : throw new FileNotFoundException("\"Heldentool\" is not installed.");
+    }
+
+    /// <summary>
+    /// Load an character.
+    /// </summary>
+    /// <param name="character">the chosen character</param>
+    public void LoadCharacter(Charakter character)
+    {
+
+        ResetTool();
+        XmlDocument xml = new();
+        List<CharacterSpell> spells = [];
+        List<CharacterRitual> rituals = [];
+        List<string> ritualList =
+        [
+            .. Aventurien.Rituale.druidenritual,
+            .. Aventurien.Rituale.durrodunritual,
+            .. Aventurien.Rituale.elfenlied,
+            .. Aventurien.Rituale.hexenfluch,
+            .. Aventurien.Rituale.kristallomantenritual,
+            .. Aventurien.Rituale.kugelzauber,
+            .. Aventurien.Rituale.schalenzauber,
+            .. Aventurien.Rituale.schamanenritual,
+            .. Aventurien.Rituale.stabzauber,
+            .. Aventurien.Rituale.trommelzauber,
+            .. Aventurien.Rituale.zaubertanz,
+            .. Aventurien.Rituale.zibiljaritual,
+        ];
+
+        xml.LoadXml(character.XML);
+        Skills = character.Talente.ToList().AsReadOnly();
+
+        foreach (Ability ability in character.Eigenschaften)
+        {
+            switch (ability.Name)
             {
-                AuP = core.FileAupValue;
-            }
-            if (core.FileLep)
-            {
-                LeP = core.FileLepValue;
-            }
-            if (core.FileAsp)
-            {
-                AsP = core.FileAspValue;
+                case "Mut":
+                    Mu = ability.Wert;
+                    break;
+                case "Klugheit":
+                    Kl = ability.Wert;
+                    break;
+                case "Intuition":
+                    In = ability.Wert;
+                    break;
+                case "Charisma":
+                    Ch = ability.Wert;
+                    break;
+                case "Fingerfertigkeit":
+                    Ff = ability.Wert;
+                    break;
+                case "Gewandtheit":
+                    Ge = ability.Wert;
+                    break;
+                case "Konstitution":
+                    Ko = ability.Wert;
+                    break;
+                case "Körperkraft":
+                    Kk = ability.Wert;
+                    break;
+                case "Magieresistenz":
+                    Mr = ability.Wert;
+                    break;
+                case "Ausdauer":
+                    _au = ability.Wert;
+
+                    if (!_core.FileAup)
+                    {
+                        AuP = ability.Wert;
+                    }
+
+                    break;
+                case "Lebensenergie":
+                    _le = ability.Wert;
+
+                    if (!_core.FileLep)
+                    {
+                        LeP = ability.Wert;
+                    }
+
+                    break;
+                case "Astralenergie":
+                    _ae = ability.Wert;
+
+                    if (!_core.FileAsp)
+                    {
+                        AsP = ability.Wert;
+                    }
+
+                    break;
             }
         }
 
-        /// <summary>
-        /// Loads all characters that can be used.
-        /// </summary>
-        /// <returns>An array of <see cref="DSAUtils.HeldentoolInterop.Charakter"/></returns>
-        /// <exception cref="FileNotFoundException"/>
-        public Charakter[] GetCharactersFromTool()
+        foreach (Ability ability in character.Talente)
         {
-            if (HeldentoolInterop.IsInstalled())
+            switch (ability.Name)
             {
-                return HeldentoolInterop.GetByAE();
+                case "Ritualkenntnis: Alchimist":
+                    Rkw["Alchimist"] = ability.Wert;
+                    break;
+                case "Ritualkenntnis: Derwisch":
+                    Rkw["Derwisch"] = ability.Wert;
+                    break;
+                case "Ritualkenntnis: Druide":
+                    Rkw["Druide"] = ability.Wert;
+                    break;
+                case "Ritualkenntnis: Durro-Dun":
+                    Rkw["Durro-Dun"] = ability.Wert;
+                    break;
+                case "Ritualkenntnis: Geode":
+                    Rkw["Geode"] = ability.Wert;
+                    break;
+                case "Ritualkenntnis: Gildenmagie":
+                    Rkw["Gildenmagie"] = ability.Wert;
+                    break;
+                case "Ritualkenntnis: Glyphenkunde(Alhani)":
+                    Rkw["Glyphenkunde(Alhani)"] = ability.Wert;
+                    break;
+                case "Ritualkenntnis: Hexe":
+                    Rkw["Hexe"] = ability.Wert;
+                    break;
+                case "Ritualkenntnis: Kristallomantie":
+                    Rkw["Kristallomantie"] = ability.Wert;
+                    break;
+                case "Ritualkenntnis: Petromantie":
+                    Rkw["Petromantie"] = ability.Wert;
+                    break;
+                case "Ritualkenntnis: Runenzauberei":
+                    Rkw["Runenzauberei"] = ability.Wert;
+                    break;
+                case "Ritualkenntnis: Scharlatan":
+                    Rkw["Scharlatan"] = ability.Wert;
+                    break;
+                case "Ritualkenntnis: Seher":
+                    Rkw["Seher"] = ability.Wert;
+                    break;
+                case "Ritualkenntnis: Zaubertänzer":
+                    Rkw["Zaubertänzer"] = ability.Wert;
+                    break;
+                case "Ritualkenntnis: Zibilja":
+                    Rkw["Zibilja"] = ability.Wert;
+                    break;
             }
-            throw new FileNotFoundException("\"Heldentool\" is not installed.");
         }
 
-        /// <summary>
-        /// Load an character.
-        /// </summary>
-        /// <param name="character">the chosen character</param>
-        public void LoadCharacter(Charakter character)
+
+        foreach (XmlNode node in xml.GetElementsByTagName("zauber"))
         {
-#pragma warning disable CS8602
-            ResetTool();
-            XmlDocument xml = new XmlDocument();
-            List<CharacterSpell> spells = new List<CharacterSpell>();
-            List<CharacterRitual> rituals = new List<CharacterRitual>();
-            List<string> ritualList = new List<string>();
-            ritualList.AddRange(Aventurien.Rituale.druidenritual);
-            ritualList.AddRange(Aventurien.Rituale.durrodunritual);
-            ritualList.AddRange(Aventurien.Rituale.elfenlied);
-            ritualList.AddRange(Aventurien.Rituale.hexenfluch);
-            ritualList.AddRange(Aventurien.Rituale.kristallomantenritual);
-            ritualList.AddRange(Aventurien.Rituale.kugelzauber);
-            ritualList.AddRange(Aventurien.Rituale.schalenzauber);
-            ritualList.AddRange(Aventurien.Rituale.schamanenritual);
-            ritualList.AddRange(Aventurien.Rituale.stabzauber);
-            ritualList.AddRange(Aventurien.Rituale.trommelzauber);
-            ritualList.AddRange(Aventurien.Rituale.zaubertanz);
-            ritualList.AddRange(Aventurien.Rituale.zibiljaritual);
-            xml.LoadXml(character.XML);
-            Skills = character.Talente.ToList().AsReadOnly();
-            foreach (Ability ability in character.Eigenschaften)
+            string[] spell = new string[4];
+
+            foreach (XmlAttribute attribute in node.Attributes!)
             {
-                switch (ability.Name)
+                switch (attribute.Name)
                 {
-                    case "Mut":
-                        MU = ability.Wert;
+                    case "name":
+                        spell[0] = attribute.Value;
+
                         break;
-                    case "Klugheit":
-                        KL = ability.Wert;
+                    case "variante" when !string.IsNullOrEmpty(attribute.Value):
+                        spell[1] += " (" + attribute.Value + ")";
+
                         break;
-                    case "Intuition":
-                        IN = ability.Wert;
+                    case "repraesentation":
+                        spell[2] = attribute.Value;
+
                         break;
-                    case "Charisma":
-                        CH = ability.Wert;
+                    case "value":
+                        spell[3] = attribute.Value;
+
                         break;
-                    case "Fingerfertigkeit":
-                        FF = ability.Wert;
+                }
+            }
+
+            if (spell[0] == null)
+            {
+                continue;
+            }
+
+            Zauber spellData = spell[2] == "Magiedilletant" ? Aventurien.Zauber.GetByName(spell[0]) : Aventurien.Zauber.GetByName(spell[0], Aventurien.Zauber.RepToEnum(spell[2]));
+            string[] attributes = spellData.Eigenschaften.Split('/');
+            spells.Add(new() { Name = spell[0] + spell[1], Representation = spell[2], Attributes = attributes, Komplex = spellData.Komplexitaet, Characteristics = spellData.MerkmaleToString(), Value = int.Parse(spell[3]) });
+        }
+
+        foreach (string sf in character.Sonderfertigkeiten)
+        {
+            foreach (string ritual in ritualList)
+            {
+                if (HeldentoolInterop.Rename(sf, Name.Offi) != ritual)
+                {
+                    continue;
+                }
+
+                string ritualName = ritual;
+                string ritualAttributes = string.Empty;
+                string ritualSkill;
+                int[] ritualMod = [];
+                RitualType ritualType = RitualType.Ritual;
+                dynamic ritualData = Aventurien.Rituale.GetByName(ritualName);
+
+                if (!_core.UseHeldentoolNames)
+                {
+                    ritualName = ((IRitual)ritualData).Name;
+                }
+
+                switch (ritualData)
+                {
+                    case Schamanenritual s:
+                        ritualSkill = s.Ritualkenntnis;
+                        ritualType = RitualType.Shaman;
+
                         break;
-                    case "Gewandtheit":
-                        GE = ability.Wert;
-                        break;
-                    case "Konstitution":
-                        KO = ability.Wert;
-                        break;
-                    case "Körperkraft":
-                        KK = ability.Wert;
-                        break;
-                    case "Magieresistenz":
-                        MR = ability.Wert;
-                        break;
-                    case "Ausdauer":
-                        au = ability.Wert;
-                        if (!core.FileAup)
-                        {
-                            AuP = ability.Wert;
-                        }
-                        break;
-                    case "Lebensenergie":
-                        le = ability.Wert;
-                        if (!core.FileLep)
-                        {
-                            LeP = ability.Wert;
-                        }
-                        break;
-                    case "Astralenergie":
-                        ae = ability.Wert;
-                        if (!core.FileAsp)
-                        {
-                            AsP = ability.Wert;
-                        }
+                    case Trommelzauber t:
+                        ritualAttributes = t.Ritualprobe;
+                        ritualSkill = t.Ritualprobe;
+                        ritualMod = [t.Musizierenprobe, t.RitualErschwernis];
+                        ritualType = RitualType.Drum;
+
                         break;
                     default:
+                        ritualAttributes = ((Ritual)ritualData).Ritualprobe;
+                        ritualSkill = ((Ritual)ritualData).Ritualkenntnis;
+                        ritualMod = [((Ritual)ritualData).RitualErschwernis];
+
                         break;
                 }
+
+                rituals.Add(new() { Name = ritualName, Attributes = ritualAttributes, Skill = ritualSkill, Mod = ritualMod, Type = ritualType });
             }
-            foreach (XmlNode node in xml.GetElementsByTagName("zauber"))
-            {
-                string[] spell = new string[4];
-                foreach (XmlAttribute attribute in node.Attributes)
+        }
+
+        Spells = spells.AsReadOnly();
+        Rituals = rituals.AsReadOnly();
+        IsLoaded = true;
+    }
+
+    /// <summary>
+    /// Resets the instance of this class. (only used by <see cref="Core.ResetTool"/>.)
+    /// </summary>
+    internal void ResetTool()
+    {
+        _au = 0;
+        _le = 0;
+        _ae = 0;
+        Mu = 0;
+        Kl = 0;
+        In = 0;
+        Ch = 0;
+        Ff = 0;
+        Ge = 0;
+        Ko = 8;
+        Kk = 8;
+        Mr = 0;
+        AuP = 0;
+        LeP = 0;
+        AsP = 0;
+        Skills = null;
+        Spells = null;
+        Rituals = null;
+        IsLoaded = false;
+    }
+
+    public void ResetAuP()
+    {
+        AuP = _au;
+        _core.FileChanged = true;
+    }
+
+    public void ResetLeP()
+    {
+        LeP = _le;
+        _core.FileChanged = true;
+    }
+
+    public void ResetAsP()
+    {
+        AsP = _ae;
+        _core.FileChanged = true;
+    }
+
+    public (int pointsLeft, int[] rollData, string textResult) RollSpell(CharacterSpell spell)
+    {
+        return GetResult(spell.Attributes, spell.Value, 0);
+    }
+
+    public (int pointsLeft, int[] rollData, string textResult) RollRitual(CharacterRitual ritual)
+    {
+        (int, int[], string) returnData;
+
+        switch (ritual.Type)
+        {
+            case RitualType.Shaman:
                 {
-                    if (attribute.Name == "name")
-                    {
-                        spell[0] = attribute.Value;
-                    }
-                    else if (attribute.Name == "variante" && !string.IsNullOrEmpty(attribute.Value))
-                    {
-                        spell[1] += " (" + attribute.Value + ")";
-                    }
-                    else if (attribute.Name == "repraesentation")
-                    {
-                        spell[2] = attribute.Value;
-                    }
-                    else if (attribute.Name == "value")
-                    {
-                        spell[3] = attribute.Value;
-                    }
+                    (string[], int) skillData = GetSkillData(ritual.Skill);
+                    returnData = GetResult(skillData.Item1, skillData.Item2, 0);
+
+                    break;
                 }
-                if (spell[0] != null)
+            case RitualType.Drum:
                 {
-                    Zauber spellData;
-                    if (spell[2] == "Magiedilletant")
+                    (string[], int) skillData = GetSkillData("Musizieren");
+                    (int, int[], string) skillResult = GetResult(skillData.Item1, skillData.Item2, ritual.Mod[0]);
+
+                    if (skillResult.Item1 >= 0 && !skillResult.Item3.Contains("Patzer"))
                     {
-                        spellData = Aventurien.Zauber.GetByName(spell[0]);
+                        int modvalue = ritual.Mod[1] - skillResult.Item1;
+                        (string[], int) ritualData = GetSkillData("Ritualkenntnis: Derwisch");
+
+                        returnData = GetResult(ritual.Attributes.Split('/'), ritualData.Item2, modvalue);
+
                     }
                     else
                     {
-                        spellData = Aventurien.Zauber.GetByName(spell[0], Aventurien.Zauber.RepToEnum(spell[2]));
+                        string failedText = "Misslungen (Musizieren)";
+                        if (skillResult.Item3 != string.Empty)
+                        {
+                            failedText += "; " + skillResult.Item3;
+                        }
+                        returnData = (skillResult.Item1, skillResult.Item2, failedText);
                     }
-                    string[] attributes = spellData.Eigenschaften.Split('/');
-                    spells.Add(new CharacterSpell { Name = spell[0] + spell[1], Representation = spell[2], Attributes = attributes, Komplex = spellData.Komplexitaet, Characteristics = spellData.MerkmaleToString(), Value = int.Parse(spell[3]) });
+
+                    break;
                 }
-            }
-            foreach (string sf in character.Sonderfertigkeiten)
-            {
-                foreach (string ritual in ritualList)
+            case RitualType.Ritual:
+            default:
                 {
-                    if (HeldentoolInterop.Rename(sf, Name.Offi) == ritual)
+                    string[] attributes;
+                    int value;
+
+                    if (Sonderfertigkeiten.GetByGroup(Sonderfertigkeitengruppe.Ritualkenntnis).Contains(ritual.Skill))
                     {
-                        string ritualName = ritual;
-                        string ritualAttributes = string.Empty;
-                        string ritualSkill;
-                        int[] ritualMod = Array.Empty<int>();
-                        RitualType ritualType = RitualType.Ritual;
-                        dynamic ritualData = Aventurien.Rituale.GetByName(ritualName);
-                        if (!core.UseHeldentoolNames)
-                        {
-                            ritualName = ((IRitual)ritualData).Name;
-                        }
-                        if (ritualData is Schamanenritual s)
-                        {
-                            ritualSkill = s.Ritualkenntnis;
-                            ritualType = RitualType.Shaman;
-                        }
-                        else if (ritualData is Trommelzauber t)
-                        {
-                            ritualAttributes = t.Ritualprobe;
-                            ritualSkill = t.Ritualprobe;
-                            ritualMod = new int[] { t.Musizierenprobe, t.RitualErschwernis };
-                            ritualType = RitualType.Drum;
-                        }
-                        else
-                        {
-                            ritualAttributes = ((Ritual)ritualData).Ritualprobe;
-                            ritualSkill = ((Ritual)ritualData).Ritualkenntnis;
-                            ritualMod = new int[] { ((Ritual)ritualData).RitualErschwernis };
-                        }
-                        rituals.Add(new CharacterRitual { Name = ritualName, Attributes = ritualAttributes, Skill = ritualSkill, Mod = ritualMod, Type = ritualType });
+                        attributes = ritual.Attributes.Split('/');
+                        (string[], int) skillData = GetSkillData("Ritualkenntnis: " + ritual.Skill);
+                        value = skillData.Item2;
                     }
-                }
-            }
-            Spells = spells.AsReadOnly();
-            Rituals = rituals.AsReadOnly();
-#pragma warning restore CS8602
-        }
-
-        /// <summary>
-        /// Resets the instance of this class. (only used by <see cref="Core.ResetTool"/>.)
-        /// </summary>
-        internal void ResetTool()
-        {
-            au = 0;
-            le = 0;
-            ae = 0;
-            MU = 0;
-            KL = 0;
-            IN = 0;
-            CH = 0;
-            FF = 0;
-            GE = 0;
-            KO = 8;
-            KK = 8;
-            MR = 0;
-            AuP = 0;
-            LeP = 0;
-            AsP = 0;
-            Skills = null;
-            Spells = null;
-            Rituals = null;
-        }
-
-        public void ResetAuP()
-        {
-            AuP = au;
-            core.FileChanged = true;
-        }
-
-        public void ResetLeP()
-        {
-            LeP = le;
-            core.FileChanged = true;
-        }
-
-        public void ResetAsP()
-        {
-            AsP = ae;
-            core.FileChanged = true;
-        }
-
-        public string[] RollSpell(CharacterSpell spell)
-        {
-            (int, string, string) result = GetResult(spell.Attributes, spell.Value, 0);
-            return new string[] { result.Item1.ToString(), result.Item2, result.Item3 };
-        }
-
-        public string[] RollRitual(CharacterRitual ritual)
-        {
-            string[] returnData;
-            if (ritual.Type == RitualType.Shaman)
-            {
-                (string[], int) skillData = GetSkillData(ritual.Skill);
-                (int, string, string) result = GetResult(skillData.Item1, skillData.Item2, 0);
-                returnData = new string[] { result.Item1.ToString(), result.Item2, result.Item3 };
-            }
-            else if (ritual.Type == RitualType.Drum)
-            {
-                (string[], int) skillData = GetSkillData("Musizieren");
-                (int, string, string) skillResult = GetResult(skillData.Item1, skillData.Item2, ritual.Mod[0]);
-                if (skillResult.Item1 >= 0 && !skillResult.Item3.Contains("Patzer"))
-                {
-                    int modvalue = ritual.Mod[1] - skillResult.Item1;
-                    (string[], int) ritualData = GetSkillData("Ritualkenntnis: Derwisch");
-
-                    (int, string, string) ritualResult = GetResult(ritual.Attributes.Split('/'), ritualData.Item2, modvalue);
-                    returnData = new string[] { ritualResult.Item1.ToString(), ritualResult.Item2, ritualResult.Item3 };
-                }
-                else
-                {
-                    string failedText = "Misslungen (Musizieren)";
-                    if (skillResult.Item3 != string.Empty)
+                    else
                     {
-                        failedText += "; " + skillResult.Item3;
+                        (string[], int) skillData = GetSkillData(ritual.Skill);
+                        attributes = skillData.Item1;
+                        value = skillData.Item2;
                     }
-                    returnData = new string[] { skillResult.Item1.ToString(), skillResult.Item2, failedText };
+
+                    returnData = GetResult(attributes, value, ritual.Mod[0]);
+
+                    break;
                 }
-            }
-            else
+        }
+        return returnData;
+    }
+
+    private (int pointsLeft, int[] rollData, string textResult) GetResult(string[] attributes, int value, int mod)
+    {
+        int[] attrinuteValues = new int[3];
+
+        for (int i = 0; i < 3; i++)
+        {
+            attrinuteValues[i] = attributes[i] switch
             {
-                string[] attributes;
-                int value;
-                if (Sonderfertigkeiten.GetByGroup(Sonderfertigkeitengruppe.Ritualkenntnis).Contains(ritual.Skill))
-                {
-                    attributes = ritual.Attributes.Split('/');
-                    (string[], int) skillData = GetSkillData("Ritualkenntnis: " + ritual.Skill);
-                    value = skillData.Item2;
-                }
-                else
-                {
-                    (string[], int) skillData = GetSkillData(ritual.Skill);
-                    attributes = skillData.Item1;
-                    value = skillData.Item2;
-                }
-                (int, string, string) result = GetResult(attributes, value, ritual.Mod[0]);
-                returnData = new string[] { result.Item1.ToString(), result.Item2, result.Item3 };
-            }
-            return returnData;
+                "MU" => Mu,
+                "KL" => Kl,
+                "IN" => In,
+                "CH" => Ch,
+                "FF" => Ff,
+                "GE" => Ge,
+                "KO" => Ko,
+                "KK" => Kk,
+                _ => attrinuteValues[i]
+            };
         }
 
-        private (int, string, string) GetResult(string[] attributes, int value, int mod)
-        {
-            int[] attrinuteValues = new int[3];
-            string diceResults = string.Empty;
-            for (int i = 0; i < 3; i++)
-            {
-                switch (attributes[i])
-                {
-                    case "MU":
-                        attrinuteValues[i] = MU;
-                        break;
-                    case "KL":
-                        attrinuteValues[i] = KL;
-                        break;
-                    case "IN":
-                        attrinuteValues[i] = IN;
-                        break;
-                    case "CH":
-                        attrinuteValues[i] = CH;
-                        break;
-                    case "FF":
-                        attrinuteValues[i] = FF;
-                        break;
-                    case "GE":
-                        attrinuteValues[i] = GE;
-                        break;
-                    case "KO":
-                        attrinuteValues[i] = KO;
-                        break;
-                    case "KK":
-                        attrinuteValues[i] = KK;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            object[] result = DSA.TaP(attrinuteValues, value, mod);
-#pragma warning disable CS8602
-            for (int i = 0; i < 3; i++)
-            {
-                diceResults += (result[1] as dynamic[])[i].ToString();
-                if (i < 2)
-                {
-                    diceResults += ", ";
-                }
-            }
-            return ((int)result[0], diceResults, (result[1] as dynamic[])[3]);
-#pragma warning restore CS8602
-        }
+        return DSA.TaP(attrinuteValues, value, mod);
+    }
 
-        private (string[], int) GetSkillData(string skillname)
-        {
-            Talent skill = Aventurien.GetTalent(skillname);
-            string[] attributes = skill.Eigenschaften.Split('/');
-#pragma warning disable CS8604
-            int value = Skills.Single(s => s.Name == skillname).Wert;
-#pragma warning restore CS8604
-            return (attributes, value);
-        }
+    private (string[], int) GetSkillData(string skillname)
+    {
+        Talent skill = Aventurien.GetTalent(skillname);
+        string[] attributes = skill.Eigenschaften.Split('/');
+        int value = Skills!.Single(s => s.Name == skillname).Wert;
+        return (attributes, value);
     }
 }

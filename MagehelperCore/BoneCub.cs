@@ -1,14 +1,25 @@
-﻿namespace Magehelper.Core
+namespace Magehelper.Core;
+
+public class BoneCub : Artifact
 {
-    public class BoneCub : Artifact
+    public static string[] TypeStrings =>
+    [
+        "Kleine Knochenkeule",
+        "Mittelgroße Knochenkeule",
+        "Große Knochenkeule",
+        "Sägefischschwert",
+        "echsisches Szepter"
+    ];
+
+    public string EnsoulEntityName { get; set; } = string.Empty;
+
+    public int? EnsoulEntityLoyalty { get; set; }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    public BoneCub() : base("boneCub.json", "Knochenkeule")
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="core">An instance of <see cref="Core"/>.</param>
-        public BoneCub(Core core) : base(core, "boneCub.json", "Knochenkeule")
-        {
-            core.BoneCub = this;
-        }
+        _core.BoneCub = this;
     }
 }

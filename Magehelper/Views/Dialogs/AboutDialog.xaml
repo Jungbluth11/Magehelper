@@ -1,0 +1,16 @@
+﻿<ContentDialog
+    x:Class="Magehelper.Views.Dialogs.AboutDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Über Metatalente"
+    CloseButtonText="Schließen"
+    Style="{ThemeResource DefaultContentDialogStyle}">
+    <StackPanel>
+        <TextBlock x:Name="ProgramNameAndVersion" FontWeight="Bold" />
+        <Image
+            x:Name="Logo"
+            Width="150"
+            Height="50" />
+        <TextBlock x:Name="Disclaimer" TextWrapping="WrapWholeWords" />
+    </StackPanel>
+</ContentDialog>

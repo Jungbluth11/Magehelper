@@ -1,0 +1,81 @@
+﻿<UserControl
+    x:Class="Magehelper.Views.Controls.BowlControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:CommunityToolkit.WinUI.UI.Converters;assembly=CommunityToolkit.WinUI.UI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:gb="clr-namespace:UnoGroupBox;assembly=UnoGroupBox"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Magehelper.ViewModels.Controls"
+    mc:Ignorable="d">
+    <UserControl.DataContext>
+        <vm:BowlControlViewModel />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <gb:GroupBox
+            Header="Feuer und Eis"
+            Theme="Fluent"
+            Visibility="{Binding FireAndIceVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="5"
+                    Text="Ausgangskategorie" />
+                <ComboBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Width="130"
+                    Margin="5"
+                    ItemsSource="{Binding TemperatureCategoryStrings}"
+                    SelectedValue="{Binding CurrentTemperatureCategoryStart, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="5"
+                    Text="Zielkategorie" />
+                <ComboBox
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Width="130"
+                    Margin="5"
+                    ItemsSource="{Binding TemperatureCategoryStrings}"
+                    SelectedValue="{Binding CurrentTemperatureCategoryTarget, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="5"
+                    Text="Dauer in Stunden" />
+                <NumberBox
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    KeyDown="UIElement_OnKeyDown"
+                    Minimum="1"
+                    Value="{Binding FireAndIceDuration}" />
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="5"
+                    Text="AsP-Kosten:" />
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="5"
+                    Text="{Binding FireAndIceCost}" />
+            </Grid>
+        </gb:GroupBox>
+    </Grid>
+</UserControl>

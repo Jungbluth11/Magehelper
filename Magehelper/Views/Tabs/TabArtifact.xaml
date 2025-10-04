@@ -1,0 +1,31 @@
+﻿<TabViewItem
+    x:Class="Magehelper.Views.Tabs.TabArtifact"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Magehelper.Views.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Magehelper.ViewModels.Tabs"
+    Header="{Binding TabName}"
+    IsClosable="False"
+    mc:Ignorable="d">
+    <TabViewItem.DataContext>
+        <vm:TabArtifactViewModel />
+    </TabViewItem.DataContext>
+    <StackPanel Margin="5" Orientation="Vertical">
+        <Button
+            HorizontalAlignment="Left"
+            Click="Button_OnClick"
+            Content="Traditionsartefakt hinzufügen"
+            IsEnabled="{Binding CanAddArtifact}" />
+        <StackPanel Name="StackPanelArtifacts" Orientation="Vertical">
+            <ItemsControl ItemsSource="{Binding ArtifactControls}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <controls:TraditionArtifactControl Artifact="{Binding}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </StackPanel>
+</TabViewItem>
