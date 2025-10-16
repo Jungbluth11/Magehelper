@@ -1,35 +1,25 @@
+namespace Magehelper.ViewModels.Controls;
 
-
-namespace Magehelper.ViewModels.Controls
+public partial class RingOfLifeControlViewModel : ObservableObject, IRecipient<AddArtifactSpellDialogMessage>
 {
-    public partial class RingOfLifeControlViewModel : ObservableObject
+    private readonly RingOfLife _ringOfLife;
+
+    public string ArtifactName => "Ring des Lebens";
+
+    public RingOfLifeControlViewModel()
     {
-        private readonly RingOfLife ringOfLife;
-        private readonly TraditionArtifactControlViewModel artifactSpellsControlViewModel;
+        _ringOfLife = Core.Core.GetInstance().RingOfLife ?? new();
+        WeakReferenceMessenger.Default.Register(this);
+    }
 
-        public RingOfLifeControlViewModel(RingOfLife ringOfLife, TraditionArtifactControlViewModel artifactSpellsControlViewModel)
+    public void Receive(AddArtifactSpellDialogMessage message)
+    {
+        if (message.ArtifactName != _ringOfLife.Name)
         {
-            this.ringOfLife = ringOfLife;
-            this.artifactSpellsControlViewModel = artifactSpellsControlViewModel;
-            this.artifactSpellsControlViewModel.AddSpellFunc = AddSpell;
+            return;
         }
 
-        public async  Task<ArtifactSpell?> AddSpell(Window window)
-        {
-            AddArtifactSpellWindow addArtifactSpellWindow = new("Schlangenringzauber", ringOfLife);
-            string result = await addArtifactSpellWindow.ShowDialog<string>(window);
-            if (result != null)
-            {
-                try
-                {
-                    return ringOfLife.AddSpell(result);
-                }
-                catch (Exception ex)
-                {
-                    ErrorMessages.Error(ex.Message, TODO);
-                }
-            }
-            return null;
-        }
+        ArtifactSpell spell = _ringOfLife.AddSpell(message.SpellName);
+        WeakReferenceMessenger.Default.Send(new AddTraditionArtifactSpellMessage(spell, typeof(RingOfLife)));
     }
 }

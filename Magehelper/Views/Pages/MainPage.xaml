@@ -2,7 +2,7 @@
     x:Class="Magehelper.Views.Pages.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:utu="clr-namespace:Uno.Toolkit.UI"
+    xmlns:utu="clr-namespace:Uno.Toolkit.UI;assembly=Uno.Toolkit.WinUI"
     xmlns:vm="clr-namespace:Magehelper.ViewModels.Pages"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Loaded="MainPage_OnLoaded">
@@ -25,7 +25,11 @@
                         <MenuFlyoutItem
                             Name="MenuFileSave"
                             Click="MenuFileSave_OnClick"
-                            Text="Speichern" />
+                            Text="Speichern">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="S" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
                         <MenuFlyoutItem
                             Name="MenuFileSaveAs"
                             Click="MenuFileSaveAs_OnClick"
@@ -84,7 +88,10 @@
                             Text="Über" />
                     </MenuBarItem>
                 </MenuBar>
-                <TabView x:Name="TabView" CanDragTabs="True" />
+                <TabView
+                    x:Name="TabView"
+                    CanDragTabs="True"
+                    IsAddTabButtonVisible="False" />
             </StackPanel>
         </Grid>
     </ScrollViewer>

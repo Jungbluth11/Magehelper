@@ -1,56 +1,48 @@
-
-
 namespace Magehelper.ViewModels.Dialogs;
 
-public partial class AddTimerWindowViewModel : ObservableObject
+public partial class AddTimerDialogViewModel : ObservableObject
 {
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SubmitCommand))]
-    private string _name = string.Empty;
+    private int _durationValue;
+
+    [ObservableProperty] private string _durationUnit;
+
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SubmitCommand))]
-    private string _durationValue = string.Empty;
-    [ObservableProperty]
-    private string _durationUnit = string.Empty;
+    private string _name = string.Empty;
+
+    public string[] DurationUnits => Timers.DurationUnits;
+
+    public AddTimerDialogViewModel()
+    {
+        DurationUnit = DurationUnits[0];
+    }
 
     private bool CanSubmit()
     {
-        try
-        {
-            int.Parse(DurationValue);
-        }
-        catch
-        {
-            return false;
-        }
-        return !string.IsNullOrWhiteSpace(Name);
+        return !string.IsNullOrWhiteSpace(Name) && DurationValue > 0;
     }
 
     [RelayCommand(CanExecute = nameof(CanSubmit))]
-    private void Submit(Window window)
+    private void Submit()
     {
-        int duration = int.Parse(DurationValue);
-
         switch (DurationUnit)
         {
             case "KR":
-                duration *= Timers.DurationKrMultiplier;
+                DurationValue *= Timers.DurationKrMultiplier;
+
                 break;
             case "SR":
-                duration *= Timers.DurationSrMultiplier;
+                DurationValue *= Timers.DurationSrMultiplier;
+
                 break;
             case "Tage":
-                duration *= Timers.DurationDaysMultiplier;
+                DurationValue *= Timers.DurationDaysMultiplier;
+
                 break;
         }
 
-        TabContentTimerViewModel.Instance.AddTimer(Name, duration);
-        window.Close();
-    }
-
-    [RelayCommand]
-    private void Cancel(Window window)
-    {
-        window.Close();
+        WeakReferenceMessenger.Default.Send(new AddTimerMessage(Name, DurationValue));
     }
 }

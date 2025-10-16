@@ -1,5 +1,3 @@
-using System.Collections.Specialized;
-
 namespace Magehelper.ViewModels.Tabs;
 
 public partial class TabArtifactViewModel : ObservableObject,

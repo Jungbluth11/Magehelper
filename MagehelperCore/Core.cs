@@ -39,10 +39,20 @@ public class Core
     /// </summary>
     public CrystalBall? CrystalBall { get; set; }
 
+    private bool _fileChanged;
+
     /// <summary>
     ///     Has the application changed?
     /// </summary>
-    public bool FileChanged { get; internal set; }
+    public bool FileChanged
+    {
+        get => _fileChanged;
+        internal set
+        {
+            _fileChanged = value;
+            OnFileChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
 
     /// <summary>
     ///     File name of the loaded save or name to create these.
@@ -109,9 +119,13 @@ public class Core
     internal bool FileLep { get; set; }
     internal int FileLepValue { get; set; }
     internal FlameSword? FlameSword { get; set; }
-    internal Pet? Pet { get; set; }
+    public Pet? Pet { get; internal set; }
     public SpellStorage? SpellStorage { get; internal set; }
-    internal Timers? Timers { get; set; }
+    public Timers? Timers { get; internal set; }
+
+    public delegate void FileChangedHandler(object sender, EventArgs e);
+
+    public event FileChangedHandler? OnFileChanged;
 
     private Core()
     {
@@ -293,11 +307,11 @@ public class Core
 
                     break;
                 case CrystalBall crystalBall:
-                    xw.WriteAttributeString("material", ((int)crystalBall.Material).ToString());
+                    xw.WriteAttributeString("material", ((int) crystalBall.Material).ToString());
 
                     break;
                 case Bowl bowl:
-                    xw.WriteAttributeString("material", ((int)bowl.Material).ToString());
+                    xw.WriteAttributeString("material", ((int) bowl.Material).ToString());
                     break;
             }
 
@@ -506,12 +520,12 @@ public class Core
 
             if (artifact is CrystalBall)
             {
-                CrystalBall!.Material = (CrystalBallMaterial)int.Parse(data["material"]!.Value);
+                CrystalBall!.Material = (CrystalBallMaterial) int.Parse(data["material"]!.Value);
             }
 
             if (artifact is Bowl)
             {
-                Bowl!.Material = (BowlMaterial)int.Parse(data["material"]!.Value);
+                Bowl!.Material = (BowlMaterial) int.Parse(data["material"]!.Value);
             }
 
             artifact!.HasApport = data["apport"]!.Value == "True";

@@ -7,9 +7,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!--  Load WinUI resources  -->
-                <XamlControlsResources xmlns="clr-namespace:Microsoft.UI.Xaml.Controls" />
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <!--  Load Uno.UI.Toolkit resources  -->
-                <ToolkitResources xmlns="clr-namespace:Uno.Toolkit.UI" />
+                <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
             </ResourceDictionary.MergedDictionaries>
 
             <!--  Add resources here  -->

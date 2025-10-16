@@ -1,42 +1,24 @@
+namespace Magehelper.ViewModels.Controls;
 
-
-namespace Magehelper.ViewModels.Controls
+public partial class ObsidianDaggerControlViewModel : ObservableObject, IRecipient<AddArtifactSpellDialogMessage>
 {
-    public partial class ObsidianDaggerControlViewModel : ObservableObject
+    private readonly ObsidianDagger _obsidianDagger;
+
+    public ObsidianDaggerControlViewModel()
     {
-        private readonly ObsidianDagger obsidianDagger;
-        readonly TraditionArtifactControlViewModel artifactSpellsControlViewModel;
+        _obsidianDagger = Core.Core.GetInstance().ObsidianDagger ?? new();
+        WeakReferenceMessenger.Default.Register(this);
+    }
 
-        public ObsidianDaggerControlViewModel(ObsidianDagger obsidianDagger, TraditionArtifactControlViewModel artifactSpellsControlViewModel)
+
+    public void Receive(AddArtifactSpellDialogMessage message)
+    {
+        if (message.ArtifactName != _obsidianDagger.Name)
         {
-            this.obsidianDagger = obsidianDagger;
-            this.artifactSpellsControlViewModel = artifactSpellsControlViewModel;
-            this.artifactSpellsControlViewModel.AddSpellFunc = AddSpell;
+            return;
         }
 
-
-        public async  Task<ArtifactSpell?> AddSpell(Window window)
-        {
-            AddArtifactSpellWindow addArtifactSpellWindow = new("Dolchzauber", obsidianDagger);
-            string result = await addArtifactSpellWindow.ShowDialog<string>(window);
-            if (result != null)
-            {
-                try
-                {
-                    return obsidianDagger.AddSpell(result);
-                }
-                catch (Exception ex)
-                {
-                    ErrorMessages.Error(ex.Message, TODO);
-                }
-            }
-            return null;
-        }
-
-        [RelayCommand]
-        private void Apport(bool? isChecked)
-        {
-            obsidianDagger.HasApport = (bool)isChecked;
-        }
+        ArtifactSpell spell = _obsidianDagger.AddSpell(message.SpellName);
+        WeakReferenceMessenger.Default.Send(new AddTraditionArtifactSpellMessage(spell, typeof(ObsidianDagger)));
     }
 }

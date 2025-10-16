@@ -1,22 +1,21 @@
 namespace Magehelper.ViewModels.Controls;
 
-public class CrystalBallControlViewModel : ITraditionArtifact, IRecipient<AddArtifactSpellDialogMessage>
+public class CrystalBallControlViewModel : IRecipient<AddArtifactSpellDialogMessage>
 {
     private readonly CrystalBall _crystalBall;
 
-    public string ArtifactName => "Kristallkugel";
-    public string Material => CrystalBall.MaterialStrings[(int)_crystalBall.Material];
+    public string Material => CrystalBall.MaterialStrings[(int) _crystalBall.Material];
 
 
     public CrystalBallControlViewModel()
     {
-        _crystalBall = Core.Core.GetInstance().CrystalBall ?? new CrystalBall();
+        _crystalBall = Core.Core.GetInstance().CrystalBall ?? new();
         WeakReferenceMessenger.Default.Register(this);
     }
 
     public void Receive(AddArtifactSpellDialogMessage message)
     {
-        if (message.ArtifactName != ArtifactName)
+        if (message.ArtifactName != _crystalBall.Name)
         {
             return;
         }

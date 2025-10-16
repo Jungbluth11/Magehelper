@@ -1,8 +1,8 @@
-using System.Collections.Specialized;
+using System.Xml;
 
 namespace Magehelper.ViewModels.Tabs;
 
-public partial class TabContentModViewModel : ObservableObject
+public partial class TabModViewModel : ObservableObject, IRecipient<CharacterLoadedMessage>
 {
     [ObservableProperty]
     private string _infoText;
@@ -17,7 +17,7 @@ public partial class TabContentModViewModel : ObservableObject
     public ObservableCollection<Modification> ModDataList { get; set; } = [];
     public IEnumerable<string> RepresentationList { get; set; }
 
-    public TabContentModViewModel()
+    public TabModViewModel()
     {
         RepresentationList = _mod.Representations;
         if (_mod.Data != null)
@@ -27,6 +27,7 @@ public partial class TabContentModViewModel : ObservableObject
         Representation = _mod.CurrentRepresentation ?? RepresentationList.First();
         InfoText = _mod.InfoText ?? string.Empty;
         ModList.CollectionChanged += ModList_CollectionChanged!;
+        WeakReferenceMessenger.Default.Register(this);
     }
 
     private void ModList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -84,5 +85,23 @@ public partial class TabContentModViewModel : ObservableObject
     {
         ModList.Clear();
         _mod.Reset();
+    }
+
+    public void Receive(CharacterLoadedMessage message)
+    {
+        XmlDocument xml = new();
+        xml.LoadXml(message.Value.XML);
+        string profession = xml.SelectSingleNode("//ausbildung[@art='Hauptprofession']")!
+            .Attributes!["name"]!.ToString()!.Replace(
+            "helden.model.profession.", "");
+
+        if (profession == "Magier")
+        {
+            Representation = "Gildenmagier";
+        }
+        else
+        {
+            Representation = profession;
+        }
     }
 }

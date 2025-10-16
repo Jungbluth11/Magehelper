@@ -59,7 +59,7 @@
                     Grid.Column="0"
                     Margin="5"
                     Text="Dauer in Stunden" />
-                <NumberBox
+                <NumberBox SpinButtonPlacementMode="Compact"
                     Grid.Row="2"
                     Grid.Column="1"
                     KeyDown="UIElement_OnKeyDown"

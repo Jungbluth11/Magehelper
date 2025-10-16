@@ -1,69 +1,50 @@
 using DSAUtils.Settings.Aventurien;
 
-namespace Magehelper.ViewModels.Dialogs
+namespace Magehelper.ViewModels.Dialogs;
+
+public partial class AddSpellDialogViewModel : ObservableObject
 {
-    public partial class AddSpellWindowViewModel : ObservableObject
+    private readonly SpellStorage _spellStorage;
+    [ObservableProperty]
+    private int _spellstorageNumber;
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(SubmitCommand))]
+    private string _name = string.Empty;
+    [ObservableProperty]
+    private string _characteristic;
+    [ObservableProperty]
+    private string _komplex;
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(SubmitCommand))]
+    private int _cost;
+    [ObservableProperty]
+    private int _zfp;
+    public IEnumerable<string> CharacteristicStrings { get; }
+    public IEnumerable<string> KomplexStrings { get; }
+    public List<string> SpellStorages { get; } = [];
+
+    public AddSpellDialogViewModel()
     {
-        [ObservableProperty]
-        private int _spellstorage = 0;
-        [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(SubmitCommand))]
-        private string _name = string.Empty;
-        [ObservableProperty]
-        private string _characteristic;
-        [ObservableProperty]
-        private string _komplex;
-        [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(SubmitCommand))]
-        private string _cost = string.Empty;
-        [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(SubmitCommand))]
-        private string _zfp = string.Empty;
-        public IEnumerable<string> CharacteristicStrings { get; }
-        public IEnumerable<string> KomplexStrings { get; }
-        public List<string> SpellStorages { get; set; } = [];
-
-        public AddSpellWindowViewModel()
+        _spellStorage = Core.Core.GetInstance().SpellStorage!;
+        CharacteristicStrings = Aventurien.Zauber.merkmalsliste;
+        KomplexStrings = DSA.komplexitaet;
+        Characteristic = CharacteristicStrings.First();
+        Komplex = KomplexStrings.First();
+        for (int i = 1; i <= _spellStorage.StorageCount; i++)
         {
-            CharacteristicStrings = Aventurien.Zauber.merkmalsliste;
-            KomplexStrings = DSA.komplexitaet;
-            Characteristic = CharacteristicStrings.First();
-            Komplex = KomplexStrings.First();
-            for (int i = 0; i < TabSpellStorageViewModel.Instance.SpellStorage.StorageCount; i++)
-            {
-                SpellStorages.Add("Speicher " + (i + 1).ToString());
-            }
+            SpellStorages.Add($"Speicher {i}");
         }
+    }
 
-        private bool CanSubmit()
-        {
-            try
-            {
-                int.Parse(Cost);
-                if (!string.IsNullOrWhiteSpace(Zfp))
-                {
-                    int.Parse(Zfp);
-                }
-            }
-            catch
-            {
-                return false;
-            }
-            return !string.IsNullOrWhiteSpace(Name);
-        }
+    private bool CanSubmit()
+    {
+        return !string.IsNullOrWhiteSpace(Name) && Cost > 0;
+    }
 
-        [RelayCommand(CanExecute = nameof(CanSubmit))]
-        private void Submit(Window window)
-        {
-            int? zfp = string.IsNullOrWhiteSpace(Zfp) ? null : int.Parse(Zfp);
-            StoragedSpell  storagedSpell = TabSpellStorageViewModel.Instance.SpellStorage.AddSpell(Name, Characteristic, Komplex, int.Parse(Cost), zfp, Spellstorage);
-            window.Close(storagedSpell);
-        }
-
-        [RelayCommand]
-        private void Cancel(Window window)
-        {
-            window.Close();
-        }
+    [RelayCommand(CanExecute = nameof(CanSubmit))]
+    private void Submit()
+    {
+        _spellStorage.AddSpell(Name, Characteristic, Komplex, Cost, Zfp, SpellstorageNumber);
+        WeakReferenceMessenger.Default.Send(new AddStoragedSpellMessage(SpellstorageNumber));
     }
 }

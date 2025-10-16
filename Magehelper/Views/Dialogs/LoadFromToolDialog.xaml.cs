@@ -1,4 +1,4 @@
-namespace DSAMetatalente.Views;
+namespace Magehelper.Views.Dialogs;
 
 public sealed partial class LoadFromToolDialog : ContentDialog
 {

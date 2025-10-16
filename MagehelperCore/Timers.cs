@@ -1,6 +1,8 @@
+using System.Collections;
+
 namespace Magehelper.Core;
 
-public class Timers
+public class Timers : IEnumerable<Timer>
 {
     private readonly Core _core = Core.GetInstance();
     private readonly List<Timer> _timers = [];
@@ -10,6 +12,13 @@ public class Timers
     public static int DurationKrMultiplier => 1;
     public static int DurationSrMultiplier => 100;
     public static int DurationDaysMultiplier => 28800;
+
+    public static string[] DurationUnits =>
+    [
+        "KR",
+        "SR",
+        "Tage"
+    ];
 
     /// <summary>
     /// Constructor
@@ -83,5 +92,15 @@ public class Timers
         {
             CountDown(timer.Guid, amount);
         }
+    }
+
+    public IEnumerator<Timer> GetEnumerator()
+    {
+        return _timers.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return _timers.GetEnumerator();
     }
 }

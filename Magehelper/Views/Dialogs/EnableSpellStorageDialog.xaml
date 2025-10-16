@@ -30,7 +30,7 @@
                     Margin="-7,0,0,0"
                     VerticalAlignment="Center" />
             </StackPanel>
-            <NumberBox
+            <NumberBox SpinButtonPlacementMode="Compact"
                 Grid.Column="0"
                 Width="100"
                 VerticalAlignment="Center"

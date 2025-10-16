@@ -3,12 +3,250 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:Magehelper.Views.Tabs"
+    xmlns:gb="clr-namespace:UnoGroupBox;assembly=UnoGroupBox"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:t="clr-namespace:WinUI.TableView;assembly=WinUI.TableView"
     xmlns:vm="clr-namespace:Magehelper.ViewModels.Tabs"
-    d:DesignHeight="300"
-    d:DesignWidth="400"
+    Header="Charakter"
+    IsClosable="False"
     mc:Ignorable="d">
-
-    <Grid />
+    <TabViewItem.DataContext>
+        <vm:TabCharacterViewModel />
+    </TabViewItem.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <gb:GroupBox
+            Grid.Row="0"
+            Width="1350"
+            Margin="0,0,0,10"
+            Header="Eigenschaften"
+            IsEnabled="{Binding IsCharacterLoaded}"
+            Theme="Fluent">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="MU" />
+                <NumberBox SpinButtonPlacementMode="Compact"
+                    Margin="0,0,10,0"
+                    KeyDown="UIElement_OnKeyDown"
+                    Minimum="0"
+                    Value="{Binding Mu, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <TextBlock
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="KL" />
+                <NumberBox SpinButtonPlacementMode="Compact"
+                    Margin="0,0,10,0"
+                    KeyDown="UIElement_OnKeyDown"
+                    Minimum="0"
+                    Value="{Binding Kl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <TextBlock
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="IN" />
+                <NumberBox SpinButtonPlacementMode="Compact"
+                    Margin="0,0,10,0"
+                    KeyDown="UIElement_OnKeyDown"
+                    Minimum="0"
+                    Value="{Binding In, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <TextBlock
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="CH" />
+                <NumberBox SpinButtonPlacementMode="Compact"
+                    Margin="0,0,10,0"
+                    KeyDown="UIElement_OnKeyDown"
+                    Minimum="0"
+                    Value="{Binding Ch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <TextBlock
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="FF" />
+                <NumberBox SpinButtonPlacementMode="Compact"
+                    Margin="0,0,10,0"
+                    KeyDown="UIElement_OnKeyDown"
+                    Minimum="0"
+                    Value="{Binding Ff, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <TextBlock
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="GE" />
+                <NumberBox SpinButtonPlacementMode="Compact"
+                    Margin="0,0,10,0"
+                    KeyDown="UIElement_OnKeyDown"
+                    Minimum="0"
+                    Value="{Binding Ge, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <TextBlock
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="KO" />
+                <NumberBox SpinButtonPlacementMode="Compact"
+                    Margin="0,0,10,0"
+                    KeyDown="UIElement_OnKeyDown"
+                    Minimum="0"
+                    Value="{Binding Ko, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <TextBlock
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="KK" />
+                <NumberBox SpinButtonPlacementMode="Compact"
+                    Margin="0,0,10,0"
+                    KeyDown="UIElement_OnKeyDown"
+                    Minimum="0"
+                    Value="{Binding Kk, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <TextBlock
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="MR" />
+                <NumberBox SpinButtonPlacementMode="Compact"
+                    Margin="0,0,10,0"
+                    KeyDown="UIElement_OnKeyDown"
+                    Minimum="0"
+                    Value="{Binding Mr, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            </StackPanel>
+        </gb:GroupBox>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="250" />
+            </Grid.ColumnDefinitions>
+            <TabView Grid.Column="0" IsEnabled="{Binding IsCharacterLoaded}">
+                <TabViewItem Name="TabSpells" Header="Zauber">
+                    <t:TableView
+                        AlternateRowBackground="#50515C6B"
+                        CanReorderItems="True"
+                        CornerButtonMode="None"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding Spells}"
+                        SelectionMode="None"
+                        ShowExportOptions="False">
+                        <t:TableView.Columns>
+                            <t:TableViewTextColumn Header="Name" />
+                            <t:TableViewTextColumn Header="Probe" />
+                            <t:TableViewTextColumn Header="Komplexität" />
+                            <t:TableViewTextColumn Header="Repräsentation" />
+                            <t:TableViewTextColumn Header="Merkmale" />
+                            <t:TableViewTextColumn Header="Wert" />
+                            <t:TableViewTemplateColumn>
+                                <t:TableViewTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="ButtonRollSpell_OnClick" Tag="{Binding}">
+                                            <Image Source="/Assets/dice.png" />
+                                        </Button>
+                                    </DataTemplate>
+                                </t:TableViewTemplateColumn.CellTemplate>
+                            </t:TableViewTemplateColumn>
+                        </t:TableView.Columns>
+                    </t:TableView>
+                </TabViewItem>
+                <TabViewItem Header="Rituale">
+                    <t:TableView
+                        AlternateRowBackground="#50515C6B"
+                        CanReorderItems="True"
+                        CornerButtonMode="None"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding Rituals}"
+                        SelectionMode="None"
+                        ShowExportOptions="False">
+                        <t:TableView.Columns>
+                            <t:TableViewTextColumn Header="Name" />
+                            <t:TableViewTextColumn Header="Probe" />
+                            <t:TableViewTemplateColumn>
+                                <t:TableViewTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="ButtonRollRitual_OnClick" Tag="{Binding}">
+                                            <Image Source="/Assets/dice.png" />
+                                        </Button>
+                                    </DataTemplate>
+                                </t:TableViewTemplateColumn.CellTemplate>
+                            </t:TableViewTemplateColumn>
+                        </t:TableView.Columns>
+                    </t:TableView>
+                </TabViewItem>
+            </TabView>
+            <StackPanel Grid.Column="1" Margin="5,25,0,5">
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <NumberBox SpinButtonPlacementMode="Compact"
+                        Grid.Column="0"
+                        KeyDown="UIElement_OnKeyDown"
+                        Minimum="0"
+                        Value="{Binding Aup, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="1" Text="AuP" />
+                    <Button
+                        Grid.Column="2"
+                        Command="{Binding ResetAupCommand}"
+                        Content="Max"
+                        IsEnabled="{Binding IsCharacterLoaded}" />
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <NumberBox SpinButtonPlacementMode="Compact"
+                        Grid.Column="0"
+                        KeyDown="UIElement_OnKeyDown"
+                        Minimum="0"
+                        Value="{Binding Lep, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="1" Text="LeP" />
+                    <Button
+                        Grid.Column="2"
+                        Command="{Binding ResetLepCommand}"
+                        Content="Max"
+                        IsEnabled="{Binding IsCharacterLoaded}" />
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <NumberBox SpinButtonPlacementMode="Compact"
+                        Grid.Column="0"
+                        KeyDown="UIElement_OnKeyDown"
+                        Minimum="0"
+                        Value="{Binding Asp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="1" Text="AsP" />
+                    <Button
+                        Grid.Column="2"
+                        Command="{Binding ResetAspCommand}"
+                        Content="Max"
+                        IsEnabled="{Binding IsCharacterLoaded}" />
+                </Grid>
+                <Button
+                    Width="210"
+                    Margin="4,5,5,5"
+                    Click="ButtonRoll1W20_OnClick"
+                    Content="Eigenschaftswurf (1W20)" />
+                <Button
+                    Width="210"
+                    Margin="4,5,5,5"
+                    Click="ButtonRoll3W20_OnClick"
+                    Content="Probenwurf (3W20)" />
+                <Button
+                    Width="210"
+                    Margin="4,5,5,5"
+                    Click="ButtonRollW6_OnClick">
+                    <StackPanel Orientation="Horizontal">
+                        <NumberBox SpinButtonPlacementMode="Compact"
+                            Name="AmountW6"
+                            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                            Minimum="1"
+                            Value="1" />
+                        <TextBlock VerticalAlignment="Center" Text="W6 Würfeln" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
 </TabViewItem>

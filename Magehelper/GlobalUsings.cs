@@ -1,9 +1,11 @@
+global using System.Collections.Immutable;
 global using System.Collections.ObjectModel;
+global using System.Collections.Specialized;
+global using System.Text.Json;
 global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.Mvvm.Input;
 global using CommunityToolkit.Mvvm.Messaging;
 global using CommunityToolkit.Mvvm.Messaging.Messages;
-global using DSAMetatalente.Views;
 global using DSAUtils;
 global using DSAUtils.HeldentoolInterop;
 global using Magehelper.Core;
@@ -18,6 +20,10 @@ global using Magehelper.Views.Controls;
 global using Magehelper.Views.Dialogs;
 global using Magehelper.Views.Pages;
 global using Magehelper.Views.Tabs;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.UI.Xaml.Input;
 global using Windows.System;
+global using ApplicationExecutionState = Windows.ApplicationModel.Activation.ApplicationExecutionState;
+

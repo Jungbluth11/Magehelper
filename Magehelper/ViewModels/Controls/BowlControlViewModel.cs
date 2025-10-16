@@ -1,6 +1,6 @@
 namespace Magehelper.ViewModels.Controls;
 
-public partial class BowlControlViewModel : ObservableObject, ITraditionArtifact, IRecipient<AddArtifactSpellDialogMessage>
+public partial class BowlControlViewModel : ObservableObject, IRecipient<AddArtifactSpellDialogMessage>
 {
     private readonly Bowl _bowl;
     [ObservableProperty]
@@ -13,7 +13,6 @@ public partial class BowlControlViewModel : ObservableObject, ITraditionArtifact
     private int _fireAndIceCost;
     [ObservableProperty]
     private bool _fireAndIceVisibility;
-    public string ArtifactName => "Alchemistenschale";
     public string[] TemperatureCategoryStrings => Bowl.TemperatureCategoryStrings;
 
     public BowlControlViewModel()
@@ -46,7 +45,7 @@ public partial class BowlControlViewModel : ObservableObject, ITraditionArtifact
 
     public void Receive(AddArtifactSpellDialogMessage message)
     {
-        if (message.ArtifactName != ArtifactName)
+        if (message.ArtifactName != _bowl.Name)
         {
             return;
         }

@@ -1,0 +1,83 @@
+﻿<ContentDialog
+    x:Class="Magehelper.Views.Dialogs.AddPetSpellDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:gb="clr-namespace:UnoGroupBox;assembly=UnoGroupBox"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:t="clr-namespace:WinUI.TableView;assembly=WinUI.TableView"
+    xmlns:vm="clr-namespace:Magehelper.ViewModels.Dialogs"
+    Title="Vertrautenzauber hinzufügen"
+    CloseButtonText="Abbrechen"
+    PrimaryButtonCommand="{Binding SubmitCommand}"
+    PrimaryButtonText="Hinzufügen"
+    Style="{ThemeResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+    <ContentDialog.DataContext>
+        <vm:AddPetSpellDialogViewModel />
+    </ContentDialog.DataContext>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <gb:GroupBox
+            Grid.Row="0"
+            Height="115"
+            Header="verfügbare Zauber"
+            Theme="Fluent">
+            <t:TableView
+                AlternateRowBackground="#50515C6B"
+                CornerButtonMode="None"
+                IsReadOnly="True"
+                ItemsSource="{Binding SpellsAvailable}"
+                SelectionMode="None"
+                ShowExportOptions="False">
+                <t:TableView.Columns>
+                    <t:TableViewTextColumn Header="Name" />
+                    <t:TableViewTextColumn Header="Probe" />
+                    <t:TableViewTextColumn Header="Komplexität" />
+                    <t:TableViewTextColumn Header="Merkmale" />
+                    <t:TableViewTemplateColumn>
+                        <t:TableViewTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding AddSpellCommand}" CommandParameter="{Binding}">
+                                    <Image Source="/Assets/add_button.png" />
+                                </Button>
+                            </DataTemplate>
+                        </t:TableViewTemplateColumn.CellTemplate>
+                    </t:TableViewTemplateColumn>
+                </t:TableView.Columns>
+            </t:TableView>
+        </gb:GroupBox>
+        <gb:GroupBox
+            Grid.Row="1"
+            Height="115"
+            Header="gewählte Zauber"
+            Theme="Fluent">
+            <t:TableView
+                AlternateRowBackground="#50515C6B"
+                CornerButtonMode="None"
+                IsReadOnly="True"
+                ItemsSource="{Binding SpellsToLearn}"
+                SelectionMode="None"
+                ShowExportOptions="False">
+                <t:TableView.Columns>
+                    <t:TableViewTextColumn Header="Name" />
+                    <t:TableViewTextColumn Header="Probe" />
+                    <t:TableViewTextColumn Header="Komplexität" />
+                    <t:TableViewTextColumn Header="Merkmale" />
+                    <t:TableViewTemplateColumn>
+                        <t:TableViewTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding RemoveSpellCommand}" CommandParameter="{Binding}">
+                                    <Image Source="/Assets/del_button.png" />
+                                </Button>
+                            </DataTemplate>
+                        </t:TableViewTemplateColumn.CellTemplate>
+                    </t:TableViewTemplateColumn>
+                </t:TableView.Columns>
+            </t:TableView>
+        </gb:GroupBox>
+    </Grid>
+</ContentDialog>

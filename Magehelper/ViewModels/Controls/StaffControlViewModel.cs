@@ -1,6 +1,6 @@
 namespace Magehelper.ViewModels.Controls;
 
-public partial class StaffControlViewModel : ObservableObject, ITraditionArtifact, IRecipient<AddArtifactSpellDialogMessage>
+public partial class StaffControlViewModel : ObservableObject, IRecipient<AddArtifactSpellDialogMessage>
 {
     private readonly Core.Core _core = Core.Core.GetInstance();
     private readonly Staff _staff;
@@ -8,7 +8,6 @@ public partial class StaffControlViewModel : ObservableObject, ITraditionArtifac
     [ObservableProperty] private bool _isFlameswordFailure;
     [ObservableProperty] private bool _isFlameSwordFailureFourVisible;
     [ObservableProperty] private bool _isFlameSwordFailureFiveVisible;
-    public string ArtifactName => "Magierstab";
     public string FlameSwordFailureFiveText => "Mit 5 misslungen (Stab kann keine Zauber mehr aufnehmen)";
     public string Pasp => _staff.Pasp.ToString();
     public string Material => Staff.MaterialStrings[_staff.Material];
@@ -16,7 +15,7 @@ public partial class StaffControlViewModel : ObservableObject, ITraditionArtifac
 
     public StaffControlViewModel()
     {
-        _staff = _core.Staff ?? new Staff();
+        _staff = _core.Staff ?? new();
 
         if (_staff.LostPoints > 0)
         {
@@ -53,7 +52,7 @@ public partial class StaffControlViewModel : ObservableObject, ITraditionArtifac
 
     public void Receive(AddArtifactSpellDialogMessage message)
     {
-        if (message.ArtifactName != ArtifactName)
+        if (message.ArtifactName != _staff.Name)
         {
             return;
         }

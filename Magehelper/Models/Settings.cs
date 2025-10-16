@@ -1,4 +1,4 @@
-using System.Text.Json;
+using Windows.UI.ViewManagement;
 
 namespace Magehelper.Models;
 
@@ -8,7 +8,7 @@ public class Settings
     private readonly ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
     private readonly List<string> _configNames = [];
 
-    private readonly string[] _artifactFiles =
+    public string[] ArtifactFiles =>
     [
         "staff.json",
         "crystalBall.json",
@@ -23,7 +23,6 @@ public class Settings
     public string BaseSettingsPath { get; }
     public ArtifactSpell[] BoneCubSpells { get; set; } = [];
     public ArtifactSpell[] BowlSpells { get; set; } = [];
-
     public bool ChangeTraditionArtifactTabName { get; set; }
     public bool CheckForUpdates { get; set; }
     public ReadOnlyCollection<string> ConfigNames => _configNames.AsReadOnly();
@@ -35,33 +34,54 @@ public class Settings
     public int SpellStoragePoints { get; set; }
     public ArtifactSpell[] StaffSpells { get; set; } = [];
     public TabSetting[] TabSettings { get; private set; } = [];
+    public IEnumerable<string> DefaultTabs => from tabSetting in TabSettings where tabSetting.ShowTab select tabSetting.TabName;
     public bool UseHeldentoolNames { get; set; }
     public bool WarnOtherVersionFiles { get; set; }
+    public string CurrentConfigName { get; private set; }
+    public ElementTheme Theme { get; set; }
 
     private Settings()
     {
         BaseSettingsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
             "magehelper", "config");
 #if DEBUG
+        BaseSettingsPath = Path.Combine(AppContext.BaseDirectory, "BaseSettings");
         CurrentSettingsPath = Path.Combine(AppContext.BaseDirectory, "BaseSettings");
+        CurrentConfigName = "Standard";
 #endif
         if (_localSettings.Values["CurrrentSettingsPath"] == null)
         {
-            try
-            {
-                LoadConfig("Standard");
-            }
-            catch
-            {
-                // ReSharper disable once UnusedVariable --- suppress warning for debug build
-                string defaultConfigPath = AddConfig("Standard");
+            // ReSharper disable once UnusedVariable --- suppress warning for debug build
+            string defaultConfigPath = AddConfig("Standard");
 #if RELEASE
-                CurrentSettingsPath = defaultConfigPath;
+            CurrentSettingsPath = defaultConfigPath;
 #endif
-            }
-
             SetCurrentConfig();
         }
+        else
+        {
+#if RELEASE
+            CurrentSettingsPath = _localSettings.Values["CurrrentSettingsPath"].ToString()!;
+#endif
+            LoadConfig(CurrentConfigName);
+        }
+
+        if (_localSettings.Values["theme"] is string theme)
+        {
+            Theme = theme switch
+            {
+                "Light" => ElementTheme.Light,
+                "Dark" => ElementTheme.Dark,
+                _ => ElementTheme.Default
+            };
+        }
+        else
+        {
+            string defaultTheme = new UISettings().GetColorValue(UIColorType.Background).ToString();
+            Theme = defaultTheme == "#FF000000" ? ElementTheme.Dark : ElementTheme.Light;
+            _localSettings.Values["theme"] = Theme.ToString();
+        }
+
 
         string[] directoryList = Directory.GetDirectories(BaseSettingsPath);
 
@@ -82,10 +102,16 @@ public class Settings
     {
         DirectoryInfo configDirectory = Directory.CreateDirectory(Path.Combine(BaseSettingsPath, configName));
 
-        foreach (string file in _artifactFiles.Append("tabSettings.json").Append("appSettings.json"))
+        foreach (string file in ArtifactFiles.Append("tabSettings.json").Append("appSettings.json"))
         {
-            File.Copy(Path.Combine(AppContext.BaseDirectory, "BaseSettings", file),
-                Path.Combine(configDirectory.FullName, file), true);
+            File.Copy(Path.Combine(
+                    AppContext.BaseDirectory,
+                    "BaseSettings",
+                    file),
+                Path.Combine(
+                    configDirectory.FullName,
+                    file),
+                true);
         }
 
         return configDirectory.FullName;
@@ -99,34 +125,46 @@ public class Settings
 
     public void LoadConfig(string configName)
     {
+#if DEBUG
+        configName = string.Empty;
+#endif
         CurrentSettingsPath = Path.Combine(BaseSettingsPath, configName);
 
-        foreach (string file in _artifactFiles.Append("tabSettings.json").Prepend("appSettings.json"))
+        foreach (string file in ArtifactFiles.Append("tabSettings.json").Prepend("appSettings.json"))
         {
-            if (file is not ("tabSettings.json" or "appSettings.json"))
+            switch (file)
             {
-                SettingsHelper.ArtifactSpells[file] = ReadSettingsFile<ArtifactSpell[]>(file);
-            }
-            else
-            {
-                switch (file)
-                {
-                    case "tabSettings.json":
-                        TabSettings = ReadSettingsFile<TabSetting[]>(file);
+                case "staff.json":
+                    StaffSpells = ReadSettingsFile<ArtifactSpell[]>(file);
+                    break;
+                case "crystalBall.json":
+                    CrystalBallSpells = ReadSettingsFile<ArtifactSpell[]>(file);
+                    break;
+                case "bowl.json":
+                    BowlSpells = ReadSettingsFile<ArtifactSpell[]>(file);
+                    break;
+                case "boneCub.json":
+                    BoneCubSpells = ReadSettingsFile<ArtifactSpell[]>(file);
+                    break;
+                case "ringOfLife.json":
+                    RingOfLifeSpells = ReadSettingsFile<ArtifactSpell[]>(file);
+                    break;
+                case "obsidianDagger.json":
+                    ObsidianDaggerSpells = ReadSettingsFile<ArtifactSpell[]>(file);
+                    break;
+                case "tabSettings.json":
+                    TabSettings = ReadSettingsFile<TabSetting[]>(file);
+                    break;
+                case "appSettings.json":
+                    AppSettings appSettings = ReadSettingsFile<AppSettings>(file);
+                    SpellStoragePoints = appSettings.SpellStoragePoints;
+                    AllowRemoveSpells = appSettings.AllowRemoveSpells;
+                    UseHeldentoolNames = appSettings.UseHeldentoolNames;
+                    CheckForUpdates = appSettings.CheckForUpdates;
+                    AutoInstallUpdates = appSettings.AutoInstallUpdates;
+                    WarnOtherVersionFiles = appSettings.WarnOtherVersionFiles;
+                    break;
 
-                        break;
-                    case "appSettings.json":
-                        AppSettings appSettings = ReadSettingsFile<AppSettings>(file);
-                        SpellStoragePoints = appSettings.SpellStoragePoints;
-                        AllowRemoveSpells = appSettings.AllowRemoveSpells;
-                        UseHeldentoolNames = appSettings.UseHeldentoolNames;
-                        CheckForUpdates = appSettings.CheckForUpdates;
-                        AutoInstallUpdates = appSettings.AutoInstallUpdates;
-                        WarnOtherVersionFiles = appSettings.WarnOtherVersionFiles;
-                        ChangeTraditionArtifactTabName = appSettings.ChangeTraditionArtifactTabName;
-
-                        break;
-                }
             }
         }
     }
@@ -143,7 +181,7 @@ public class Settings
             WarnOtherVersionFiles = WarnOtherVersionFiles
         };
 
-        foreach (string file in _artifactFiles.Append("tabSettings.json").Append("appSettings.json"))
+        foreach (string file in ArtifactFiles.Append("tabSettings.json").Append("appSettings.json"))
         {
             if (file is not ("tabSettings.json" or "appSettings.json"))
             {
@@ -171,11 +209,12 @@ public class Settings
     public void SetCurrentConfig()
     {
         _localSettings.Values["CurrrentSettingsPath"] = CurrentSettingsPath;
-        SettingsChanged = true;
+        CurrentConfigName = Path.GetFileName(CurrentSettingsPath);
+        //TODO remove
+        Console.WriteLine();
     }
 
     private T ReadSettingsFile<T>(string fileName) where T : notnull
-
     {
         T output = JsonSerializer.Deserialize<T>(File.ReadAllText(Path.Combine(CurrentSettingsPath, fileName)))!;
 

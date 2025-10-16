@@ -1,5 +1,3 @@
-using System.Collections.Specialized;
-
 namespace Magehelper.ViewModels.Controls;
 
 public partial class TraditionArtifactControlViewModel : ObservableObject, IRecipient<AddTraditionArtifactSpellMessage>

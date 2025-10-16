@@ -1,8 +1,7 @@
 ﻿<ContentDialog
-    x:Class="DSAMetatalente.Views.LoadFromToolDialog"
+    x:Class="Magehelper.Views.Dialogs.LoadFromToolDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:dialogs="clr-namespace:Magehelper.ViewModels.Dialogs"
     xmlns:vm="clr-namespace:Magehelper.ViewModels.Dialogs"
     Title="Character laden"
     CloseButtonText="Abbrechen"
@@ -10,7 +9,7 @@
     PrimaryButtonText="OK"
     Style="{ThemeResource DefaultContentDialogStyle}">
     <ContentDialog.DataContext>
-        <dialogs:LoadFromToolDialogViewModel />
+        <vm:LoadFromToolDialogViewModel />
     </ContentDialog.DataContext>
     <StackPanel Margin="10">
         <TextBlock Text="Wähle einen Charakter aus der Liste" />

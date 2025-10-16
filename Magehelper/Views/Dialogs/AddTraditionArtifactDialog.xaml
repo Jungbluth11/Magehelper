@@ -57,7 +57,7 @@
                 Grid.Column="0"
                 Margin="5"
                 Text="Zusätzliche pAsP" />
-            <NumberBox
+            <NumberBox SpinButtonPlacementMode="Compact"
                 Grid.Row="2"
                 Grid.Column="1"
                 Margin="5"

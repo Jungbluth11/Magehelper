@@ -25,6 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="BaseSettings\appSettings.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Update="BaseSettings\boneCub.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

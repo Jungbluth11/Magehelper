@@ -19,3 +19,7 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~P:Magehelper.Core.Pet.Rkw")]
 [assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~M:Magehelper.Core.Artifact.#ctor(System.String,System.String)")]
 [assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~F:Magehelper.Core.Character.Rkw")]
+[assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~P:Magehelper.Core.BoneCub.AdditionalMtp")]
+[assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~P:Magehelper.Core.BoneCub.MtpString")]
+[assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~P:Magehelper.Core.BoneCub.TpString")]
+[assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~P:Magehelper.Core.Character.Rkw")]

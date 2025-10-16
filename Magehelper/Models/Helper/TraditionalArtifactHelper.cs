@@ -6,41 +6,51 @@ public static class TraditionalArtifactHelper
 
     public static Dictionary<string, bool> IsInitialized => new()
     {
-        {"Alchemistenschale", Core.Bowl != null},
-        {"Knochenkeule", Core.BoneCub != null},
-        {"Kristallkugel", Core.CrystalBall != null},
-        {"Magierstab", Core.Staff != null},
-        {"Ring des Lebens", Core.RingOfLife != null},
-        {"Vulkanglasdolch", Core.ObsidianDagger != null}
+        {ArtifactNames.Bowl, Core.Bowl != null},
+        {ArtifactNames.BoneCub, Core.BoneCub != null},
+        {ArtifactNames.CrystalBall, Core.CrystalBall != null},
+        {ArtifactNames.Staff, Core.Staff != null},
+        {ArtifactNames.RingOfLife, Core.RingOfLife != null},
+        {ArtifactNames.ObsidianDagger, Core.ObsidianDagger != null}
     };
 
     public static Dictionary<string, Type> GetControlType => new()
     {
-        {"Alchemistenschale", typeof(BowlControl)},
-        {"Knochenkeule",typeof(BoneCub)},
-        {"Kristallkugel", typeof(CrystalBall)},
-        {"Magierstab",typeof(Staff)},
-        {"Ring des Lebens", typeof(RingOfLifeControl)},
-        {"Vulkanglasdolch", typeof(ObsidianDaggerControl)}
+            {ArtifactNames.Bowl, typeof(Bowl)},
+        //    {ArtifactNames.BoneCub, typeof(BoneCubControl)},
+        //    {ArtifactNames.CrystalBall, typeof(CrystalBallControl)},
+        //    {ArtifactNames.Staff, typeof(StaffControl)},
+        //    {ArtifactNames.RingOfLife, typeof(RingOfLifeControl)},
+        //    {ArtifactNames.ObsidianDagger, typeof(ObsidianDaggerControl)}
     };
 
     public static Dictionary<string, Artifact?> GetArtifact => new()
     {
-        {"Alchemistenschale", Core.Bowl},
-        {"Knochenkeule", Core.BoneCub},
-        {"Kristallkugel", Core.CrystalBall},
-        {"Magierstab", Core.Staff},
-        {"Ring des Lebens", Core.RingOfLife},
-        {"Vulkanglasdolch", Core.ObsidianDagger}
+        {ArtifactNames.Bowl, Core.Bowl},
+        {ArtifactNames.BoneCub, Core.BoneCub},
+        {ArtifactNames.CrystalBall, Core.CrystalBall},
+        {ArtifactNames.Staff, Core.Staff},
+        {ArtifactNames.RingOfLife, Core.RingOfLife},
+        {ArtifactNames.ObsidianDagger, Core.ObsidianDagger}
     };
 
     public static Dictionary<string, string> SpellDescriptor => new()
     {
-        {"Alchemistenschale", "Schalenzauber"},
-        {"Knochenkeule","Keulenzauber"},
-        {"Kristallkugel", "Kugelzauber"},
-        {"Magierstab", "Stabzauber"},
-        {"Ring des Lebens","Ringzauber"},
-        {"Vulkanglasdolch","Dolchzauber"}
+        {ArtifactNames.Bowl, "Schalenzauber"},
+        {ArtifactNames.BoneCub,"Keulenzauber"},
+        {ArtifactNames.CrystalBall, "Kugelzauber"},
+        {ArtifactNames.Staff, "Stabzauber"},
+        {ArtifactNames.RingOfLife,"Ringzauber"},
+        {ArtifactNames.ObsidianDagger,"Dolchzauber"}
     };
+
+    public static class ArtifactNames
+    {
+        public static string Bowl => "Alchemistenschale";
+        public static string BoneCub => "Knochenkeule";
+        public static string CrystalBall => "Kristallkugel";
+        public static string Staff => "Magierstab";
+        public static string RingOfLife => "Ring des Lebens";
+        public static string ObsidianDagger => "Vulkanglasdolch";
+    }
 }

@@ -4,7 +4,7 @@ namespace Magehelper.Views.Tabs;
 
 public sealed partial class TabSpellStorage : TabViewItem
 {
-    private TabSpellStorageViewModel ViewModel => (TabSpellStorageViewModel)DataContext;
+    private TabSpellStorageViewModel ViewModel => (TabSpellStorageViewModel) DataContext;
     public TabSpellStorage()
     {
         InitializeComponent();
@@ -15,12 +15,16 @@ public sealed partial class TabSpellStorage : TabViewItem
     {
         try
         {
-            if (e.PropertyName != "IsSpellStorageEnabled")
+            if (e.PropertyName != "IsSpellStorageEnabled" || ViewModel.SpellStorageList.Any())
             {
                 return;
             }
 
-            EnableSpellStorageDialog dialog = new();
+            EnableSpellStorageDialog dialog = new()
+            {
+                XamlRoot = XamlRoot
+            };
+
             dialog.SetPoints(ViewModel.Points);
             ContentDialogResult result = await dialog.ShowAsync();
 
@@ -28,6 +32,23 @@ public sealed partial class TabSpellStorage : TabViewItem
             {
                 (DataContext as TabSpellStorageViewModel)!.EnableTab();
             }
+        }
+        catch (Exception ex)
+        {
+            await ErrorMessageHelper.ShowErrorDialog(ex.Message, XamlRoot!);
+        }
+    }
+
+    private async void Button_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            AddStoragedSpellDialog dialog = new()
+            {
+                XamlRoot = XamlRoot
+            };
+
+            await dialog.ShowAsync();
         }
         catch (Exception ex)
         {

@@ -1,170 +1,159 @@
 namespace Magehelper.ViewModels.Pages;
 
-public partial class SettingsPageViewModel : ObservableObject
+public partial class SettingsPageViewModel : ObservableObject, IRecipient<ConfigAddedMessage>
 {
-    [ObservableProperty]
-    private string _currentConfigName;
-    [ObservableProperty]
-    private bool _allowRemoveSpells;
-    [ObservableProperty]
-    private bool _useHeldentoolNames;
-    [ObservableProperty]
-    private bool _checkForUpdates;
-    [ObservableProperty]
-    private bool _autoinstallUpdates;
-    [ObservableProperty]
-    private bool _warnOtherVersionFiles;
-    [ObservableProperty]
-    private IEnumerable<TabSetting> _tabSettings = [];
-    private readonly Settings settings;
-    public ObservableCollection<string> ConfigNames { get; }
-    public ObservableCollection<TabItem> Tabs { get; set; } = [];
+    private readonly bool _isInitalized;
+    private readonly Settings _settings = Settings.GetInstance();
 
+    [ObservableProperty] private bool _allowRemoveSpells;
+    [ObservableProperty] private bool _autoinstallUpdates;
+    [ObservableProperty] private bool _checkForUpdates;
+    [ObservableProperty] private bool _useHeldentoolNames;
+    [ObservableProperty] private bool _warnOtherVersionFiles;
+    [ObservableProperty] private string _currentConfigName;
+    [ObservableProperty] private TabSetting[] _tabSettings = [];
+    [ObservableProperty] private bool _isDarkTheme;
+
+    public ObservableCollection<HomeBrewTab> HomeBrewTabs { get; set; } = [];
+    public ObservableCollection<string> ConfigNames { get; }
 
     public SettingsPageViewModel()
     {
-        settings = new Settings();
-        ConfigNames = new ObservableCollection<string>(settings.ConfigNames);
-        LoadConfig();
-        _currentConfigName = Path.GetFileName(settings.CurrentSettingsPath);
+        ConfigNames = new(_settings.ConfigNames);
+        LoadConfig(_settings.CurrentConfigName);
+        _currentConfigName = _settings.CurrentConfigName;
+        IsDarkTheme = _settings.Theme == ElementTheme.Dark;
+        WeakReferenceMessenger.Default.Register(this);
+        _isInitalized = true;
     }
 
-    public void AddConfig(string configName)
+    partial void OnIsDarkThemeChanged(bool value)
     {
-        settings.AddConfig(configName);
-        ConfigNames.Add(configName);
+        _settings.Theme = value ? ElementTheme.Dark : ElementTheme.Light;
     }
 
-    private void LoadConfig(string? configName = null)
+    public void Receive(ConfigAddedMessage message)
     {
-        if (configName != null)
-        {
-            settings.LoadConfig(configName);
-        }
-        TabSettings = settings.TabSettings;
-        AllowRemoveSpells = settings.AllowRemoveSpells;
-        UseHeldentoolNames = settings.UseHeldentoolNames;
-        CheckForUpdates = settings.CheckForUpdates;
-        AutoinstallUpdates = settings.AutoInstallUpdates;
-        WarnOtherVersionFiles = settings.WarnOtherVersionFiles;
-        Tabs.Clear();
-        StaffSettingsControl staffSettings = new(settings.StaffSpells);
-        ArtifactSettingsControl crystalBallSettings = new(settings.CrystalBallSpells);
-        ArtifactSettingsControl bowlSettings = new(settings.BowlSpells);
-        ArtifactSettingsControl boneCubSettings = new(settings.BoneCubSpells);
-        ArtifactSettingsControl ringOfLifeSettings = new(settings.RingOfLifeSpells);
-        ArtifactSettingsControl obsidianDaggerSettings = new(settings.ObsidianDaggerSpells);
-        IArtifactSettingsTab[] artifactSettings =
-        [
-            staffSettings,
-            crystalBallSettings,
-            bowlSettings,
-            boneCubSettings,
-            ringOfLifeSettings,
-            obsidianDaggerSettings
-        ];
-        foreach (IArtifactSettingsTab setting in artifactSettings)
-        {
-            TabItem tabItem = new()
-            {
-                Header = setting.SettingsHeader,
-                Content = setting
-            };
-            Tabs.Add(tabItem);
-        }
+        ConfigNames.Add(message.Value);
     }
 
-    [RelayCommand]
-    private async Task ForceUpdate()
+    public void Save()
     {
-        Updater updater = new();
-        if (updater.CheckForUpdates())
-        {
-            updater.Update();
-        }
-        else
-        {
-            await MessageBoxGenerator.GetMessageBox("Magehelper ist auf dem neuesten Stand.", MessageBoxGenerator.Buttons.OK).ShowAsync();
-        }
+        _settings.SaveConfigFile();
+        _settings.SetCurrentConfig();
     }
 
-    [RelayCommand]
-    private async Task Save(Window window)
+    public void SetSpellCost(string spellName, int spellCost)
     {
-        if (settings.SettingsChanged)
-        {
-            IMsBox<string> messageBox = MessageBoxGenerator.GetMessageBox("Sollen die Änderungen gespeichert werden?", MessageBoxGenerator.Buttons.YesNo, Icon.Question);
-            string result = await messageBox.ShowAsync();
-            if (result == "Ja")
-            {
-                settings.SaveConfigFile();
-                settings.SetCurrentConfig();
-            }
-            IMsBox<string> messageBoxRestart = MessageBoxGenerator.GetMessageBox("Die Änderungen werden erst nach einem Neustart wirksam.\nSoll jetzt neu gestartet werden?", MessageBoxGenerator.Buttons.YesNo, Icon.Question);
-            string resultRestart = await messageBoxRestart.ShowAsync();
-            if (resultRestart == "Ja")
-            {
-                if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopApp)
-                {
-                    desktopApp.Shutdown();
-                }
-            }
-            window.Close();
-        }
+        string settingsFile = (from tab in HomeBrewTabs
+                               from spell in tab.Spells
+                               where spell.Name == spellName
+                               select tab.SettingsFile).First();
+
+        ArtifactSpell artifactSpell = (from tab in HomeBrewTabs
+                                       from spell in tab.Spells
+                                       where spell.Name == spellName
+                                       select spell).First();
+
+        int i = SettingsHelper.ArtifactSpells[settingsFile].IndexOf(artifactSpell);
+        SettingsHelper.ArtifactSpells[settingsFile][i].Cost = spellCost;
+        _settings.SettingsChanged = true;
     }
 
-    [RelayCommand]
-    private void Cancel(Window window)
+    public void SetTabSetting(string tabName, bool showTab)
     {
-        window.Close();
+        int i = TabSettings.IndexOf(TabSettings.First(t => t.TabName == tabName));
+        _settings.TabSettings[i].ShowTab = showTab;
     }
 
-    partial void OnCurrentConfigNameChanging(string value)
+    private void LoadConfig(string configName)
     {
-        if (settings.SettingsChanged)
+        _settings.LoadConfig(configName);
+        TabSettings = _settings.TabSettings;
+        AllowRemoveSpells = _settings.AllowRemoveSpells;
+        UseHeldentoolNames = _settings.UseHeldentoolNames;
+        CheckForUpdates = _settings.CheckForUpdates;
+        AutoinstallUpdates = _settings.AutoInstallUpdates;
+        WarnOtherVersionFiles = _settings.WarnOtherVersionFiles;
+        HomeBrewTabs.Clear();
+
+        foreach (string file in _settings.ArtifactFiles)
         {
-            IMsBox<string> messageBox = MessageBoxGenerator.GetMessageBox("Sollen die Änderungen gespeichert werden?", MessageBoxGenerator.Buttons.YesNo, Icon.Question);
-            string result = messageBox.ShowAsync().Result;
-            if (result == "Ja")
-            {
-                settings.SaveConfigFile();
-            }
-            LoadConfig(value);
+            HomeBrewTabs.Add(new()
+            { Name = SettingsHelper.ArtifactName[file], SettingsFile = file, Spells = SettingsHelper.ArtifactSpells[file] });
         }
+
+        if (_isInitalized)
+        {
+            _settings.SettingsChanged = true;
+        }
+
     }
 
     partial void OnAllowRemoveSpellsChanged(bool value)
     {
-        settings.AllowRemoveSpells = value;
-        settings.SettingsChanged = true;
-    }
+        if (!_isInitalized)
+        {
+            return;
+        }
 
-    partial void OnUseHeldentoolNamesChanged(bool value)
-    {
-        settings.UseHeldentoolNames = value;
-        settings.SettingsChanged = true;
-    }
-
-    partial void OnCheckForUpdatesChanged(bool value)
-    {
-        settings.CheckForUpdates = value;
-        settings.SettingsChanged = true;
+        _settings.AllowRemoveSpells = value;
+        _settings.SettingsChanged = true;
     }
 
     partial void OnAutoinstallUpdatesChanged(bool value)
     {
-        settings.AutoInstallUpdates = value;
-        settings.SettingsChanged = true;
+        if (!_isInitalized)
+        {
+            return;
+        }
+
+        _settings.AutoInstallUpdates = value;
+        _settings.SettingsChanged = true;
+    }
+
+    partial void OnCheckForUpdatesChanged(bool value)
+    {
+        if (!_isInitalized)
+        {
+            return;
+        }
+
+        _settings.CheckForUpdates = value;
+        _settings.SettingsChanged = true;
+    }
+
+    partial void OnCurrentConfigNameChanging(string value)
+    {
+        LoadConfig(value);
+    }
+
+    partial void OnUseHeldentoolNamesChanged(bool value)
+    {
+        if (!_isInitalized)
+        {
+            return;
+        }
+
+        _settings.UseHeldentoolNames = value;
+        _settings.SettingsChanged = true;
     }
 
     partial void OnWarnOtherVersionFilesChanged(bool value)
     {
-        settings.WarnOtherVersionFiles = value;
-        settings.SettingsChanged = true;
+        if (!_isInitalized)
+        {
+            return;
+        }
+
+        _settings.WarnOtherVersionFiles = value;
+        _settings.SettingsChanged = true;
     }
 
-    partial void OnTabSettingsChanged(IEnumerable<TabSetting> value)
+    [RelayCommand]
+    private void ForceUpdate()
     {
-        settings.SettingsChanged = true;
+        Updater updater = new();
+        updater.Update();
     }
 }

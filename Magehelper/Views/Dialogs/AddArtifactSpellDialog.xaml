@@ -68,6 +68,7 @@
                 KeyDown="UIElement_OnKeyDown"
                 Maximum="{Binding MaxSpellPoints}"
                 Minimum="{Binding MinSpellPoints}"
+                SpinButtonPlacementMode="Compact"
                 Visibility="{Binding IsSpellPointsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
                 Value="{Binding SpellPoints, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             <TextBlock
@@ -86,6 +87,7 @@
                     KeyDown="UIElement_OnKeyDown"
                     Maximum="{Binding MaxSpellPoints}"
                     Minimum="{Binding MinSpellPoints}"
+                    SpinButtonPlacementMode="Compact"
                     Value="{Binding HammerRkp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <Button Command="{Binding RollHammerCommand}" IsEnabled="{Binding CanRollHammer}">
                     <Image Source="../../Assets/dice.png" />

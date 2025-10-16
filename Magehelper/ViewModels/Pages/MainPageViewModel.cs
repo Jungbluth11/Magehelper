@@ -4,15 +4,20 @@ public partial class MainPageViewModel : ObservableObject
 {
     public bool CanLoadCharacterFromTool => HeldentoolInterop.IsInstalled();
     [ObservableProperty] private string _loadedCharacter = string.Empty;
-    public Settings Settings { get; }
+    public Settings Settings => Settings.GetInstance();
     private readonly Core.Core _core = Core.Core.GetInstance();
 
     public MainPageViewModel()
     {
-        Settings = new();
+        Settings.LoadConfig(Settings.CurrentConfigName);
         _core.SettingsPath = Settings.CurrentSettingsPath;
         _core.SpellStoragePoints = Settings.SpellStoragePoints;
+        _core.OnFileChanged += Core_OnFileChanged;
+    }
 
+    private void Core_OnFileChanged(object sender, EventArgs e)
+    {
+        WeakReferenceMessenger.Default.Send(new FileActionMessage(FileAction.Changed));
     }
 
     public void NewFile()
@@ -36,10 +41,10 @@ public partial class MainPageViewModel : ObservableObject
         _core.WriteFile();
     }
 
-    public string WarnOtherVersionFilesMessage(bool isLegacy)
+    public string WarnOtherVersionFilesMessage(string path)
     {
         // ReSharper disable once ConvertIfStatementToReturnStatement --- improves readability
-        if (isLegacy)
+        if (_core.GetFileVersion(path) == "0")
         {
             return "Achtung! Diese Datei wurde mit einer Version vor 3.0.0 erstellt. Wenn sie gespeichert wird kann nicht wieder in Magehelper vor Version 3.0.0 geöffnet werden!";
         }

@@ -1,0 +1,27 @@
+﻿<ContentDialog
+    x:Class="Magehelper.Views.Dialogs.AddConfigDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:CommunityToolkit.WinUI.UI.Converters;assembly=CommunityToolkit.WinUI.UI"
+    xmlns:viewModel="clr-namespace:Magehelper.ViewModels.Dialogs"
+    Title="Konfiguration hinzufügen"
+    CloseButtonText="Abbrechen"
+    PrimaryButtonCommand="{Binding AddCommand}"
+    PrimaryButtonText="hinzufügen"
+    Style="{ThemeResource DefaultContentDialogStyle}">
+    <ContentDialog.DataContext>
+        <viewModel:AddConfigDialogViewModel />
+    </ContentDialog.DataContext>
+    <ContentDialog.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </ContentDialog.Resources>
+    <StackPanel>
+        <TextBox Text="{Binding ConfigName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <Border BorderBrush="Red" Visibility="{Binding IsConfigNameExistErrorVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TextBlock
+                Background="#FF7F7F"
+                Text="Es existiert bereits eine Konfiguration mit diesem Namen"
+                TextWrapping="WrapWholeWords" />
+        </Border>
+    </StackPanel>
+</ContentDialog>

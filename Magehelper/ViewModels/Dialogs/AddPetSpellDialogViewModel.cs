@@ -1,22 +1,19 @@
 namespace Magehelper.ViewModels.Dialogs;
 
-public partial class AddPetSpellWindowViewModel : ObservableObject
+public partial class AddPetSpellDialogViewModel : ObservableObject
 {
-    private readonly Pet pet;
+    private readonly Pet _pet;
     public ObservableCollection<PetSpell> SpellsAvailable { get; set; } = [];
     public ObservableCollection<PetSpell> SpellsToLearn { get; set; } = [];
 
-    public AddPetSpellWindowViewModel(Pet pet)
+    public AddPetSpellDialogViewModel()
     {
-        this.pet = pet;
-        foreach (PetSpell spell in pet.SpellsAvailable)
-        {
-            if (!pet.KnownSpells.Contains(spell))
-            {
-                SpellsAvailable.Add(spell);
-            }
-        }
-        SpellsAvailable.Sort(p => p.Name);
+        _pet = Core.Core.GetInstance().Pet!;
+
+        SpellsAvailable.AddRange(from p in _pet.SpellsAvailable
+                                 where !_pet.KnownSpells.Contains(p)
+                                 orderby p.Name
+                                 select p);
     }
 
     private bool CanSubmit()
@@ -42,18 +39,11 @@ public partial class AddPetSpellWindowViewModel : ObservableObject
     }
 
     [RelayCommand(CanExecute = nameof(CanSubmit))]
-    private void Submit(Window window)
+    private void Submit()
     {
         foreach (PetSpell spell in SpellsToLearn)
         {
-            pet.LearnSpell(spell.Name);
+            _pet.LearnSpell(spell.Name);
         }
-        window.Close();
-    }
-
-    [RelayCommand]
-    private void Cancel(Window window)
-    {
-        window.Close();
     }
 }
