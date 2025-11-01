@@ -2,6 +2,7 @@
     x:Class="Magehelper.Views.Tabs.TabPet"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Magehelper.Views.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:gb="clr-namespace:UnoGroupBox;assembly=UnoGroupBox"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -46,217 +47,69 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <StackPanel
-                    Grid.Row="0"
+                <controls:AttributeControl
                     Grid.Column="0"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        Margin="10,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="MU" />
-                    <NumberBox
-                        Margin="0,0,10,0"
-                        IsEnabled="{Binding IsPetLoaded}"
-                        KeyDown="UIElement_OnKeyDown"
-                        Minimum="0"
-                        SpinButtonPlacementMode="Compact"
-                        Value="{Binding Mu, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                </StackPanel>
-                <StackPanel
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        Margin="10,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="KL" />
-                    <NumberBox
-                        Margin="0,0,10,0"
-                        IsEnabled="{Binding IsPetLoaded}"
-                        KeyDown="UIElement_OnKeyDown"
-                        Minimum="0"
-                        SpinButtonPlacementMode="Compact"
-                        Value="{Binding Kl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                </StackPanel>
-                <StackPanel
-                    Grid.Row="0"
-                    Grid.Column="2"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        Margin="10,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="IN" />
-                    <NumberBox
-                        Margin="0,0,10,0"
-                        IsEnabled="{Binding IsPetLoaded}"
-                        KeyDown="UIElement_OnKeyDown"
-                        Minimum="0"
-                        SpinButtonPlacementMode="Compact"
-                        Value="{Binding In, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                </StackPanel>
-                <StackPanel
-                    Grid.Row="0"
-                    Grid.Column="3"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        Margin="10,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="CH" />
-                    <NumberBox
-                        Margin="0,0,10,0"
-                        IsEnabled="{Binding IsPetLoaded}"
-                        KeyDown="UIElement_OnKeyDown"
-                        Minimum="0"
-                        SpinButtonPlacementMode="Compact"
-                        Value="{Binding Ch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                </StackPanel>
-                <StackPanel
-                    Grid.Row="0"
-                    Grid.Column="4"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        Margin="10,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="FF" />
-                    <NumberBox
-                        Margin="0,0,10,0"
-                        IsEnabled="{Binding IsPetLoaded}"
-                        KeyDown="UIElement_OnKeyDown"
-                        Minimum="0"
-                        SpinButtonPlacementMode="Compact"
-                        Value="{Binding Ff, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                </StackPanel>
-                <StackPanel
-                    Grid.Row="0"
-                    Grid.Column="5"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        Margin="10,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="GE" />
-                    <NumberBox
-                        Margin="0,0,10,0"
-                        IsEnabled="{Binding IsPetLoaded}"
-                        KeyDown="UIElement_OnKeyDown"
-                        Minimum="0"
-                        SpinButtonPlacementMode="Compact"
-                        Value="{Binding Ge, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                </StackPanel>
-                <StackPanel
-                    Grid.Row="0"
-                    Grid.Column="6"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        Margin="10,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="KO" />
-                    <NumberBox
-                        Margin="0,0,10,0"
-                        IsEnabled="{Binding IsPetLoaded}"
-                        KeyDown="UIElement_OnKeyDown"
-                        Minimum="0"
-                        SpinButtonPlacementMode="Compact"
-                        Value="{Binding Ko, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                </StackPanel>
-                <StackPanel
-                    Grid.Row="0"
-                    Grid.Column="7"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        Margin="10,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="KK" />
-                    <NumberBox
-                        Margin="0,0,10,0"
-                        IsEnabled="{Binding IsPetLoaded}"
-                        KeyDown="UIElement_OnKeyDown"
-                        Minimum="0"
-                        SpinButtonPlacementMode="Compact"
-                        Value="{Binding Kk, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                </StackPanel>
-                <StackPanel
-                    Grid.Row="0"
-                    Grid.Column="8"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        Margin="10,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="MR" />
-                    <NumberBox
-                        Margin="0,0,10,0"
-                        IsEnabled="{Binding IsPetLoaded}"
-                        KeyDown="UIElement_OnKeyDown"
-                        Minimum="0"
-                        SpinButtonPlacementMode="Compact"
-                        Value="{Binding Mr, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                </StackPanel>
-                <Button
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Margin="5"
                     Click="BtnIncreaseMU_Click"
-                    Content="Steigern"
-                    IsEnabled="{Binding IsPetLoaded}" />
-                <Button
-                    Grid.Row="1"
+                    IsEnabled="{Binding IsPetLoaded}"
+                    ShowIncreaseButton="True"
+                    Text="MU"
+                    Value="{Binding Mu, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
                     Grid.Column="1"
-                    Margin="5"
                     Click="BtnIncreaseKL_Click"
-                    Content="Steigern"
-                    IsEnabled="{Binding IsPetLoaded}" />
-                <Button
-                    Grid.Row="1"
+                    IsEnabled="{Binding IsPetLoaded}"
+                    ShowIncreaseButton="True"
+                    Text="KL"
+                    Value="{Binding Kl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
                     Grid.Column="2"
-                    Margin="5"
                     Click="BtnIncreaseIN_Click"
-                    Content="Steigern"
-                    IsEnabled="{Binding IsPetLoaded}" />
-                <Button
-                    Grid.Row="1"
+                    IsEnabled="{Binding IsPetLoaded}"
+                    ShowIncreaseButton="True"
+                    Text="IN"
+                    Value="{Binding In, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
                     Grid.Column="3"
-                    Margin="5"
                     Click="BtnIncreaseCH_Click"
-                    Content="Steigern"
-                    IsEnabled="{Binding IsPetLoaded}" />
-                <Button
-                    Grid.Row="1"
+                    IsEnabled="{Binding IsPetLoaded}"
+                    ShowIncreaseButton="True"
+                    Text="CH"
+                    Value="{Binding Ch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
                     Grid.Column="4"
-                    Margin="5"
                     Click="BtnIncreaseFF_Click"
-                    Content="Steigern"
-                    IsEnabled="{Binding IsPetLoaded}" />
-                <Button
-                    Grid.Row="1"
+                    IsEnabled="{Binding IsPetLoaded}"
+                    ShowIncreaseButton="True"
+                    Text="FF"
+                    Value="{Binding Ff, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
                     Grid.Column="5"
-                    Margin="5"
                     Click="BtnIncreaseGE_Click"
-                    Content="Steigern"
-                    IsEnabled="{Binding IsPetLoaded}" />
-                <Button
-                    Grid.Row="1"
+                    IsEnabled="{Binding IsPetLoaded}"
+                    ShowIncreaseButton="True"
+                    Text="GE"
+                    Value="{Binding Ge, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
                     Grid.Column="6"
-                    Margin="5"
                     Click="BtnIncreaseKO_Click"
-                    Content="Steigern"
-                    IsEnabled="{Binding IsPetLoaded}" />
-                <Button
-                    Grid.Row="1"
+                    IsEnabled="{Binding IsPetLoaded}"
+                    ShowIncreaseButton="True"
+                    Text="KO"
+                    Value="{Binding Ko, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
                     Grid.Column="7"
-                    Margin="5"
                     Click="BtnIncreaseKK_Click"
-                    Content="Steigern"
-                    IsEnabled="{Binding IsPetLoaded}" />
-                <Button
-                    Grid.Row="1"
+                    IsEnabled="{Binding IsPetLoaded}"
+                    ShowIncreaseButton="True"
+                    Text="KK"
+                    Value="{Binding Kk, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
                     Grid.Column="8"
-                    Margin="5"
                     Click="BtnIncreaseMR_Click"
-                    Content="Steigern"
-                    IsEnabled="{Binding IsPetLoaded}" />
+                    IsEnabled="{Binding IsPetLoaded}"
+                    ShowIncreaseButton="True"
+                    Text="MR"
+                    Value="{Binding Mr, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
         </gb:GroupBox>
         <Grid Grid.Row="2" Margin="10">
