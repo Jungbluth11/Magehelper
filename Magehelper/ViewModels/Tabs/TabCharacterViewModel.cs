@@ -22,14 +22,21 @@ public partial class TabCharacterViewModel : ObservableObject, IRecipient<FileAc
 
     public ObservableCollection<CharacterSpell> Spells { get; set; } = [];
 
+    public ObservableCollection<string> RkwData { get; } = [];
+
     public TabCharacterViewModel()
     {
         _character = Core.Core.GetInstance().Character ?? new();
         WeakReferenceMessenger.Default.RegisterAll(this);
     }
 
-    public (int pointsLeft, int[] rollData, string textResult) RollSpell(CharacterSpell spell)
+    public (int pointsLeft, int[] rollData, string textResult) RollSpell(CharacterSpell spell, string? selectedAttribute = null, int? attributeIndex = null)
     {
+        if (selectedAttribute != null)
+        {
+            spell.Attributes[(int)attributeIndex!] = selectedAttribute;
+        }
+
         return _character.RollSpell(spell);
     }
 
@@ -62,6 +69,21 @@ public partial class TabCharacterViewModel : ObservableObject, IRecipient<FileAc
             Rituals.AddRange(_character.Rituals);
         }
 
+        if (_character.Rkw.Count == 1)
+        {
+            string key = _character.Rkw.Keys.First();
+            RkwData.Add($"Ritualkenntnis {key}: {_character.Rkw[key]}");
+        }
+        else
+        {
+            RkwData.Add("Ritualkenntnisse");
+
+            foreach (KeyValuePair<string, int> rkw in _character.Rkw)
+            {
+                RkwData.Add($"{rkw.Key}: {rkw.Value}");
+            }
+        }
+
         IsCharacterLoaded = true;
         WeakReferenceMessenger.Default.Send(new CharacterLoadedMessage(_character.Data!));
     }
@@ -72,14 +94,12 @@ public partial class TabCharacterViewModel : ObservableObject, IRecipient<FileAc
         {
             case FileAction.New:
                 ResetTab();
-
                 break;
             case FileAction.Loaded:
                 ResetTab();
                 Aup = _character.AuP;
                 Lep = _character.LeP;
                 Asp = _character.AsP;
-
                 break;
         }
     }
@@ -101,6 +121,7 @@ public partial class TabCharacterViewModel : ObservableObject, IRecipient<FileAc
         IsCharacterLoaded = false;
         Spells.Clear();
         Rituals.Clear();
+        RkwData.Clear();
     }
 
     partial void OnAspChanged(int value)

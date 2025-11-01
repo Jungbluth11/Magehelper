@@ -34,48 +34,55 @@
                             Name="MenuFileSaveAs"
                             Click="MenuFileSaveAs_OnClick"
                             Text="Speichern unter..." />
-                    </MenuBarItem>
-                    <MenuBarItem Name="MenuCharacter" Title="Charakter">
+                        <MenuFlyoutSeparator />
                         <MenuFlyoutSubItem Text="Tabs">
                             <ToggleMenuFlyoutItem
-                                x:Name="MenuCharacterTabTraditionalArtifact"
-                                Click="MenuCharacterTabTraditionalArtifact_OnClick"
+                                x:Name="MenuFileTabTraditionalArtifact"
+                                Click="MenuFileTabTraditionalArtifact_OnClick"
                                 Text="Traditionsartefakt" />
                             <ToggleMenuFlyoutItem
-                                x:Name="MenuCharacterTabSpellStorage"
-                                Click="MenuCharacterTabSpellStorage_OnClick"
+                                x:Name="MenuFileTabSpellStorage"
+                                Click="MenuFileTabSpellStorage_OnClick"
                                 Text="Zauberspeicher" />
                             <ToggleMenuFlyoutItem
-                                x:Name="MenuCharacterTabFlameSword"
-                                Click="MenuCharacterTabFlameSword_OnClick"
+                                x:Name="MenuFileTabFlameSword"
+                                Click="MenuFileTabFlameSword_OnClick"
                                 Text="Flammenschwert" />
                             <ToggleMenuFlyoutItem
-                                x:Name="MenuCharacterTabCharacter"
-                                Click="MenuCharacterTabCharacter_OnClick"
+                                x:Name="MenuFileTabCharacter"
+                                Click="MenuFileTabCharacter_OnClick"
                                 Text="Charakter" />
                             <ToggleMenuFlyoutItem
-                                x:Name="MenuCharacterTabPet"
-                                Click="MenuCharacterTabPet_OnClick"
+                                x:Name="MenuFileTabPet"
+                                Click="MenuFileTabPet_OnClick"
                                 Text="Vertrautentier" />
                             <ToggleMenuFlyoutItem
-                                x:Name="MenuCharacterTabTimer"
-                                Click="MenuCharacterTabTimer_OnClick"
+                                x:Name="MenuFileTabTimer"
+                                Click="MenuFileTabTimer_OnClick"
                                 Text="Timer" />
                             <ToggleMenuFlyoutItem
-                                x:Name="MenuCharacterTabMod"
-                                Click="MenuCharacterTabMod_OnClick"
+                                x:Name="MenuFileTabMod"
+                                Click="MenuFileTabMod_OnClick"
                                 Text="Modifikationsrechner" />
                         </MenuFlyoutSubItem>
+                    </MenuBarItem>
+                    <MenuBarItem Name="MenuCharacter" Title="Charakter">
                         <MenuFlyoutItem
                             Name="MenuCharacterLoadFromTool"
                             Click="MenuCharacterLoadFromTool_OnClick"
-                            IsEnabled="{x:Bind MenuCharacterTabCharacter.IsChecked}"
+                            IsEnabled="{x:Bind MenuFileTabCharacter.IsChecked}"
                             Text=" aus Helden-Software laden" />
                         <MenuFlyoutItem
                             Name="MenuCharacterLoadFromFile"
                             Click="MenuCharacterLoadFromFile_OnClick"
-                            IsEnabled="{x:Bind MenuCharacterTabCharacter.IsChecked}"
+                            IsEnabled="{x:Bind MenuFileTabCharacter.IsChecked}"
                             Text="aus Datei laden" />
+                        <MenuFlyoutSeparator />
+                        <ToggleMenuFlyoutItem
+                            Name="MenuCharacterLinkToFile"
+                            Click="MenuCharacterLinkToFile_OnClick"
+                            IsEnabled="False"
+                            Text="mit dieser Datei verknüpfen" />
                     </MenuBarItem>
                     <MenuBarItem Title="Optionen">
                         <MenuFlyoutItem

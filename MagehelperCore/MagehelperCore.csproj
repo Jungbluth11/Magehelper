@@ -19,12 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="DSAUtils">
-      <HintPath>..\DSAUtils.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="BaseSettings\appSettings.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
@@ -52,5 +46,10 @@
   </ItemGroup>
 	<ItemGroup>
 		<None Include="..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Reference Include="DSAUtils">
+	    <HintPath>..\DSAUtils.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 </Project>

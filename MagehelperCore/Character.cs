@@ -1,9 +1,8 @@
-using System.Xml;
 using DSAUtils.Settings.Aventurien;
 
 namespace Magehelper.Core;
 
-public class Character
+public partial class Character
 {
     private int _au;
     private int _le;
@@ -21,8 +20,10 @@ public class Character
     public int AuP { get; set; }
     public int LeP { get; set; }
     public int AsP { get; set; }
+    public string LinkedCharacter { get; private set; } = string.Empty;
     // ReSharper disable once UnusedAutoPropertyAccessor.Local
     public bool IsLoaded { get; private set; }
+    public CharacterType LinkedCharacterType { get; set; } = CharacterType.None;
     /// <summary>
     /// The skills that character has.
     /// </summary>
@@ -36,7 +37,7 @@ public class Character
     /// </summary>
     public ReadOnlyCollection<CharacterRitual>? Rituals { get; private set; }
 
-    public Dictionary<string, int> Rkw => [];
+    public Dictionary<string, int> Rkw { get; } = [];
 
     public Charakter? Data { get; private set; }
     /// <summary>
@@ -69,7 +70,7 @@ public class Character
     /// <exception cref="FileNotFoundException"/>
     public Charakter[] GetCharactersFromTool()
     {
-        return HeldentoolInterop.IsInstalled() ? HeldentoolInterop.GetByAE() : throw new FileNotFoundException("\"Heldentool\" is not installed.");
+        return HeldentoolInterop.IsInstalled() ? HeldentoolInterop.GetByAE() : throw new FileNotFoundException("\"Helden-Software\" is not installed.");
     }
     /// <summary>
     /// Load an character.
@@ -81,10 +82,10 @@ public class Character
             ? HeldentoolInterop.LoadFromXML(identifier)
             : HeldentoolInterop.GetBySignature(identifier);
 
-        Data = character;
-
         ResetTool();
-        XmlDocument xml = new();
+        Data = character;
+        LinkedCharacter = identifier;
+
         List<CharacterSpell> spells = [];
         List<CharacterRitual> rituals = [];
         List<string> ritualList =
@@ -103,7 +104,6 @@ public class Character
             .. Aventurien.Rituale.zibiljaritual,
         ];
 
-        xml.LoadXml(character.XML);
         Skills = character.Talente.ToList().AsReadOnly();
 
         foreach (Ability ability in character.Eigenschaften)
@@ -219,42 +219,31 @@ public class Character
             }
         }
 
-
-        foreach (XmlNode node in xml.GetElementsByTagName("zauber"))
+        foreach (Ability spell in character.Zauber)
         {
-            string[] spell = new string[4];
-
-            foreach (XmlAttribute attribute in node.Attributes!)
+            try
             {
-                switch (attribute.Name)
+                string spellName = spell.Name.Split('(')[0].Trim();
+
+                Zauber spellData = spell.Repraesentation == "Magiedilletant"
+                    ? Aventurien.Zauber.GetByName(spellName)
+                    : Aventurien.Zauber.GetByName(spellName, Aventurien.Zauber.RepToEnum(spell.Repraesentation!));
+
+                spells.Add(new()
                 {
-                    case "name":
-                        spell[0] = attribute.Value;
-
-                        break;
-                    case "variante" when !string.IsNullOrEmpty(attribute.Value):
-                        spell[1] += " (" + attribute.Value + ")";
-
-                        break;
-                    case "repraesentation":
-                        spell[2] = attribute.Value;
-
-                        break;
-                    case "value":
-                        spell[3] = attribute.Value;
-
-                        break;
-                }
+                    Name = spell.Name,
+                    Representation = spell.Repraesentation!,
+                    Attributes = spellData.Eigenschaften.Split('/'),
+                    Komplex = spellData.Komplexitaet,
+                    Characteristics = spellData.MerkmaleToString(),
+                    Value = spell.Wert
+                });
             }
-
-            if (spell[0] == null)
+            catch (Exception ex)
             {
-                continue;
+                //TODO: Log
+                Console.WriteLine(ex);
             }
-
-            Zauber spellData = spell[2] == "Magiedilletant" ? Aventurien.Zauber.GetByName(spell[0]) : Aventurien.Zauber.GetByName(spell[0], Aventurien.Zauber.RepToEnum(spell[2]));
-            string[] attributes = spellData.Eigenschaften.Split('/');
-            spells.Add(new() { Name = spell[0] + spell[1], Representation = spell[2], Attributes = attributes, Komplex = spellData.Komplexitaet, Characteristics = spellData.MerkmaleToString(), Value = int.Parse(spell[3]) });
         }
 
         foreach (string sf in character.Sonderfertigkeiten)
@@ -309,6 +298,18 @@ public class Character
         IsLoaded = true;
     }
 
+    public void ToggleLinkCharacterToFile()
+    {
+        if (LinkedCharacterType == CharacterType.None)
+        {
+            LinkedCharacterType = File.Exists(LinkedCharacter) ? CharacterType.File : CharacterType.HeldenSoftware;
+        }
+        else
+        {
+            LinkedCharacterType = CharacterType.None;
+        }
+    }
+
     /// <summary>
     /// Resets the instance of this class. (only used by <see cref="Core.ResetTool"/>.)
     /// </summary>
@@ -333,6 +334,9 @@ public class Character
         Spells = null;
         Rituals = null;
         IsLoaded = false;
+        Data = null;
+        LinkedCharacter = string.Empty;
+        LinkedCharacterType = CharacterType.None;
     }
 
     public void ResetAuP()
@@ -368,7 +372,6 @@ public class Character
                 {
                     (string[], int) skillData = GetSkillData(ritual.Skill);
                     returnData = GetResult(skillData.Item1, skillData.Item2, 0);
-
                     break;
                 }
             case RitualType.Drum:
@@ -379,9 +382,7 @@ public class Character
                     if (skillResult.Item1 >= 0 && !skillResult.Item3.Contains("Patzer"))
                     {
                         int modvalue = ritual.Mod[1] - skillResult.Item1;
-                        (string[], int) ritualData = GetSkillData("Ritualkenntnis: Derwisch");
-
-                        returnData = GetResult(ritual.Attributes.Split('/'), ritualData.Item2, modvalue);
+                        returnData = GetResult(ritual.Attributes.Split('/'), Rkw["Derwisch"], modvalue);
 
                     }
                     else
@@ -405,8 +406,7 @@ public class Character
                     if (Sonderfertigkeiten.GetByGroup(Sonderfertigkeitengruppe.Ritualkenntnis).Contains(ritual.Skill))
                     {
                         attributes = ritual.Attributes.Split('/');
-                        (string[], int) skillData = GetSkillData("Ritualkenntnis: " + ritual.Skill);
-                        value = skillData.Item2;
+                        value = Rkw[ritual.Skill];
                     }
                     else
                     {
@@ -416,7 +416,6 @@ public class Character
                     }
 
                     returnData = GetResult(attributes, value, ritual.Mod[0]);
-
                     break;
                 }
         }

@@ -275,6 +275,20 @@ public class Core
             xw.WriteElementString("asp", null);
         }
 
+        xw.WriteStartElement("character");
+
+        if (Character == null || Character.LinkedCharacterType == Character.CharacterType.None)
+        {
+            xw.WriteAttributeString("linkedCharacter", null);
+            xw.WriteAttributeString("characterType", null);
+        }
+        else
+        {
+            xw.WriteAttributeString("linkedCharacter", Character.LinkedCharacter);
+            xw.WriteAttributeString("characterType", Character.LinkedCharacterType.ToString());
+        }
+
+        xw.WriteEndElement();
         xw.WriteStartElement("artifacts");
 
         foreach (Artifact? artifact in artifacts)
@@ -307,11 +321,11 @@ public class Core
 
                     break;
                 case CrystalBall crystalBall:
-                    xw.WriteAttributeString("material", ((int) crystalBall.Material).ToString());
+                    xw.WriteAttributeString("material", ((int)crystalBall.Material).ToString());
 
                     break;
                 case Bowl bowl:
-                    xw.WriteAttributeString("material", ((int) bowl.Material).ToString());
+                    xw.WriteAttributeString("material", ((int)bowl.Material).ToString());
                     break;
             }
 
@@ -452,6 +466,26 @@ public class Core
             FileAspValue = int.Parse(asp);
         }
 
+        XmlNode? characterNode = xml.SelectSingleNode("//character");
+
+        if (characterNode != null)
+        {
+            Character ??= new();
+
+            Character.LinkedCharacterType = characterNode.Attributes!["characterType"]!.Value switch
+            {
+                "File" => Character.CharacterType.File,
+                "HeldenSoftware" => Character.CharacterType.HeldenSoftware,
+                _ => Character.CharacterType.None
+            };
+
+            if (Character.LinkedCharacterType != Character.CharacterType.None)
+            {
+                Character.LoadCharacter(characterNode.Attributes["linkedCharacter"]!.Value);
+            }
+        }
+
+
         for (int i = 0; i < artifacts.Length; i++)
         {
             Artifact artifact = artifacts[i]!;
@@ -520,12 +554,12 @@ public class Core
 
             if (artifact is CrystalBall)
             {
-                CrystalBall!.Material = (CrystalBallMaterial) int.Parse(data["material"]!.Value);
+                CrystalBall!.Material = (CrystalBallMaterial)int.Parse(data["material"]!.Value);
             }
 
             if (artifact is Bowl)
             {
-                Bowl!.Material = (BowlMaterial) int.Parse(data["material"]!.Value);
+                Bowl!.Material = (BowlMaterial)int.Parse(data["material"]!.Value);
             }
 
             artifact!.HasApport = data["apport"]!.Value == "True";

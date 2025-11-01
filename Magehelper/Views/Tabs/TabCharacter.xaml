@@ -30,82 +30,91 @@
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
                     Text="MU" />
-                <NumberBox SpinButtonPlacementMode="Compact"
+                <NumberBox
                     Margin="0,0,10,0"
                     KeyDown="UIElement_OnKeyDown"
                     Minimum="0"
+                    SpinButtonPlacementMode="Compact"
                     Value="{Binding Mu, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <TextBlock
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
                     Text="KL" />
-                <NumberBox SpinButtonPlacementMode="Compact"
+                <NumberBox
                     Margin="0,0,10,0"
                     KeyDown="UIElement_OnKeyDown"
                     Minimum="0"
+                    SpinButtonPlacementMode="Compact"
                     Value="{Binding Kl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <TextBlock
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
                     Text="IN" />
-                <NumberBox SpinButtonPlacementMode="Compact"
+                <NumberBox
                     Margin="0,0,10,0"
                     KeyDown="UIElement_OnKeyDown"
                     Minimum="0"
+                    SpinButtonPlacementMode="Compact"
                     Value="{Binding In, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <TextBlock
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
                     Text="CH" />
-                <NumberBox SpinButtonPlacementMode="Compact"
+                <NumberBox
                     Margin="0,0,10,0"
                     KeyDown="UIElement_OnKeyDown"
                     Minimum="0"
+                    SpinButtonPlacementMode="Compact"
                     Value="{Binding Ch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <TextBlock
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
                     Text="FF" />
-                <NumberBox SpinButtonPlacementMode="Compact"
+                <NumberBox
                     Margin="0,0,10,0"
                     KeyDown="UIElement_OnKeyDown"
                     Minimum="0"
+                    SpinButtonPlacementMode="Compact"
                     Value="{Binding Ff, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <TextBlock
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
                     Text="GE" />
-                <NumberBox SpinButtonPlacementMode="Compact"
+                <NumberBox
                     Margin="0,0,10,0"
                     KeyDown="UIElement_OnKeyDown"
                     Minimum="0"
+                    SpinButtonPlacementMode="Compact"
                     Value="{Binding Ge, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <TextBlock
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
                     Text="KO" />
-                <NumberBox SpinButtonPlacementMode="Compact"
+                <NumberBox
                     Margin="0,0,10,0"
                     KeyDown="UIElement_OnKeyDown"
                     Minimum="0"
+                    SpinButtonPlacementMode="Compact"
                     Value="{Binding Ko, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <TextBlock
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
                     Text="KK" />
-                <NumberBox SpinButtonPlacementMode="Compact"
+                <NumberBox
                     Margin="0,0,10,0"
                     KeyDown="UIElement_OnKeyDown"
                     Minimum="0"
+                    SpinButtonPlacementMode="Compact"
                     Value="{Binding Kk, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <TextBlock
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
                     Text="MR" />
-                <NumberBox SpinButtonPlacementMode="Compact"
+                <NumberBox
                     Margin="0,0,10,0"
                     KeyDown="UIElement_OnKeyDown"
                     Minimum="0"
+                    SpinButtonPlacementMode="Compact"
                     Value="{Binding Mr, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </StackPanel>
         </gb:GroupBox>
@@ -114,10 +123,17 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="250" />
             </Grid.ColumnDefinitions>
-            <TabView Grid.Column="0" IsEnabled="{Binding IsCharacterLoaded}">
-                <TabViewItem Name="TabSpells" Header="Zauber">
+            <TabView
+                Grid.Column="0"
+                IsAddTabButtonVisible="False"
+                IsEnabled="{Binding IsCharacterLoaded}">
+                <TabViewItem
+                    Name="TabSpells"
+                    Header="Zauber"
+                    IsClosable="False">
                     <t:TableView
                         AlternateRowBackground="#50515C6B"
+                        AutoGenerateColumns="False"
                         CanReorderItems="True"
                         CornerButtonMode="None"
                         IsReadOnly="True"
@@ -125,12 +141,12 @@
                         SelectionMode="None"
                         ShowExportOptions="False">
                         <t:TableView.Columns>
-                            <t:TableViewTextColumn Header="Name" />
-                            <t:TableViewTextColumn Header="Probe" />
-                            <t:TableViewTextColumn Header="Komplexität" />
-                            <t:TableViewTextColumn Header="Repräsentation" />
-                            <t:TableViewTextColumn Header="Merkmale" />
-                            <t:TableViewTextColumn Header="Wert" />
+                            <t:TableViewTextColumn Binding="{Binding Name}" Header="Name" />
+                            <t:TableViewTextColumn Binding="{Binding AttributeString}" Header="Probe" />
+                            <t:TableViewTextColumn Binding="{Binding Komplex}" Header="Komplexität" />
+                            <t:TableViewTextColumn Binding="{Binding Representation}" Header="Repräsentation" />
+                            <t:TableViewTextColumn Binding="{Binding Characteristics}" Header="Merkmale" />
+                            <t:TableViewTextColumn Binding="{Binding Value}" Header="Wert" />
                             <t:TableViewTemplateColumn>
                                 <t:TableViewTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -143,9 +159,10 @@
                         </t:TableView.Columns>
                     </t:TableView>
                 </TabViewItem>
-                <TabViewItem Header="Rituale">
+                <TabViewItem Header="Rituale" IsClosable="False">
                     <t:TableView
                         AlternateRowBackground="#50515C6B"
+                        AutoGenerateColumns="False"
                         CanReorderItems="True"
                         CornerButtonMode="None"
                         IsReadOnly="True"
@@ -153,8 +170,8 @@
                         SelectionMode="None"
                         ShowExportOptions="False">
                         <t:TableView.Columns>
-                            <t:TableViewTextColumn Header="Name" />
-                            <t:TableViewTextColumn Header="Probe" />
+                            <t:TableViewTextColumn Binding="{Binding Name}" Header="Name" />
+                            <t:TableViewTextColumn Binding="{Binding Attributes}" Header="Probe" />
                             <t:TableViewTemplateColumn>
                                 <t:TableViewTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -175,10 +192,11 @@
                         <ColumnDefinition Width="50" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <NumberBox SpinButtonPlacementMode="Compact"
+                    <NumberBox
                         Grid.Column="0"
                         KeyDown="UIElement_OnKeyDown"
                         Minimum="0"
+                        SpinButtonPlacementMode="Compact"
                         Value="{Binding Aup, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                     <TextBlock Grid.Column="1" Text="AuP" />
                     <Button
@@ -193,10 +211,11 @@
                         <ColumnDefinition Width="50" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <NumberBox SpinButtonPlacementMode="Compact"
+                    <NumberBox
                         Grid.Column="0"
                         KeyDown="UIElement_OnKeyDown"
                         Minimum="0"
+                        SpinButtonPlacementMode="Compact"
                         Value="{Binding Lep, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                     <TextBlock Grid.Column="1" Text="LeP" />
                     <Button
@@ -211,10 +230,11 @@
                         <ColumnDefinition Width="50" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <NumberBox SpinButtonPlacementMode="Compact"
+                    <NumberBox
                         Grid.Column="0"
                         KeyDown="UIElement_OnKeyDown"
                         Minimum="0"
+                        SpinButtonPlacementMode="Compact"
                         Value="{Binding Asp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                     <TextBlock Grid.Column="1" Text="AsP" />
                     <Button
@@ -238,14 +258,16 @@
                     Margin="4,5,5,5"
                     Click="ButtonRollW6_OnClick">
                     <StackPanel Orientation="Horizontal">
-                        <NumberBox SpinButtonPlacementMode="Compact"
+                        <NumberBox
                             Name="AmountW6"
                             Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                             Minimum="1"
+                            SpinButtonPlacementMode="Compact"
                             Value="1" />
                         <TextBlock VerticalAlignment="Center" Text="W6 Würfeln" />
                     </StackPanel>
                 </Button>
+                <ItemsControl Margin="10" ItemsSource="{Binding RkwData}" />
             </StackPanel>
         </Grid>
     </Grid>

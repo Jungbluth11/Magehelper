@@ -9,7 +9,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
     private readonly Core.Core _core = Core.Core.GetInstance();
     private readonly List<string> _loadedTabs = [];
 
-    private MainPageViewModel ViewModel => (MainPageViewModel) DataContext;
+    private MainPageViewModel ViewModel => (MainPageViewModel)DataContext;
 
     private ApplicationView View => ApplicationView.GetForCurrentView();
 
@@ -23,6 +23,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
     public void Receive(CharacterLoadedMessage message)
     {
         View.Title = $"Magehelper - {message.Value.Name}";
+        MenuCharacterLinkToFile.IsEnabled = true;
     }
 
     public void Receive(FileActionMessage message)
@@ -50,7 +51,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
     private void MainPage_OnLoaded(object sender, RoutedEventArgs e)
     {
-        (XamlRoot!.Content as FrameworkElement)!.RequestedTheme = (string) _localSettings.Values["theme"] switch
+        (XamlRoot!.Content as FrameworkElement)!.RequestedTheme = (string)_localSettings.Values["theme"] switch
         {
             "Light" => ElementTheme.Light,
             "Dark" => ElementTheme.Dark,
@@ -129,7 +130,15 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
         }
     }
 
-    private void MenuCharacterTabCharacter_OnClick(object sender, RoutedEventArgs e)
+    private void MenuCharacterLinkToFile_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (_loadedTabs.Contains("Magehelper.Views.Tabs.TabCharacter"))
+        {
+            _core.Character!.ToggleLinkCharacterToFile();
+        }
+    }
+
+    private void MenuFileTabCharacter_OnClick(object sender, RoutedEventArgs e)
     {
         ToggleTab<TabCharacter>();
 
@@ -146,7 +155,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
         }
     }
 
-    private void MenuCharacterTabFlameSword_OnClick(object sender, RoutedEventArgs e)
+    private void MenuFileTabFlameSword_OnClick(object sender, RoutedEventArgs e)
     {
         ToggleTab<TabFlameSword>();
 
@@ -156,7 +165,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
         }
     }
 
-    private void MenuCharacterTabMod_OnClick(object sender, RoutedEventArgs e)
+    private void MenuFileTabMod_OnClick(object sender, RoutedEventArgs e)
     {
         ToggleTab<TabMod>();
 
@@ -166,7 +175,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
         }
     }
 
-    private void MenuCharacterTabPet_OnClick(object sender, RoutedEventArgs e)
+    private void MenuFileTabPet_OnClick(object sender, RoutedEventArgs e)
     {
         ToggleTab<TabPet>();
 
@@ -176,7 +185,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
         }
     }
 
-    private void MenuCharacterTabSpellStorage_OnClick(object sender, RoutedEventArgs e)
+    private void MenuFileTabSpellStorage_OnClick(object sender, RoutedEventArgs e)
     {
         ToggleTab<TabSpellStorage>();
 
@@ -186,7 +195,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
         }
     }
 
-    private void MenuCharacterTabTimer_OnClick(object sender, RoutedEventArgs e)
+    private void MenuFileTabTimer_OnClick(object sender, RoutedEventArgs e)
     {
         ToggleTab<TabTimer>();
 
@@ -196,7 +205,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
         }
     }
 
-    private void MenuCharacterTabTraditionalArtifact_OnClick(object sender, RoutedEventArgs e)
+    private void MenuFileTabTraditionalArtifact_OnClick(object sender, RoutedEventArgs e)
     {
         ToggleTab<TabArtifact>();
 
@@ -311,39 +320,39 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
             switch (tab)
             {
                 case "Traditionsartefakt":
-                    MenuCharacterTabTraditionalArtifact.IsChecked = true;
+                    MenuFileTabTraditionalArtifact.IsChecked = true;
                     ToggleTab<TabArtifact>();
 
                     break;
                 case "Zauberspeicher":
-                    MenuCharacterTabSpellStorage.IsChecked = true;
+                    MenuFileTabSpellStorage.IsChecked = true;
                     ToggleTab<TabSpellStorage>();
 
                     break;
                 case "Flammenschwert":
-                    MenuCharacterTabFlameSword.IsChecked = true;
+                    MenuFileTabFlameSword.IsChecked = true;
                     ToggleTab<TabFlameSword>();
 
                     break;
                 case "Charakter":
-                    MenuCharacterTabCharacter.IsChecked = true;
+                    MenuFileTabCharacter.IsChecked = true;
                     MenuCharacterLoadFromFile.IsEnabled = true;
                     MenuCharacterLoadFromTool.IsEnabled = true;
                     ToggleTab<TabCharacter>();
 
                     break;
                 case "Vertrautentier":
-                    MenuCharacterTabPet.IsChecked = true;
+                    MenuFileTabPet.IsChecked = true;
                     ToggleTab<TabPet>();
 
                     break;
                 case "Timer":
-                    MenuCharacterTabTimer.IsChecked = true;
+                    MenuFileTabTimer.IsChecked = true;
                     ToggleTab<TabTimer>();
 
                     break;
                 case "Modifikationsrechner":
-                    MenuCharacterTabMod.IsChecked = true;
+                    MenuFileTabMod.IsChecked = true;
                     ToggleTab<TabMod>();
 
                     break;
@@ -353,13 +362,13 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
     private void ResetTool()
     {
-        MenuCharacterTabTraditionalArtifact.IsChecked = false;
-        MenuCharacterTabSpellStorage.IsChecked = false;
-        MenuCharacterTabFlameSword.IsChecked = false;
-        MenuCharacterTabCharacter.IsChecked = false;
-        MenuCharacterTabPet.IsChecked = false;
-        MenuCharacterTabTimer.IsChecked = false;
-        MenuCharacterTabMod.IsChecked = false;
+        MenuFileTabTraditionalArtifact.IsChecked = false;
+        MenuFileTabSpellStorage.IsChecked = false;
+        MenuFileTabFlameSword.IsChecked = false;
+        MenuFileTabCharacter.IsChecked = false;
+        MenuFileTabPet.IsChecked = false;
+        MenuFileTabTimer.IsChecked = false;
+        MenuFileTabMod.IsChecked = false;
         MenuCharacterLoadFromFile.IsEnabled = false;
         MenuCharacterLoadFromTool.IsEnabled = false;
         _loadedTabs.Clear();

@@ -2,7 +2,7 @@ namespace Magehelper.Views.Tabs;
 
 public sealed partial class TabCharacter : TabViewItem
 {
-    private TabCharacterViewModel ViewModel => (TabCharacterViewModel) DataContext;
+    private TabCharacterViewModel ViewModel => (TabCharacterViewModel)DataContext;
 
     public TabCharacter()
     {
@@ -21,16 +21,36 @@ public sealed partial class TabCharacter : TabViewItem
     {
         try
         {
-            (int pointsLeft, int[] rollData, string textResult) = ViewModel.RollSpell((CharacterSpell) ((sender as FrameworkElement)!.Tag));
+            CharacterSpell spell = (CharacterSpell)(sender as FrameworkElement)!.Tag;
+            string? selectedAttribute = null;
+            int? attributeIndex = null;
 
-            DiceResultDialog dialog = new()
+            for (int i = 0; i < 3; i++)
+            {
+                if (spell.Attributes[i] != "*")
+                {
+                    continue;
+                }
+
+                SelectAttributeDialog selectAttributeDialog = new()
+                {
+                    XamlRoot = XamlRoot
+                };
+
+                await selectAttributeDialog.ShowAsync();
+                selectedAttribute = selectAttributeDialog.SelectedAttribute;
+            }
+
+            (int pointsLeft, int[] rollData, string textResult) = ViewModel.RollSpell(spell, selectedAttribute, attributeIndex);
+
+            DiceResultDialog diceResultDialog = new()
             {
                 XamlRoot = XamlRoot,
                 DiceResults = rollData,
                 AdditionalText = $"{textResult} {pointsLeft} Punkte über"
             };
 
-            await dialog.ShowAsync();
+            await diceResultDialog.ShowAsync();
         }
         catch (Exception ex)
         {
@@ -42,7 +62,7 @@ public sealed partial class TabCharacter : TabViewItem
     {
         try
         {
-            (int pointsLeft, int[] rollData, string textResult) = ViewModel.RollRitual((CharacterRitual) ((sender as FrameworkElement)!.Tag));
+            (int pointsLeft, int[] rollData, string textResult) = ViewModel.RollRitual((CharacterRitual)((sender as FrameworkElement)!.Tag));
 
             DiceResultDialog dialog = new()
             {
@@ -91,7 +111,6 @@ public sealed partial class TabCharacter : TabViewItem
                 XamlRoot = XamlRoot,
                 DiceResults = wuerfelergebnisse,
                 AdditionalText = text
-
             };
 
             await dialog.ShowAsync();
@@ -114,7 +133,7 @@ public sealed partial class TabCharacter : TabViewItem
             DiceResultDialog dialog = new()
             {
                 XamlRoot = XamlRoot,
-                DiceResults = DSA.Roll((int) AmountW6.Value, 20)
+                DiceResults = DSA.Roll((int)AmountW6.Value, 20)
             };
 
             await dialog.ShowAsync();
