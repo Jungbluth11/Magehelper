@@ -3,7 +3,7 @@ namespace Magehelper.ViewModels.Dialogs;
 public partial class AddTraditionArtifactDialogViewModel : ObservableObject
 {
     private readonly Core.Core _core = Core.Core.GetInstance();
-    [ObservableProperty] private string _currentArtifact;
+    [ObservableProperty] private string _currentArtifact = string.Empty;
     [ObservableProperty] private string[] _staffLengthStrings = Staff.LengthStrings;
     [ObservableProperty] private string[] _staffMaterialStrings = Staff.MaterialStrings;
     [ObservableProperty] private string _currentStaffLength = Staff.LengthStrings[0];
@@ -12,11 +12,14 @@ public partial class AddTraditionArtifactDialogViewModel : ObservableObject
     [ObservableProperty] private string _currentCrystalBallMaterial = CrystalBall.MaterialStrings[0];
     [ObservableProperty] private string[] _bowlMatrialStrings = Bowl.MaterialStrings;
     [ObservableProperty] private string _currentBowlMaterial = Bowl.MaterialStrings[0];
+    [ObservableProperty] private string[] _boneCubTypeStrings = BoneCub.TypeStrings;
+    [ObservableProperty] private string _currentBoneCubType = BoneCub.TypeStrings[0];
     [ObservableProperty] private bool _isBowlSelected;
     [ObservableProperty] private bool _isStaffSelected;
     [ObservableProperty] private bool _isCrystalBallSelected;
+    [ObservableProperty] private bool _isBoneCubSelected;
     [ObservableProperty] private int _additionalPasp;
-    public List<string> Artifacts => [];
+    public List<string> Artifacts { get; } = [];
 
     public AddTraditionArtifactDialogViewModel()
     {
@@ -27,8 +30,6 @@ public partial class AddTraditionArtifactDialogViewModel : ObservableObject
                 Artifacts.Add(artifactName);
             }
         }
-
-        _currentArtifact = Artifacts[0];
     }
 
     partial void OnCurrentArtifactChanged(string value)
@@ -39,24 +40,30 @@ public partial class AddTraditionArtifactDialogViewModel : ObservableObject
                 IsStaffSelected = true;
                 IsCrystalBallSelected = false;
                 IsBowlSelected = false;
-
+                IsBoneCubSelected = false;
                 break;
             case "Kristallkugel":
                 IsStaffSelected = false;
                 IsBowlSelected = false;
+                IsBoneCubSelected = false;
                 ToggleCrystalBall();
-
                 break;
             case "Alchemistenschale":
                 IsStaffSelected = false;
                 IsCrystalBallSelected = false;
                 IsBowlSelected = true;
                 break;
+            case "Knochenkeule":
+                IsStaffSelected = false;
+                IsCrystalBallSelected = false;
+                IsBowlSelected = false;
+                IsBoneCubSelected = true;
+                break;
             default:
                 IsStaffSelected = false;
                 IsCrystalBallSelected = false;
                 IsBowlSelected = false;
-
+                IsBoneCubSelected = false;
                 break;
         }
     }
@@ -98,6 +105,11 @@ public partial class AddTraditionArtifactDialogViewModel : ObservableObject
         if (IsBowlSelected)
         {
             additionalValues["BowlMaterial"] = CurrentBowlMaterial;
+        }
+
+        if (IsBoneCubSelected)
+        {
+            additionalValues["BoneCubType"] = CurrentBoneCubType;
         }
 
         WeakReferenceMessenger.Default.Send(new AddTraditionArtifactMessage(CurrentArtifact, additionalValues));

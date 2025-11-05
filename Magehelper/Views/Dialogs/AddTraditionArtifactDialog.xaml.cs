@@ -14,4 +14,10 @@ public sealed partial class AddTraditionArtifactDialog : ContentDialog
             XamlRoot!.Content!.Focus(FocusState.Programmatic);
         }
     }
+
+    private void AddTraditionArtifactDialog_OnLoaded(object sender, RoutedEventArgs e)
+    {
+        AddTraditionArtifactDialogViewModel viewModel = (AddTraditionArtifactDialogViewModel)DataContext!;
+        viewModel.CurrentArtifact = viewModel.Artifacts[0];
+    }
 }

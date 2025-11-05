@@ -18,8 +18,8 @@
     <StackPanel>
         <ComboBox
             Margin="10"
-            ItemsSource="{Binding SpellNames, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-            SelectedValue="{Binding SelectedSpellName}" />
+            ItemsSource="{Binding SpellNames}"
+            SelectedValue="{Binding SelectedSpellName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
         <Grid Margin="5" Visibility="{Binding IsStaffSpell, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -39,8 +39,8 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 Margin="5"
-                ItemsSource="{Binding Characteristics, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                SelectedValue="{Binding SelectedCharacteristic}"
+                ItemsSource="{Binding Characteristics}"
+                SelectedValue="{Binding SelectedCharacteristic, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 Visibility="{Binding IsCharacteristicVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
             <TextBlock
                 Grid.Row="0"
@@ -52,8 +52,8 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 Margin="5"
-                ItemsSource="{Binding ReptileSkinVariants, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                SelectedValue="{Binding SelectedReptileSkinVariant}"
+                ItemsSource="{Binding ReptileSkinVariants}"
+                SelectedValue="{Binding SelectedReptileSkinVariant, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 Visibility="{Binding IsReptileSkinSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
             <TextBlock
                 Grid.Row="0"

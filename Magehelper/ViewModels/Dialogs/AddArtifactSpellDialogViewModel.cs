@@ -45,7 +45,7 @@ public partial class AddArtifactSpellDialogViewModel : ObservableObject
     public string[] Characteristics => Aventurien.Zauber.merkmalsliste;
     public string[] ReptileSkinVariants => ["Chamäleon", "Speikobra"];
 
-    public ObservableCollection<string> SpellNames => [];
+    public ObservableCollection<string> SpellNames { get; } = [];
     public string[] SpellVariants => ["Variante 1", "Variante 2", "Beschreibung eingeben"];
 
     private bool CanRoll(string ritualName)
@@ -199,17 +199,24 @@ public partial class AddArtifactSpellDialogViewModel : ObservableObject
             }
         }
 
-        foreach (string requirement in spell.Requirements)
+        if (spell.Requirements == null)
         {
-            try
+            return;
+        }
+
+        {
+            foreach (string requirement in spell.Requirements)
             {
-                // ReSharper disable once UnusedVariable --- just checking if requirement is fulfilled
-                ArtifactSpell artifactSpell = Artifact!.BoundSpells.Single(a => a.Name == requirement);
-            }
-            catch
-            {
-                ErrorText = $"Voraussetzung nicht erfüllt! Benötigt: {requirement}";
-                IsErrorVisible = true;
+                try
+                {
+                    // ReSharper disable once UnusedVariable --- just checking if requirement is fulfilled
+                    ArtifactSpell artifactSpell = Artifact!.BoundSpells.Single(a => a.Name == requirement);
+                }
+                catch
+                {
+                    ErrorText = $"Voraussetzung nicht erfüllt! Benötigt: {requirement}";
+                    IsErrorVisible = true;
+                }
             }
         }
     }

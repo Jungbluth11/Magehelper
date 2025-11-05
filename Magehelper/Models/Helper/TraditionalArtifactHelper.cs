@@ -16,12 +16,12 @@ public static class TraditionalArtifactHelper
 
     public static Dictionary<string, Type> GetControlType => new()
     {
-            {ArtifactNames.Bowl, typeof(Bowl)},
-        //    {ArtifactNames.BoneCub, typeof(BoneCubControl)},
-        //    {ArtifactNames.CrystalBall, typeof(CrystalBallControl)},
-        //    {ArtifactNames.Staff, typeof(StaffControl)},
-        //    {ArtifactNames.RingOfLife, typeof(RingOfLifeControl)},
-        //    {ArtifactNames.ObsidianDagger, typeof(ObsidianDaggerControl)}
+        {ArtifactNames.Bowl, typeof(BowlControl)},
+        {ArtifactNames.BoneCub, typeof(BoneCubControl)},
+        {ArtifactNames.CrystalBall, typeof(CrystalBallControl)},
+        {ArtifactNames.Staff, typeof(StaffControl)},
+        {ArtifactNames.RingOfLife, typeof(RingOfLifeControl)},
+        {ArtifactNames.ObsidianDagger, typeof(ObsidianDaggerControl)}
     };
 
     public static Dictionary<string, Artifact?> GetArtifact => new()

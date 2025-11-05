@@ -9,7 +9,7 @@ public partial class TabArtifactViewModel : ObservableObject,
     [ObservableProperty] private bool _canAddArtifact = true;
     [ObservableProperty] private string _tabName = "Traditionsartefakt";
 
-    public ObservableCollection<string> ArtifactControls => [];
+    public ObservableCollection<TraditionArtifactControlViewModel> ArtifactControls { get; } = [];
 
     public TabArtifactViewModel()
     {
@@ -23,7 +23,12 @@ public partial class TabArtifactViewModel : ObservableObject,
 
     private void ArtifactControls_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        TabName = ArtifactControls.Count == 1 ? ArtifactControls[0] : "Traditionsartefakt";
+        TabName = ArtifactControls.Count == 1 ? ArtifactControls[0].ArtifactName : "Traditionsartefakt";
+
+        if (ArtifactControls.Count > 1)
+        {
+            TabName += "e";
+        }
     }
 
     public void ResetTab()
@@ -32,9 +37,9 @@ public partial class TabArtifactViewModel : ObservableObject,
         ArtifactControls.Clear();
     }
 
-    public void AddArtifact(string artifact)
+    public void AddArtifact(Artifact artifact)
     {
-        ArtifactControls.Add(artifact);
+        ArtifactControls.Add(new(artifact));
 
         foreach (string artifactName in _core.ArtifactNames)
         {
@@ -58,11 +63,12 @@ public partial class TabArtifactViewModel : ObservableObject,
         };
 
         staff.AfvTotal();
+        AddArtifact(staff);
     }
 
     private void CreateCrystalBall(string material)
     {
-        _ = new CrystalBall()
+        CrystalBall crystalBall = new()
         {
             Material = material switch
             {
@@ -71,14 +77,28 @@ public partial class TabArtifactViewModel : ObservableObject,
                 _ => CrystalBallMaterial.Glass
             }
         };
+
+        AddArtifact(crystalBall);
     }
 
     private void CreateBowl(string material)
     {
-        _ = new Bowl()
+        Bowl bowl = new()
         {
             Material = material == "Silber" ? BowlMaterial.Silber : BowlMaterial.Mondsilber
         };
+
+        AddArtifact(bowl);
+    }
+
+    private void CreateBoneCub(string type)
+    {
+        BoneCub boneCub = new()
+        {
+            Type = type
+        };
+
+        AddArtifact(boneCub);
     }
 
     public void Receive(FileActionMessage message)
@@ -92,11 +112,11 @@ public partial class TabArtifactViewModel : ObservableObject,
             case FileAction.Loaded:
                 ResetTab();
 
-                foreach (string artifact in _core.ArtifactNames)
+                foreach (string artifactName in _core.ArtifactNames)
                 {
-                    if (TraditionalArtifactHelper.IsInitialized[artifact])
+                    if (TraditionalArtifactHelper.IsInitialized[artifactName])
                     {
-                        AddArtifact(artifact);
+                        AddArtifact(TraditionalArtifactHelper.GetArtifact[artifactName]!);
                     }
                 }
 
@@ -108,24 +128,29 @@ public partial class TabArtifactViewModel : ObservableObject,
     {
         switch (message.ArtifactName)
         {
-            case "Magierstab":
-                CreateStaff(message.AdditionalValues["StaffLength"], message.AdditionalValues["StaffMaterial"], message.AdditionalValues["AdditionalPasp"]);
-
-                break;
-            case "Kristallkugel":
-                CreateCrystalBall(message.AdditionalValues["CrystalBallMaterial"]);
-
-                break;
             case "Alchemistenschale":
                 CreateBowl(message.AdditionalValues["BowlMaterial"]);
                 break;
+            case "Knochenkeule":
+                CreateBoneCub(message.AdditionalValues["BoneCubType"]);
+                break;
+            case "Kristallkugel":
+                CreateCrystalBall(message.AdditionalValues["CrystalBallMaterial"]);
+                break;
+            case "Magierstab":
+                CreateStaff(message.AdditionalValues["StaffLength"], message.AdditionalValues["StaffMaterial"], message.AdditionalValues["AdditionalPasp"]);
+                break;
+            case "Ring des Lebens":
+                AddArtifact(new RingOfLife());
+                break;
+            case "Vulkanglasdolch":
+                AddArtifact(new ObsidianDagger());
+                break;
         }
-
-        AddArtifact(message.ArtifactName);
     }
 
     public void Receive(DeleteTraditionArtifactMessage message)
     {
-        ArtifactControls.Remove(ArtifactControls.First(c => c.GetType() == message.Value));
+        ArtifactControls.Remove(ArtifactControls.First(c => c.Artifact.GetType() == message.Value));
     }
 }

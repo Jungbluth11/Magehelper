@@ -9,7 +9,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="Uno.CommunityToolkit.WinUI.UI" Version="7.1.204" />
-    <PackageVersion Include="UnoGroupBox" Version="1.1.1" />
+    <PackageVersion Include="UnoGroupBox" Version="1.1.2" />
     <PackageVersion Include="WinUI.TableView" Version="1.3.2" />
   </ItemGroup>
 </Project>

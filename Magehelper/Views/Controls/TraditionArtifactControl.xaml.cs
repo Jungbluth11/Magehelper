@@ -2,18 +2,7 @@ namespace Magehelper.Views.Controls;
 
 public sealed partial class TraditionArtifactControl : UserControl
 {
-    public string Artifact
-    {
-        get => (string)GetValue(ArtifactProperty);
-        set => SetValue(ArtifactProperty, value);
-    }
-
-    public static readonly DependencyProperty ArtifactProperty = DependencyProperty.Register(
-        nameof(Artifact),
-        typeof(string),
-        typeof(TraditionArtifactControl),
-        new(default(string),
-            OnArtifactChanged));
+    private Artifact Artifact => (DataContext as TraditionArtifactControlViewModel)!.Artifact;
 
     public TraditionArtifactControl()
     {
@@ -29,8 +18,8 @@ public sealed partial class TraditionArtifactControl : UserControl
                 XamlRoot = XamlRoot
             };
 
-            (dialog.DataContext as AddArtifactSpellDialogViewModel)!.Artifact =
-                (DataContext as TraditionArtifactControlViewModel)!.Artifact;
+            (dialog.DataContext as AddArtifactSpellDialogViewModel)!.Artifact = Artifact;
+
 
             await dialog.ShowAsync();
         }
@@ -40,33 +29,21 @@ public sealed partial class TraditionArtifactControl : UserControl
         }
     }
 
-    private static void OnArtifactChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private void TraditionArtifactControl_OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
     {
-        TraditionArtifactControl control = (d as TraditionArtifactControl)!;
-
-        (control.DataContext as TraditionArtifactControlViewModel)!.Artifact =
-            TraditionalArtifactHelper.GetArtifact[e.NewValue.ToString()!];
-
-        switch (e.NewValue.ToString())
+        UserControl control = Artifact switch
         {
-            case "Alchemistenschale":
-                control.Grid.Children.Add(new BowlControl());
-                break;
-            case "Knochenkeule":
-                control.Grid.Children.Add(new BoneCubControl());
-                break;
-            case "Kristallkugel":
-                control.Grid.Children.Add(new CrystalBallControl());
-                break;
-            case "Magierstab":
-                control.Grid.Children.Add(new StaffControl());
-                break;
-            case "Ring des Lebens":
-                control.Grid.Children.Add(new RingOfLifeControl());
-                break;
-            case "Vulkanglasdolch":
-                control.Grid.Children.Add(new ObsidianDaggerControl());
-                break;
-        }
+            Bowl => new BowlControl(),
+            BoneCub => new BoneCubControl(),
+            CrystalBall => new CrystalBallControl(),
+            Staff => new StaffControl(),
+            RingOfLife => new RingOfLifeControl(),
+            _ => new ObsidianDaggerControl()
+        };
+
+        Grid.Children.Add(control);
+        Grid.SetColumn(control, 0);
+        Grid.SetRow(control, 1);
+        Grid.SetRowSpan(control, 2);
     }
 }
