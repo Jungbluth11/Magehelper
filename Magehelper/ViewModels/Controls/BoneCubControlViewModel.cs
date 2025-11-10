@@ -1,4 +1,3 @@
-
 namespace Magehelper.ViewModels.Controls;
 
 public partial class BoneCubControlViewModel : ObservableObject, IRecipient<AddArtifactSpellDialogMessage>
@@ -9,7 +8,7 @@ public partial class BoneCubControlViewModel : ObservableObject, IRecipient<AddA
     [ObservableProperty] private string _mtp;
     [ObservableProperty] private string _senseMagicSkill = string.Empty;
     [ObservableProperty] private string _ensoulEntityName = string.Empty;
-    [ObservableProperty] private string _ensoulEntityNameLoyalty = string.Empty;
+    [ObservableProperty] private string _ensoulEntityLoyalty = string.Empty;
     [ObservableProperty] private bool _isSenseMagicSkillVisible;
     [ObservableProperty] private bool _isEnsoulEntityVisible;
     public string BoneCubType => _boneCub.Type;
@@ -20,6 +19,19 @@ public partial class BoneCubControlViewModel : ObservableObject, IRecipient<AddA
         Bf = _boneCub.Bf == null ? "Unzerbrechlich" : _boneCub.Bf.ToString()!;
         Tp = _boneCub.TpString;
         Mtp = _boneCub.MtpString;
+
+        if (_boneCub.SenseMagicSkill > 0)
+        {
+            SenseMagicSkill = _boneCub.SenseMagicSkill.ToString();
+            IsSenseMagicSkillVisible = true;
+        }
+
+        if (_boneCub.EnsoulEntityName != string.Empty)
+        {
+            EnsoulEntityName = _boneCub.EnsoulEntityName;
+            EnsoulEntityLoyalty = _boneCub.EnsoulEntityLoyalty.ToString()!;
+            IsEnsoulEntityVisible = true;
+        }
 
         WeakReferenceMessenger.Default.Register(this);
     }
@@ -35,32 +47,53 @@ public partial class BoneCubControlViewModel : ObservableObject, IRecipient<AddA
         switch (message.SpellName)
         {
             case "Geist der Keule":
-                //TODO
-                EnsoulEntityName = _boneCub.EnsoulEntityName;
-                EnsoulEntityNameLoyalty = _boneCub.EnsoulEntityLoyalty == null
-                    ? string.Empty
-                    : _boneCub.EnsoulEntityLoyalty.ToString()!;
+                if (string.IsNullOrEmpty(message.AdditionalValues["ensoulEntityName"]))
+                {
+                    _boneCub.EnsoulEntityName = message.AdditionalValues["ensoulEntityName"];
+                    EnsoulEntityName = message.AdditionalValues["ensoulEntityName"];
+                }
+
+                EnsoulEntityLoyalty = _boneCub.EnsoulEntityLoyalty.ToString()!;
 
                 break;
             case "Gespür der Keule":
-                //TODO
+                if (message.AdditionalValues.TryGetValue("points", out string? points))
+                {
+                    _boneCub.SenseMagicSkill = int.Parse(points);
+                }
+
                 SenseMagicSkill = _boneCub.SenseMagicSkill.ToString();
 
                 break;
             case "Härte der Keule":
-                //TODO
+                _boneCub.DecreaseBf(int.Parse(message.AdditionalValues["points"]));
                 Bf = _boneCub.Bf == null ? "Unzerbrechlich" : _boneCub.Bf.ToString()!;
 
                 break;
 
             case "Kraft der Keule":
-                //TODO
+                _boneCub.AdditionalMtp += int.Parse(message.AdditionalValues["points"]);
                 Tp = _boneCub.TpString;
                 Mtp = _boneCub.MtpString;
                 break;
         }
 
+        if (message.AdditionalValues.TryGetValue("isRollLoyaltyFailure", out _))
+        {
+            EnsoulEntityLoyalty = "0";
+        }
+
         ArtifactSpell spell = _boneCub.AddSpell(message.SpellName);
         WeakReferenceMessenger.Default.Send(new AddTraditionArtifactSpellMessage(spell, typeof(BoneCub)));
+    }
+
+
+    [RelayCommand]
+    private void DeleteEnsoulEntity()
+    {
+        _boneCub.DeleteEnsoulEntity();
+        EnsoulEntityName = string.Empty;
+        EnsoulEntityLoyalty = string.Empty;
+        IsEnsoulEntityVisible = false;
     }
 }

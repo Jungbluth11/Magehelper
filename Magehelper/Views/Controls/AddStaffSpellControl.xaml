@@ -1,0 +1,111 @@
+﻿<!--  ReSharper disable Xaml.BindingWithoutContextNotResolved  -->
+<UserControl
+    x:Class="Magehelper.Views.Controls.AddStaffSpellControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="5"
+            Text="Merkmal"
+            Visibility="{Binding IsCharacteristicVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <ComboBox
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="5"
+            ItemsSource="{Binding Characteristics}"
+            SelectedValue="{Binding SelectedCharacteristic, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            Visibility="{Binding IsCharacteristicVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="5"
+            Text="Variante"
+            Visibility="{Binding IsReptileSkinSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <ComboBox
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="5"
+            ItemsSource="{Binding ReptileSkinVariants}"
+            SelectedValue="{Binding SelectedReptileSkinVariant, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            Visibility="{Binding IsReptileSkinSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="5"
+            Text="Volumenpunkte"
+            Visibility="{Binding IsSpellPointsVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <NumberBox
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="5"
+            KeyDown="UIElement_OnKeyDown"
+            Maximum="{Binding MaxSpellPoints}"
+            Minimum="{Binding MinSpellPoints}"
+            SpinButtonPlacementMode="Compact"
+            Visibility="{Binding IsSpellPointsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+            Value="{Binding SpellPoints, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="5"
+            Text="RKP"
+            Visibility="{Binding IsHammerSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="5"
+            Orientation="Horizontal"
+            Visibility="{Binding IsHammerSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+            <NumberBox
+                KeyDown="UIElement_OnKeyDown"
+                Maximum="{Binding MaxSpellPoints}"
+                Minimum="{Binding MinSpellPoints}"
+                SpinButtonPlacementMode="Compact"
+                Value="{Binding HammerRkp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            <Button Command="{Binding RollHammerCommand}" IsEnabled="{Binding CanRollHammer}">
+                <Image Source="../../Assets/dice.png" />
+            </Button>
+        </StackPanel>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="5"
+            Text="Patzer"
+            Visibility="{Binding IsFlameSwordSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="5"
+            Orientation="Horizontal"
+            Visibility="{Binding IsHammerSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+            <RadioButton
+                Content="4"
+                IsChecked="{Binding IsFlameSwordFourChecked}"
+                Visibility="{Binding AreFlameSwordRadioButtonsVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <RadioButton
+                Content="5"
+                IsChecked="{Binding IsFlameSwordFiveChecked}"
+                Visibility="{Binding AreFlameSwordRadioButtonsVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <TextBlock
+                Text="{Binding FlameSwordFailureText}"
+                TextWrapping="Wrap"
+                Visibility="{Binding IsFlameSwordFailureTextVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <Button Command="{Binding RollFlameSwordCommand}" IsEnabled="{Binding CanRollFlameSword}">
+                <Image Source="../../Assets/dice.png" />
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

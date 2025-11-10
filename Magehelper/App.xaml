@@ -1,7 +1,8 @@
 ﻿<Application
     x:Class="Magehelper.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:CommunityToolkit.WinUI.UI.Converters;assembly=CommunityToolkit.WinUI.UI">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -11,6 +12,7 @@
                 <!--  Load Uno.UI.Toolkit resources  -->
                 <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
             </ResourceDictionary.MergedDictionaries>
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
             <!--  Add resources here  -->
 

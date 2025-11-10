@@ -15,7 +15,28 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="5"
+            Text="Material:" />
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="5"
+            Text="{Binding Material}" />
         <gb:GroupBox
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
             Header="Feuer und Eis"
             Theme="Fluent"
             Visibility="{Binding FireAndIceVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -59,12 +80,13 @@
                     Grid.Column="0"
                     Margin="5"
                     Text="Dauer in Stunden" />
-                <NumberBox SpinButtonPlacementMode="Compact"
+                <NumberBox
                     Grid.Row="2"
                     Grid.Column="1"
                     KeyDown="UIElement_OnKeyDown"
                     Minimum="1"
-                    Value="{Binding FireAndIceDuration}" />
+                    SpinButtonPlacementMode="Compact"
+                    Value="{Binding FireAndIceDuration, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <TextBlock
                     Grid.Row="3"
                     Grid.Column="0"

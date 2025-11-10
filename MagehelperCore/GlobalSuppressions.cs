@@ -23,3 +23,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~P:Magehelper.Core.BoneCub.MtpString")]
 [assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~P:Magehelper.Core.BoneCub.TpString")]
 [assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~P:Magehelper.Core.Character.Rkw")]
+[assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~M:Magehelper.Core.BoneCub.RollEnsoulEntity(System.Int32,System.Int32,System.Int32)")]

@@ -4,12 +4,12 @@ public class CrystalBallControlViewModel : IRecipient<AddArtifactSpellDialogMess
 {
     private readonly CrystalBall _crystalBall;
 
-    public string Material => CrystalBall.MaterialStrings[(int) _crystalBall.Material];
+    public string Material => CrystalBall.MaterialStrings[(int)_crystalBall.Material];
 
 
     public CrystalBallControlViewModel()
     {
-        _crystalBall = Core.Core.GetInstance().CrystalBall ?? new();
+        _crystalBall = Core.Core.GetInstance().CrystalBall!;
         WeakReferenceMessenger.Default.Register(this);
     }
 
@@ -35,5 +35,4 @@ public class CrystalBallControlViewModel : IRecipient<AddArtifactSpellDialogMess
         ArtifactSpell spell = _crystalBall.AddSpell(message.SpellName, variantText);
         WeakReferenceMessenger.Default.Send(new AddTraditionArtifactSpellMessage(spell, typeof(CrystalBall)));
     }
-
 }

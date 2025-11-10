@@ -4,18 +4,18 @@ public partial class StaffControlViewModel : ObservableObject, IRecipient<AddArt
 {
     private readonly Core.Core _core = Core.Core.GetInstance();
     private readonly Staff _staff;
-    [ObservableProperty] private string _flameSwordFailureFourText = string.Empty;
     [ObservableProperty] private bool _isFlameswordFailure;
-    [ObservableProperty] private bool _isFlameSwordFailureFourVisible;
     [ObservableProperty] private bool _isFlameSwordFailureFiveVisible;
+    [ObservableProperty] private bool _isFlameSwordFailureFourVisible;
+    [ObservableProperty] private string _flameSwordFailureFourText = string.Empty;
     public string FlameSwordFailureFiveText => "Mit 5 misslungen (Stab kann keine Zauber mehr aufnehmen)";
-    public string Pasp => _staff.Pasp.ToString();
-    public string Material => Staff.MaterialStrings[_staff.Material];
     public string Length => Staff.LengthStrings[_staff.Length];
+    public string Material => Staff.MaterialStrings[_staff.Material];
+    public string Pasp => _staff.Pasp.ToString();
 
     public StaffControlViewModel()
     {
-        _staff = _core.Staff ?? new();
+        _staff = _core.Staff!;
 
         if (_staff.LostPoints > 0)
         {
@@ -32,22 +32,6 @@ public partial class StaffControlViewModel : ObservableObject, IRecipient<AddArt
         }
 
         WeakReferenceMessenger.Default.Register(this);
-    }
-
-    private void SetFlameSwordFailureFour()
-    {
-        if (_staff.LostPoints > 0)
-        {
-            FlameSwordFailureFourText =
-                $"Mit 4 Misslungen ({_staff.LostPoints / 7} mal; {_staff.LostPoints} Volumenpunkte verloren)";
-
-            IsFlameSwordFailureFourVisible = true;
-        }
-        else
-        {
-            IsFlameSwordFailureFiveVisible = false;
-        }
-
     }
 
     public void Receive(AddArtifactSpellDialogMessage message)
@@ -115,5 +99,20 @@ public partial class StaffControlViewModel : ObservableObject, IRecipient<AddArt
             int.Parse(message.AdditionalValues["spellPoints"]));
 
         WeakReferenceMessenger.Default.Send(new AddTraditionArtifactSpellMessage(spell, typeof(Staff)));
+    }
+
+    private void SetFlameSwordFailureFour()
+    {
+        if (_staff.LostPoints > 0)
+        {
+            FlameSwordFailureFourText =
+                $"Mit 4 Misslungen ({_staff.LostPoints / 7} mal; {_staff.LostPoints} Volumenpunkte verloren)";
+
+            IsFlameSwordFailureFourVisible = true;
+        }
+        else
+        {
+            IsFlameSwordFailureFiveVisible = false;
+        }
     }
 }

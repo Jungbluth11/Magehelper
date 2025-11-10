@@ -2,7 +2,7 @@ namespace Magehelper.Views.Controls;
 
 public sealed partial class TraditionArtifactControl : UserControl
 {
-    private Artifact Artifact => (DataContext as TraditionArtifactControlViewModel)!.Artifact;
+    private TraditionArtifactControlViewModel ViewModel => (DataContext as TraditionArtifactControlViewModel)!;
 
     public TraditionArtifactControl()
     {
@@ -15,11 +15,9 @@ public sealed partial class TraditionArtifactControl : UserControl
         {
             AddArtifactSpellDialog dialog = new()
             {
-                XamlRoot = XamlRoot
+                XamlRoot = XamlRoot,
+                DataContext = ViewModel.AddArtifactSpellDialogViewModel
             };
-
-            (dialog.DataContext as AddArtifactSpellDialogViewModel)!.Artifact = Artifact;
-
 
             await dialog.ShowAsync();
         }
@@ -31,7 +29,7 @@ public sealed partial class TraditionArtifactControl : UserControl
 
     private void TraditionArtifactControl_OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
     {
-        UserControl control = Artifact switch
+        UserControl control = ViewModel.Artifact switch
         {
             Bowl => new BowlControl(),
             BoneCub => new BoneCubControl(),

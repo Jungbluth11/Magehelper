@@ -8,7 +8,7 @@ public partial class RingOfLifeControlViewModel : ObservableObject, IRecipient<A
 
     public RingOfLifeControlViewModel()
     {
-        _ringOfLife = Core.Core.GetInstance().RingOfLife ?? new();
+        _ringOfLife = Core.Core.GetInstance().RingOfLife!;
         WeakReferenceMessenger.Default.Register(this);
     }
 

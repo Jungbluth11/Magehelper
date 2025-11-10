@@ -1,5 +1,3 @@
-using System.ComponentModel;
-
 namespace Magehelper.Views.Tabs;
 
 public sealed partial class TabSpellStorage : TabViewItem

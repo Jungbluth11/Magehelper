@@ -8,12 +8,21 @@ public partial class TraditionArtifactControlViewModel : ObservableObject, IReci
     public string ArtifactSpellCounterValue { get; set; } = string.Empty;
     public string ArtifactSpellName { get; set; }
     public ObservableCollection<ArtifactSpell> Spells { get; } = [];
+    public AddArtifactSpellDialogViewModel AddArtifactSpellDialogViewModel { get; }
 
     public TraditionArtifactControlViewModel(Artifact artifact)
     {
         Artifact = artifact;
         ArtifactName = artifact.Name;
         ArtifactSpellName = TraditionalArtifactHelper.SpellDescriptor[artifact.Name];
+
+        AddArtifactSpellDialogViewModel = artifact switch
+        {
+            Staff staff => new AddStaffSpellDialogViewModel(staff),
+            CrystalBall crystalBall => new AddCrystalBallSpellDialogViewModel(crystalBall),
+            BoneCub boneCub => new AddBoneCubSpellDialogViewModel(boneCub),
+            _ => new(artifact)
+        };
 
         ArtifactSpellCounterText = Artifact switch
         {

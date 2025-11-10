@@ -7,11 +7,26 @@ public sealed partial class AddArtifactSpellDialog : ContentDialog
         InitializeComponent();
     }
 
-    private void UIElement_OnKeyDown(object sender, KeyRoutedEventArgs e)
+    private void AddArtifactSpellDialog_OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
     {
-        if (e.Key == VirtualKey.Enter)
+        AddArtifactSpellDialogViewModel viewModel = (DataContext as AddArtifactSpellDialogViewModel)!;
+
+        UserControl? control = viewModel switch
         {
-            XamlRoot!.Content!.Focus(FocusState.Programmatic);
+            AddBoneCubSpellDialogViewModel => new AddBoneCubSpellControl(),
+            AddCrystalBallSpellDialogViewModel => new AddCrystalBallSpellControl(),
+            AddStaffSpellDialogViewModel => new AddStaffSpellControl(),
+            _ => null
+        };
+
+        if (control == null)
+        {
+            return;
         }
+
+        control.DataContext = viewModel.AddArtifactSpellControlViewModel;
+        Grid.Children.Add(control);
+        Grid.SetRow(control, 1);
+
     }
 }

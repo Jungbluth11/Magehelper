@@ -303,6 +303,7 @@ public class Core
             xw.WriteAttributeString("name", artifact.Name);
             xw.WriteAttributeString("boundSpells", artifact.BoundSpells.Count.ToString());
 
+            //TODO
             if (artifact.Name is "Kristallkugel" or "Ring des Lebens" or "Vulkanglasdolch")
             {
                 xw.WriteAttributeString("maxSpells", (artifact as IMaxSpellArtifact)?.MaxSpells.ToString());

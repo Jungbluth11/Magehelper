@@ -6,7 +6,7 @@ public partial class ObsidianDaggerControlViewModel : ObservableObject, IRecipie
 
     public ObsidianDaggerControlViewModel()
     {
-        _obsidianDagger = Core.Core.GetInstance().ObsidianDagger ?? new();
+        _obsidianDagger = Core.Core.GetInstance().ObsidianDagger!;
         WeakReferenceMessenger.Default.Register(this);
     }
 

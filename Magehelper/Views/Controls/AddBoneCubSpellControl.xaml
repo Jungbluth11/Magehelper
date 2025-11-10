@@ -1,0 +1,85 @@
+﻿<!--  ReSharper disable Xaml.BindingWithoutContextNotResolved  -->
+<UserControl
+    x:Class="Magehelper.Views.Controls.AddBoneCubSpellControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="5"
+            Text="Wesen:"
+            Visibility="{Binding IsEnsoulEntityNameVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <TextBox
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="5"
+            Text="{Binding EnsoulEntityName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            Visibility="{Binding IsEnsoulEntityNameVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+        <Grid
+            Grid.Row="1"
+            Grid.Column="0"
+            ColumnSpan="2"
+            Visibility="{Binding IsPointsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="5"
+                Text="{Binding PointsDescriptor}"
+                Visibility="{Binding IsPointsVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <NumberBox
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                KeyDown="UIElement_OnKeyDown"
+                Minimum="0"
+                SpinButtonPlacementMode="Compact"
+                Visibility="{Binding IsPointsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                Value="{Binding Points, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="3"
+                Margin="5"
+                Text="Mod:"
+                Visibility="{Binding IsEnsoulEntitySelected, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <NumberBox
+                Grid.Row="0"
+                Grid.Column="4"
+                Margin="5"
+                KeyDown="UIElement_OnKeyDown"
+                Minimum="0"
+                SpinButtonPlacementMode="Compact"
+                Visibility="{Binding IsEnsoulEntitySelected, Converter={StaticResource BoolToVisibilityConverter}}"
+                Value="{Binding EnsoulEntityMod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            <Button
+                Grid.Row="0"
+                Grid.Column="4"
+                IsEnabled="{Binding CanRollEnsoulEntity}"
+                Visibility="{Binding IsEnsoulEntitySelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Image Source="../../Assets/dice.png" />
+            </Button>
+        </Grid>
+    </Grid>
+</UserControl>
