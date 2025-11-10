@@ -1,4 +1,4 @@
-namespace Magehelper.Models.Messages;
+namespace Magehelper.Messages;
 
 public class AddArtifactSpellDialogMessage(string artifactName, string spellName, Dictionary<string, string> additionalValues)
 {

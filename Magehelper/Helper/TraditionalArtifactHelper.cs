@@ -1,4 +1,4 @@
-namespace Magehelper.Models.Helper;
+namespace Magehelper.Helper;
 
 public static class TraditionalArtifactHelper
 {

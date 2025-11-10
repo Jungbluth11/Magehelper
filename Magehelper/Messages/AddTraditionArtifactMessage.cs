@@ -1,4 +1,4 @@
-namespace Magehelper.Models.Messages;
+namespace Magehelper.Messages;
 
 public class AddTraditionArtifactMessage(string artifactName, Dictionary<string, string> additionalValues)
 {

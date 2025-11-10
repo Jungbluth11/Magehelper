@@ -1,4 +1,4 @@
-namespace Magehelper.ViewModels.Dialogs;
+namespace Magehelper.Views.Dialogs;
 
 public sealed partial class SelectAttributeDialog : ContentDialog
 {

@@ -1,4 +1,4 @@
-namespace Magehelper.Models.Messages;
+namespace Magehelper.Messages;
 
 public class EnableTabMessage(string tabName, int points = 0)
 {

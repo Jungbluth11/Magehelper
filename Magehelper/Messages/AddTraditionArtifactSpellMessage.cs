@@ -1,4 +1,4 @@
-namespace Magehelper.Models.Messages;
+namespace Magehelper.Messages;
 
 public class AddTraditionArtifactSpellMessage(ArtifactSpell artifactSpell, Type type)
 {

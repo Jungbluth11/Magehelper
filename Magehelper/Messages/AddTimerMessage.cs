@@ -1,4 +1,4 @@
-namespace Magehelper.Models.Messages;
+namespace Magehelper.Messages;
 
 public class AddTimerMessage(string name, int duration)
 {

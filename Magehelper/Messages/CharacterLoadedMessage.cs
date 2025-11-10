@@ -1,3 +1,3 @@
-namespace Magehelper.Models.Messages;
+namespace Magehelper.Messages;
 
 public class CharacterLoadedMessage(Charakter value) : ValueChangedMessage<Charakter>(value);

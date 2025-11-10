@@ -1,5 +1,5 @@
 ﻿<ContentDialog
-    x:Class="Magehelper.ViewModels.Dialogs.SelectAttributeDialog"
+    x:Class="Magehelper.Views.Dialogs.SelectAttributeDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Attribut wählen"
