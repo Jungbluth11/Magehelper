@@ -24,17 +24,17 @@ public record struct Timer
     {
         get
         {
-            if (Duration >= Timers.DurationDaysMultiplier)
+            if (Duration >= Timers.DurationMultiplier["Tage"])
             {
-                return (Duration / Timers.DurationDaysMultiplier) + " Tage";
+                return Duration / Timers.DurationMultiplier["Tage"] + " Tage";
             }
 
-            if (Duration >= Timers.DurationSrMultiplier)
+            if (Duration >= Timers.DurationMultiplier["SR"])
             {
-                return (Duration / Timers.DurationSrMultiplier) + " SR";
+                return Duration / Timers.DurationMultiplier["SR"] + " SR";
             }
 
-            return (Duration / Timers.DurationKrMultiplier) + " KR";
+            return Duration / Timers.DurationMultiplier["KR"] + " KR";
         }
     }
 }

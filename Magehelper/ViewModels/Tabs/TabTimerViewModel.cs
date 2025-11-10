@@ -2,11 +2,14 @@ using Timer = Magehelper.Core.Timer;
 
 namespace Magehelper.ViewModels.Tabs;
 
-public partial class TabTimerViewModel : ObservableObject, IRecipient<FileActionMessage>, IRecipient<AddTimerMessage>
+public partial class TabTimerViewModel : ObservableObject,
+    IRecipient<FileActionMessage>,
+    IRecipient<AddTimerMessage>,
+    IRecipient<RemoveTimerMessage>
 {
     private readonly Timers _timers;
-    public ObservableCollection<Timer> TimersLeft { get; set; } = [];
-    public ObservableCollection<Timer> TimersRight { get; set; } = [];
+    public ObservableCollection<TimerControlViewModel> TimersLeft { get; set; } = [];
+    public ObservableCollection<TimerControlViewModel> TimersRight { get; set; } = [];
 
     public TabTimerViewModel()
     {
@@ -47,13 +50,13 @@ public partial class TabTimerViewModel : ObservableObject, IRecipient<FileAction
 
     public void AddTimer(Timer timer)
     {
-        if (timer.Duration < Timers.DurationDaysMultiplier)
+        if (timer.Duration < Timers.DurationMultiplier["Tage"])
         {
-            TimersLeft.Add(timer);
+            TimersLeft.Add(new(timer));
         }
         else
         {
-            TimersRight.Add(timer);
+            TimersRight.Add(new(timer));
         }
     }
 
@@ -63,48 +66,17 @@ public partial class TabTimerViewModel : ObservableObject, IRecipient<FileAction
         TimersRight.Clear();
     }
 
-    [RelayCommand]
-    private void DecreaseDay(Timer timer)
+    public void Receive(RemoveTimerMessage message)
     {
-        _timers.CountDown(timer.Guid, Timers.DurationDaysMultiplier);
+        _timers.Remove(message.Value.Guid);
 
-        if (timer.Duration - Timers.DurationDaysMultiplier > 0)
+        if (message.Value.DurationString.Contains("Tage"))
         {
-            TimersRight[TimersRight.IndexOf(timer)] = _timers[timer.Guid];
+            TimersRight.Remove(message.Value);
         }
         else
         {
-            TimersRight.Remove(timer);
+            TimersLeft.Remove(message.Value);
         }
-    }
-
-    [RelayCommand]
-    private void DecreaseKr(Timer timer)
-    {
-        _timers.CountDown(timer.Guid, Timers.DurationKrMultiplier);
-
-        if (timer.Duration - Timers.DurationKrMultiplier > 0)
-        {
-            TimersLeft[TimersLeft.IndexOf(timer)] = _timers[timer.Guid];
-        }
-        else
-        {
-            TimersLeft.Remove(timer);
-        }
-    }
-
-    [RelayCommand]
-    private void RemoveTimer(Timer timer)
-    {
-        if (timer.Duration < Timers.DurationDaysMultiplier)
-        {
-            TimersLeft.Remove(timer);
-        }
-        else
-        {
-            TimersRight.Remove(timer);
-        }
-
-        _timers.Remove(timer.Guid);
     }
 }

@@ -1,4 +1,5 @@
 namespace Magehelper.Views.Dialogs;
+
 public sealed partial class AddTimerDialog : ContentDialog
 {
     public AddTimerDialog()

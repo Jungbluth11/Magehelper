@@ -31,7 +31,7 @@
             Grid.Row="0"
             Grid.Column="1"
             Margin="5"
-            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
         <ComboBox
             Grid.Row="1"
             Grid.Column="0"
@@ -40,12 +40,13 @@
             VerticalAlignment="Top"
             ItemsSource="{Binding DurationUnits}"
             SelectedIndex="0"
-            SelectedValue="{Binding DurationUnit, UpdateSourceTrigger=PropertyChanged}" />
-        <NumberBox SpinButtonPlacementMode="Compact"
+            SelectedValue="{Binding DurationUnit, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <NumberBox
             Grid.Row="1"
             Grid.Column="1"
             KeyDown="UIElement_OnKeyDown"
             Minimum="0"
-            Value="{Binding DurationValue, UpdateSourceTrigger=PropertyChanged}" />
+            SpinButtonPlacementMode="Compact"
+            Value="{Binding DurationValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
     </Grid>
 </ContentDialog>

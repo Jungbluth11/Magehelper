@@ -27,22 +27,6 @@ public partial class AddTimerDialogViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(CanSubmit))]
     private void Submit()
     {
-        switch (DurationUnit)
-        {
-            case "KR":
-                DurationValue *= Timers.DurationKrMultiplier;
-
-                break;
-            case "SR":
-                DurationValue *= Timers.DurationSrMultiplier;
-
-                break;
-            case "Tage":
-                DurationValue *= Timers.DurationDaysMultiplier;
-
-                break;
-        }
-
-        WeakReferenceMessenger.Default.Send(new AddTimerMessage(Name, DurationValue));
+        WeakReferenceMessenger.Default.Send(new AddTimerMessage(Name, DurationValue * Timers.DurationMultiplier[DurationUnit]));
     }
 }

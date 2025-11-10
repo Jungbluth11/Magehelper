@@ -9,9 +9,13 @@ public class Timers : IEnumerable<Timer>
     public Timer this[int i] => _timers[i];
     public Timer this[string guid] => _timers.SingleOrDefault(t => t.Guid == guid);
     public int Count => _timers.Count;
-    public static int DurationKrMultiplier => 1;
-    public static int DurationSrMultiplier => 100;
-    public static int DurationDaysMultiplier => 28800;
+
+    public static Dictionary<string, int> DurationMultiplier => new()
+    {
+        {"KR",1},
+        {"SR",100},
+        {"Tage",28800}
+    };
 
     public static string[] DurationUnits =>
     [
