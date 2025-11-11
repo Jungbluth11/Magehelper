@@ -24,7 +24,7 @@
                 Width="100"
                 Margin="5"
                 ItemsSource="{Binding RepresentationList}"
-                SelectedValue="{Binding Representation, UpdateSourceTrigger=PropertyChanged}" />
+                SelectedValue="{Binding Representation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             <TextBlock Margin="5" Text="{Binding InfoText}" />
         </StackPanel>
         <ItemsControl Grid.Row="1" ItemsSource="{Binding ModDataList}">
@@ -94,7 +94,7 @@
                     Canvas.Top="10"
                     Checked="CheckBox_Checked"
                     Content="Magieresistenz"
-                    IsChecked="{Binding UseMr, UpdateSourceTrigger=PropertyChanged}" />
+                    IsChecked="{Binding UseMr, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <Button
                     Canvas.Left="10"
                     Canvas.Top="40"

@@ -46,7 +46,7 @@ public partial class TabModViewModel : ObservableObject, IRecipient<CharacterLoa
     {
         _mod.Mr = mr;
         _mod.UseMr = true;
-        ModList.Add(new("Magieresistenz: " + mr.ToString(), "MR", mr));
+        ModList.Add(new($"Magieresistenz: {mr}", "MR", mr));
     }
 
     partial void OnRepresentationChanged(string value)
@@ -92,16 +92,10 @@ public partial class TabModViewModel : ObservableObject, IRecipient<CharacterLoa
         XmlDocument xml = new();
         xml.LoadXml(message.Value.XML);
         string profession = xml.SelectSingleNode("//ausbildung[@art='Hauptprofession']")!
-            .Attributes!["name"]!.ToString()!.Replace(
-            "helden.model.profession.", "");
+                                .Attributes!["name"]!
+                                .Value
+                                .Replace("helden.model.profession.", "");
 
-        if (profession == "Magier")
-        {
-            Representation = "Gildenmagier";
-        }
-        else
-        {
-            Representation = profession;
-        }
+        Representation = profession == "Magier" ? "Gildenmagier" : profession;
     }
 }
