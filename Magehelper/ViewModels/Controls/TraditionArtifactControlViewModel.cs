@@ -2,7 +2,7 @@ namespace Magehelper.ViewModels.Controls;
 
 public partial class TraditionArtifactControlViewModel : ObservableObject, IRecipient<AddTraditionArtifactSpellMessage>
 {
-    public Artifact Artifact { get; set; }
+    public TraditionArtifact Artifact { get; set; }
     public string ArtifactName { get; set; }
     public string ArtifactSpellCounterText { get; set; }
     public string ArtifactSpellCounterValue { get; set; } = string.Empty;
@@ -10,7 +10,7 @@ public partial class TraditionArtifactControlViewModel : ObservableObject, IReci
     public ObservableCollection<ArtifactSpell> Spells { get; } = [];
     public AddArtifactSpellDialogViewModel AddArtifactSpellDialogViewModel { get; }
 
-    public TraditionArtifactControlViewModel(Artifact artifact)
+    public TraditionArtifactControlViewModel(TraditionArtifact artifact)
     {
         Artifact = artifact;
         ArtifactName = artifact.Name;

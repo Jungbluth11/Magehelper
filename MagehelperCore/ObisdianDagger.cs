@@ -1,6 +1,6 @@
 namespace Magehelper.Core;
 
-public class ObsidianDagger : Artifact, IMaxSpellArtifact
+public class ObsidianDagger : TraditionArtifact, IMaxSpellArtifact
 {
     public int MaxSpells => 7;
     public int SpellsRemain => HasApport ? 0 : MaxSpells - boundSpells.Count;

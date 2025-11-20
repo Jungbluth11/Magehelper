@@ -1,6 +1,6 @@
 namespace Magehelper.Core;
 
-public class Staff : Artifact
+public class Staff : TraditionArtifact
 {
     private readonly List<string> _merkmalsfoki = [];
     private int _afvTotal;

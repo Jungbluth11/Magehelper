@@ -1,0 +1,77 @@
+﻿<ContentDialog
+    x:Class="Magehelper.Views.Dialogs.AddArtifactDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:viewModel="clr-namespace:Magehelper.ViewModels.Dialogs"
+    Title="Artefakt Hinzufügen"
+    Loaded="AddArtifactDialog_OnLoaded"
+    PrimaryButtonCommand="{Binding AddArtifactCommand}"
+    PrimaryButtonText="Hinzufügen"
+    Style="{ThemeResource DefaultContentDialogStyle}">
+    <ContentDialog.DataContext>
+        <viewModel:AddArtifactDialogViewModel />
+    </ContentDialog.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Text="Typ:" />
+        <ComboBox
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="5"
+            ItemsSource="{Binding TypeStrings}"
+            SelectedItem="{Binding CurrentType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <ComboBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="5"
+            ItemsSource="{Binding IntervalStrings}"
+            SelectedItem="{Binding CurrentInterval, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            Visibility="{Binding IsIntervalVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <NumberBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="5"
+            KeyDown="UIElement_OnKeyDown"
+            SpinButtonPlacementMode="Compact"
+            Visibility="{Binding IsChargesVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+            Value="{Binding Charges, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="5"
+            Text="Name:" />
+        <TextBox
+            Grid.Row="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="0"
+            Margin="5"
+            Text="Beschreibung:" />
+        <TextBox
+            Grid.Row="5"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Height="300"
+            Margin="5"
+            AcceptsReturn="True"
+            Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            TextWrapping="Wrap" />
+    </Grid>
+</ContentDialog>

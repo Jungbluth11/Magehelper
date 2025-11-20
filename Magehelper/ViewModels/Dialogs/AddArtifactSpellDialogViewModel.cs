@@ -14,11 +14,11 @@ public partial class AddArtifactSpellDialogViewModel : ObservableObject
     [ObservableProperty] private string _dialogTitle = string.Empty;
     [ObservableProperty] private string _errorText = string.Empty;
     [ObservableProperty] private string _selectedSpellName = string.Empty;
-    public Artifact Artifact { get; }
+    public TraditionArtifact Artifact { get; }
     public ObservableObject? AddArtifactSpellControlViewModel { get; protected set; }
     public ObservableCollection<string> SpellNames { get; } = [];
 
-    public AddArtifactSpellDialogViewModel(Artifact artifact)
+    public AddArtifactSpellDialogViewModel(TraditionArtifact artifact)
     {
         Artifact = artifact;
         DialogTitle = $"{TraditionalArtifactHelper.SpellDescriptor[Artifact.Name]} hinzufügen";

@@ -5,24 +5,31 @@
     xmlns:controls="clr-namespace:Magehelper.Views.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="clr-namespace:Magehelper.ViewModels.Tabs"
-    Header="{Binding TabName}"
+    xmlns:viewModel="clr-namespace:Magehelper.ViewModels.Tabs"
+    Header="Artefakte"
     IsClosable="False"
     mc:Ignorable="d">
     <TabViewItem.DataContext>
-        <vm:TabArtifactViewModel />
+        <viewModel:TabArtifactViewModel />
     </TabViewItem.DataContext>
     <StackPanel Margin="5" Orientation="Vertical">
-        <Button
-            HorizontalAlignment="Left"
-            Click="Button_OnClick"
-            Content="Traditionsartefakt hinzufügen"
-            IsEnabled="{Binding CanAddArtifact}" />
-        <StackPanel Name="StackPanelArtifacts" Orientation="Vertical">
-            <ItemsControl ItemsSource="{Binding ArtifactControls}">
+        <ToggleSplitButton HorizontalAlignment="Left" Click="SplitButtonAddArtifact_OnClick">
+            <TextBlock Text="Artefakt hinzufügen" />
+            <ToggleSplitButton.Flyout>
+                <Flyout Placement="Bottom">
+                    <Button
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Click="SplitButtonLoadFromFile_OnClick"
+                        Content="aus .artefakt-Datei laden" />
+                </Flyout>
+            </ToggleSplitButton.Flyout>
+        </ToggleSplitButton>
+        <StackPanel Orientation="Vertical">
+            <ItemsControl ItemsSource="{Binding Artifacts}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <controls:TraditionArtifactControl DataContext="{Binding}" />
+                        <controls:ArtifactControl Margin="10" DataContext="{Binding}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

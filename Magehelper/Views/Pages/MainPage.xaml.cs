@@ -207,11 +207,11 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
     private void MenuFileTabTraditionalArtifact_OnClick(object sender, RoutedEventArgs e)
     {
-        ToggleTab<TabArtifact>();
+        ToggleTab<TabTraditionArtifact>();
 
-        if (TabView.TabItems.OfType<TabArtifact>().Any())
+        if (TabView.TabItems.OfType<TabTraditionArtifact>().Any())
         {
-            TabView.SelectedItem = TabView.TabItems.OfType<TabArtifact>().First();
+            TabView.SelectedItem = TabView.TabItems.OfType<TabTraditionArtifact>().First();
         }
     }
 
@@ -315,13 +315,14 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
     private void LoadTabs()
     {
+        ToggleTab<TabArtifact>();
         foreach (string tab in Settings.GetInstance().DefaultTabs)
         {
             switch (tab)
             {
                 case "Traditionsartefakt":
                     MenuFileTabTraditionalArtifact.IsChecked = true;
-                    ToggleTab<TabArtifact>();
+                    ToggleTab<TabTraditionArtifact>();
 
                     break;
                 case "Zauberspeicher":
@@ -333,6 +334,9 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
                     MenuFileTabFlameSword.IsChecked = true;
                     ToggleTab<TabFlameSword>();
 
+                    break;
+                case "Artefakte":
+                    //TODO
                     break;
                 case "Charakter":
                     MenuFileTabCharacter.IsChecked = true;

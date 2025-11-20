@@ -80,7 +80,7 @@ public partial class SettingsPageViewModel : ObservableObject, IRecipient<Config
         foreach (string file in _settings.ArtifactFiles)
         {
             HomeBrewTabs.Add(new()
-            { Name = SettingsHelper.ArtifactName[file], SettingsFile = file, Spells = SettingsHelper.ArtifactSpells[file] });
+            { Name = SettingsHelper.TraditionArtifactName[file], SettingsFile = file, Spells = SettingsHelper.ArtifactSpells[file] });
         }
 
         if (_isInitalized)

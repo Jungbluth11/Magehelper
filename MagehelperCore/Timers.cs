@@ -1,5 +1,3 @@
-using System.Collections;
-
 namespace Magehelper.Core;
 
 public class Timers : IEnumerable<Timer>

@@ -23,7 +23,7 @@ public partial class AddTraditionArtifactDialogViewModel : ObservableObject
 
     public AddTraditionArtifactDialogViewModel()
     {
-        foreach (string artifactName in _core.ArtifactNames)
+        foreach (string artifactName in _core.TraditionArtifactNames)
         {
             if (!TraditionalArtifactHelper.IsInitialized[artifactName])
             {

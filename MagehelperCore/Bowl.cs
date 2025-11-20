@@ -1,6 +1,6 @@
 namespace Magehelper.Core;
 
-public class Bowl : Artifact
+public class Bowl : TraditionArtifact
 {
     private readonly Dictionary<string, int> _temperatureCategoryValues = new()
     {

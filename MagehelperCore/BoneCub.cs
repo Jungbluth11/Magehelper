@@ -1,6 +1,6 @@
 namespace Magehelper.Core;
 
-public class BoneCub : Artifact
+public class BoneCub : TraditionArtifact
 {
     private readonly BoneCubBaseData[] _baseDatas =
     [

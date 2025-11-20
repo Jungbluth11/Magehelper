@@ -25,7 +25,7 @@ public static class SettingsHelper
         {"obsidianDagger.json", Settings.ObsidianDaggerSpells}
     };
 
-    public static Dictionary<string, string> ArtifactName => new()
+    public static Dictionary<string, string> TraditionArtifactName => new()
     {
         {"staff.json", TraditionalArtifactHelper.ArtifactNames.Staff},
         {"crystalBall.json",TraditionalArtifactHelper.ArtifactNames.CrystalBall},

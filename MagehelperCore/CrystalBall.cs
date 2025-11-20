@@ -1,6 +1,6 @@
 namespace Magehelper.Core;
 
-public class CrystalBall : Artifact, IMaxSpellArtifact
+public class CrystalBall : TraditionArtifact, IMaxSpellArtifact
 {
     private CrystalBallMaterial _material = CrystalBallMaterial.Glass;
     public int MaxSpells { get; private set; } = 4;

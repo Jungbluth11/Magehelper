@@ -8,7 +8,7 @@
     <!-- Display name -->
     <ApplicationTitle>Magehelper</ApplicationTitle>
     <!-- App Identifier -->
-    <ApplicationId>com.companyname.Magehelper</ApplicationId>
+    <ApplicationId>com.Jungbluth.Magehelper</ApplicationId>
     <!-- Versions -->
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
@@ -46,6 +46,9 @@
   <ItemGroup>
     <Compile Update="Views\Controls\AddStaffSpellControl.xaml.cs">
       <DependentUpon>AddStaffSpellControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tabs\TabTraditonArtifact.xaml.cs">
+      <DependentUpon>TabTraditonArtifact.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -162,11 +165,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\Tabs\TabArtifact.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Views\Tabs\TabCharacter.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -228,6 +226,31 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\Controls\TimerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="ViewModels\Controls\ArtifactControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Controls\ArtifactControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Dialogs\AddArtifactDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Tabs\TabTraditonArtifact.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Tabs\TabArtifact.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

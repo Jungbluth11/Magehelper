@@ -24,7 +24,7 @@ public static class TraditionalArtifactHelper
         {ArtifactNames.ObsidianDagger, typeof(ObsidianDaggerControl)}
     };
 
-    public static Dictionary<string, Artifact?> GetArtifact => new()
+    public static Dictionary<string, TraditionArtifact?> GetArtifact => new()
     {
         {ArtifactNames.Bowl, Core.Bowl},
         {ArtifactNames.BoneCub, Core.BoneCub},

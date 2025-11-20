@@ -1,5 +1,4 @@
 using System.Reflection;
-using System.Xml;
 
 namespace Magehelper.Core;
 
@@ -9,7 +8,7 @@ public class Core
     /// <summary>
     ///     Names of the artifacts.
     /// </summary>
-    public ReadOnlyCollection<string> ArtifactNames => new[]
+    public ReadOnlyCollection<string> TraditionArtifactNames => new[]
     {
         "Alchemistenschale",
         "Knochenkeule",
@@ -122,6 +121,7 @@ public class Core
     public Pet? Pet { get; internal set; }
     public SpellStorage? SpellStorage { get; internal set; }
     public Timers? Timers { get; internal set; }
+    public Artifacts? Artifacts { get; set; }
 
     public delegate void FileChangedHandler(object sender, EventArgs e);
 
@@ -226,6 +226,7 @@ public class Core
         Character?.ResetTool();
         Pet?.ResetTool();
         Timers?.RemoveAll();
+        Artifacts?.DeleteAll();
         FileName = string.Empty;
         HasSpellStorage = false;
         HasFlameSword = false;
@@ -240,7 +241,7 @@ public class Core
     /// </summary>
     public void WriteFile()
     {
-        Artifact?[] artifacts = [Bowl, BoneCub, CrystalBall, Staff, RingOfLife, ObsidianDagger];
+        TraditionArtifact?[] artifacts = [Bowl, BoneCub, CrystalBall, Staff, RingOfLife, ObsidianDagger];
 
         using XmlWriter xw = XmlWriter.Create(FileName);
 
@@ -291,7 +292,7 @@ public class Core
         xw.WriteEndElement();
         xw.WriteStartElement("artifacts");
 
-        foreach (Artifact? artifact in artifacts)
+        foreach (TraditionArtifact? artifact in artifacts)
         {
             if (artifact == null)
             {
@@ -441,7 +442,7 @@ public class Core
 
     private void ReadFile(XmlDocument xml)
     {
-        Artifact?[] artifacts = [Bowl, BoneCub, CrystalBall, Staff, RingOfLife, ObsidianDagger];
+        TraditionArtifact?[] traditionArtifacts = [Bowl, BoneCub, CrystalBall, Staff, RingOfLife, ObsidianDagger];
 
         string? aup = xml.SelectSingleNode("//aup")!.Value;
 
@@ -487,57 +488,57 @@ public class Core
         }
 
 
-        for (int i = 0; i < artifacts.Length; i++)
+        for (int i = 0; i < traditionArtifacts.Length; i++)
         {
-            Artifact artifact = artifacts[i]!;
-            XmlNode? artifactNode = xml.SelectSingleNode("//artifact/data[@name='" + ArtifactNames[i] + "']/..");
+            TraditionArtifact traditionArtifact = traditionArtifacts[i]!;
+            XmlNode? traditionArtifactNode = xml.SelectSingleNode("//artifact/data[@name='" + TraditionArtifactNames[i] + "']/..");
 
-            if (artifactNode == null)
+            if (traditionArtifactNode == null)
             {
                 continue;
             }
 
-            if (artifact is null)
+            if (traditionArtifact is null)
             {
-                switch (ArtifactNames[i])
+                switch (TraditionArtifactNames[i])
                 {
                     case "Alchemistenschale":
                         Bowl = new();
-                        artifact = Bowl;
+                        traditionArtifact = Bowl;
 
                         break;
                     case "Knochenkeule":
                         BoneCub = new();
-                        artifact = BoneCub;
+                        traditionArtifact = BoneCub;
 
                         break;
                     case "Kristallkugel":
                         CrystalBall = new();
-                        artifact = CrystalBall;
+                        traditionArtifact = CrystalBall;
 
                         break;
                     case "Magierstab":
                         Staff = new();
-                        artifact = Staff;
+                        traditionArtifact = Staff;
 
                         break;
                     case "Ring des Lebens":
                         RingOfLife = new();
-                        artifact = RingOfLife;
+                        traditionArtifact = RingOfLife;
 
                         break;
                     case "Vulkanglasdolch":
                         ObsidianDagger = new();
-                        artifact = ObsidianDagger;
+                        traditionArtifact = ObsidianDagger;
 
                         break;
                 }
             }
 
-            XmlAttributeCollection data = artifactNode.ChildNodes[0]!.Attributes!;
+            XmlAttributeCollection data = traditionArtifactNode.ChildNodes[0]!.Attributes!;
 
             // ReSharper disable once ConvertIfStatementToSwitchStatement
-            if (artifact is Staff)
+            if (traditionArtifact is Staff)
             {
                 Staff!.Material = int.Parse(data["material"]!.Value);
                 Staff.Length = int.Parse(data["length"]!.Value);
@@ -546,28 +547,28 @@ public class Core
                 Staff.HammerRkp = int.Parse(data["hammerRkp"]!.Value);
                 Staff.IsFlameSwordFive = data["FlameSwordFive"]!.Value == "True";
 
-                if ((artifactNode.ChildNodes[0] as XmlElement)!.HasAttribute("FlameSwordFour") &&
-                    artifactNode.ChildNodes[0]!.Attributes!["FlameSwordFour"]!.Value == "True")
+                if ((traditionArtifactNode.ChildNodes[0] as XmlElement)!.HasAttribute("FlameSwordFour") &&
+                    traditionArtifactNode.ChildNodes[0]!.Attributes!["FlameSwordFour"]!.Value == "True")
                 {
                     Staff.LostPoints += 7;
                 }
             }
 
-            if (artifact is CrystalBall)
+            if (traditionArtifact is CrystalBall)
             {
                 CrystalBall!.Material = (CrystalBallMaterial)int.Parse(data["material"]!.Value);
             }
 
-            if (artifact is Bowl)
+            if (traditionArtifact is Bowl)
             {
                 Bowl!.Material = (BowlMaterial)int.Parse(data["material"]!.Value);
             }
 
-            artifact!.HasApport = data["apport"]!.Value == "True";
+            traditionArtifact!.HasApport = data["apport"]!.Value == "True";
 
-            foreach (XmlNode boundSpell in artifactNode.ChildNodes[1]!.ChildNodes)
+            foreach (XmlNode boundSpell in traditionArtifactNode.ChildNodes[1]!.ChildNodes)
             {
-                if (artifact is Staff)
+                if (traditionArtifact is Staff)
                 {
                     string guid = boundSpell.Attributes!["guid"]!.Value;
                     string name = boundSpell.Attributes["name"]!.Value;
@@ -579,7 +580,7 @@ public class Core
                 {
                     string guid = boundSpell.Attributes!["guid"]!.Value;
                     string name = boundSpell.Attributes["name"]!.Value;
-                    artifact.AddSpell(name, guid);
+                    traditionArtifact.AddSpell(name, guid);
                 }
             }
         }
