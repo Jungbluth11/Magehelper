@@ -32,6 +32,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Uno.CommunityToolkit.WinUI.UI" />
+    <PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls.Layout" />
+    <PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls.Primitives" />
     <PackageReference Include="UnoGroupBox" />
     <PackageReference Include="WinUI.TableView" />
   </ItemGroup>
@@ -46,6 +48,12 @@
   <ItemGroup>
     <Compile Update="Views\Controls\AddStaffSpellControl.xaml.cs">
       <DependentUpon>AddStaffSpellControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Controls\ArcaneGlyphListItemControl.xaml.cs">
+      <DependentUpon>ArcaneGlyphListItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Pages\ArcaneGlyphGeneratorPage.xaml.cs">
+      <DependentUpon>ArcaneGlyphGeneratorPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tabs\TabTraditonArtifact.xaml.cs">
       <DependentUpon>TabTraditonArtifact.xaml</DependentUpon>
@@ -251,6 +259,31 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\Tabs\TabArtifact.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Tabs\TabArcaneGlyphs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Controls\ArcaneGlyphListItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Controls\ArcaneGlyphControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Pages\ArcaneGlyphGeneratorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Controls\AdditionalGlyphControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

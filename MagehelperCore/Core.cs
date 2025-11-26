@@ -122,6 +122,7 @@ public class Core
     public SpellStorage? SpellStorage { get; internal set; }
     public Timers? Timers { get; internal set; }
     public Artifacts? Artifacts { get; set; }
+    public ArcaneGlyphs? ArcaneGlyphs { get; set; }
 
     public delegate void FileChangedHandler(object sender, EventArgs e);
 

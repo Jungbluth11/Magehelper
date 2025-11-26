@@ -1,0 +1,334 @@
+﻿<Page
+    x:Class="Magehelper.Views.Pages.ArcaneGlyphGeneratorPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CommunityToolkit.WinUI.UI.Controls;assembly=CommunityToolkit.WinUI.UI.Controls.Primitives"
+    xmlns:controls="clr-namespace:Magehelper.Views.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:gb="clr-namespace:UnoGroupBox;assembly=UnoGroupBox"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModel="clr-namespace:Magehelper.ViewModels.Pages"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+    <Page.DataContext>
+        <viewModel:ArcaneGlyphGeneratorPageViewModel />
+    </Page.DataContext>
+    <Grid HorizontalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <gb:GroupBox
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Width="825"
+            Margin="10"
+            Header="Eigenschaften"
+            Theme="Fluent">
+            <Grid HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <controls:AttributeControl
+                    Grid.Column="0"
+                    Text="MU"
+                    Value="{Binding Mu, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
+                    Grid.Column="1"
+                    Text="KL"
+                    Value="{Binding Kl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
+                    Grid.Column="2"
+                    Text="IN"
+                    Value="{Binding In, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
+                    Grid.Column="3"
+                    Text="CH"
+                    Value="{Binding Ch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
+                    Grid.Column="4"
+                    Text="FF"
+                    Value="{Binding Ff, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
+                    Grid.Column="5"
+                    Text="GE"
+                    Value="{Binding Ge, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
+                    Grid.Column="6"
+                    Text="KO"
+                    Value="{Binding Ko, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
+                    Grid.Column="7"
+                    Text="KK"
+                    Value="{Binding Kk, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            </Grid>
+        </gb:GroupBox>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ComboBox
+                Grid.Row="0"
+                Width="300"
+                Margin="10"
+                ItemsSource="{Binding MainGlyphNames}"
+                SelectedValue="{Binding CurrentMainGlyphName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            <StackPanel
+                Grid.Row="1"
+                Margin="5"
+                Orientation="Horizontal">
+                <ComboBox
+                    Width="300"
+                    Margin="5"
+                    ItemsSource="{Binding AdditinoalGlyphNames}"
+                    SelectedValue="{Binding CurrentAdditionalGlyphName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <Button Margin="5" Command="{Binding AddAdditionalGlyphCommand}">
+                    <Image
+                        Width="15"
+                        Height="15"
+                        Source="/Assets/add_button.png" />
+                </Button>
+            </StackPanel>
+            <ComboBox
+                Grid.Row="2"
+                Width="300"
+                Margin="10"
+                ItemsSource="{Binding IntervalStrings}"
+                SelectedIndex="{Binding CurrentAdditionalGlyphValueIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                Visibility="{Binding IsIntervalVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <ComboBox
+                Grid.Row="2"
+                Width="300"
+                Margin="10"
+                ItemsSource="{Binding PotenzStrings}"
+                SelectedIndex="{Binding CurrentAdditionalGlyphValueIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                Visibility="{Binding IsPotenzVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <ComboBox
+                Grid.Row="2"
+                Width="150"
+                Margin="10"
+                ItemsSource="{Binding SizeStrings}"
+                SelectedIndex="{Binding CurrentAdditionalGlyphValueIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                Visibility="{Binding IsSizeVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <TextBox
+                Grid.Row="2"
+                Width="300"
+                Margin="10"
+                Text="{Binding TargetString, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                Visibility="{Binding IsTargetStringVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <TextBlock
+                Grid.Row="3"
+                Margin="5"
+                Text="{Binding CurrentMainGlyphName}" />
+            <StackPanel
+                Grid.Row="4"
+                Margin="5,0,0,0"
+                Orientation="Vertical">
+                <ItemsControl ItemsSource="{Binding AdditionalGlyphs}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <controls:AdditionalGlyphControl DataContext="{Binding}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+            <TextBlock
+                Grid.Row="5"
+                Margin="5"
+                Text="{Binding ComplexityString}" />
+            <TextBlock
+                Grid.Row="6"
+                Margin="5"
+                Text="{Binding SizeString}" />
+            <TextBlock
+                Grid.Row="7"
+                Margin="5"
+                Text="{Binding DurationString}" />
+            <TextBlock
+                Grid.Row="8"
+                Margin="5"
+                Text="{Binding CostString}" />
+        </Grid>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1"
+            Orientation="Vertical">
+            <gb:GroupBox
+                Margin="10"
+                Header="Profane Erschaffung"
+                Theme="Fluent">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Width="310"
+                        Margin="10"
+                        ItemsSource="{Binding UsableTalentNames}"
+                        SelectedValue="{Binding CurrentUsedTalent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <NumberBox
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="10"
+                        HorizontalAlignment="Left"
+                        KeyDown="UIElement_OnKeyDown"
+                        SpinButtonPlacementMode="Compact"
+                        Text="TaW:"
+                        Value="{Binding TalentValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <ComboBox
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Width="235"
+                        Margin="10"
+                        ItemsSource="{Binding ToolModifierStrings}"
+                        SelectedValue="{Binding CurrentToolModifier, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <TextBox
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Margin="10"
+                        Text="{Binding AppliedTo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Margin="10"
+                        Text="{Binding RollCreateString}" />
+                    <Button
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Margin="10"
+                        Command="{Binding RollCreateCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="16"
+                                Height="16"
+                                Source="/Assets/dice.png" />
+                            <TextBlock Margin="5,0,0,0" Text="Erschaffungsprobe" />
+                        </StackPanel>
+                    </Button>
+                    <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="10"
+                        Text="{Binding RollCreateResult}"
+                        TextWrapping="Wrap" />
+                </Grid>
+            </gb:GroupBox>
+            <gb:GroupBox
+                Margin="10"
+                Header="Aktivierung"
+                Theme="Fluent">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="10"
+                        Text="RkW:" />
+                    <NumberBox
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="10"
+                        HorizontalAlignment="Left"
+                        KeyDown="UIElement_OnKeyDown"
+                        SpinButtonPlacementMode="Compact"
+                        Value="{Binding Rkw, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="10"
+                        Text="Probe erleichtern um:" />
+                    <NumberBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="10"
+                        HorizontalAlignment="Left"
+                        KeyDown="UIElement_OnKeyDown"
+                        SpinButtonPlacementMode="Compact"
+                        Value="{Binding ReliefValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Margin="10"
+                        Text="{Binding RollActivateString}" />
+                    <Button
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="10"
+                        Command="{Binding RollActivateCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="16"
+                                Height="16"
+                                Source="/Assets/dice.png" />
+                            <TextBlock Margin="5,0,0,0" Text="Erschaffungsprobe" />
+                        </StackPanel>
+                    </Button>
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="10"
+                        Text="{Binding RollActivateResult}"
+                        TextWrapping="Wrap" />
+                </Grid>
+            </gb:GroupBox>
+        </StackPanel>
+        <c:DockPanel
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2">
+            <StackPanel c:DockPanel.Dock="Bottom" Orientation="Horizontal">
+                <Button
+                    Margin="10"
+                    Click="BtnAdd_OnClick"
+                    Content="Zauberzeichen hinzufügen" />
+                <Button
+                    Margin="10"
+                    Click="BtnCancel_OnClick"
+                    Content="Abbrechen" />
+            </StackPanel>
+        </c:DockPanel>
+    </Grid>
+</Page>

@@ -24,3 +24,6 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~P:Magehelper.Core.BoneCub.TpString")]
 [assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~P:Magehelper.Core.Character.Rkw")]
 [assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~M:Magehelper.Core.BoneCub.RollEnsoulEntity(System.Int32,System.Int32,System.Int32)")]
+[assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~P:Magehelper.Core.ArcaneGlyphs.Rkw")]
+[assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~P:Magehelper.Core.ArcaneGlyph.Rkw")]
+[assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Ausstehend>", Scope = "member", Target = "~M:Magehelper.Core.ArcaneGlyphs.Add(System.String,System.String,System.String[],System.String[],System.Double,System.Int32,System.Int32,System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32},System.String)~Magehelper.Core.ArcaneGlyph")]

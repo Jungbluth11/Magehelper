@@ -271,7 +271,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
     {
         try
         {
-            if (e.Parameter.ToString() != string.Empty)
+            if (e.Parameter != null && e.Parameter.ToString() != string.Empty)
             {
                 await LoadFile(e.Parameter.ToString()!);
             }
@@ -315,7 +315,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
     private void LoadTabs()
     {
-        ToggleTab<TabArtifact>();
+        ToggleTab<TabArcaneGlyphs>();
         foreach (string tab in Settings.GetInstance().DefaultTabs)
         {
             switch (tab)
@@ -336,6 +336,9 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
                     break;
                 case "Artefakte":
+                    //TODO
+                    break;
+                case "Zauberzeichen":
                     //TODO
                     break;
                 case "Charakter":
