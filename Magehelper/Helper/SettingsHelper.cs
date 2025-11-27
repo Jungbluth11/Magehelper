@@ -9,6 +9,8 @@ public static class SettingsHelper
         {"Magehelper.Views.Tabs.TabArtifact","Traditionsartefakt"},
         {"Magehelper.Views.Tabs.TabSpellStorage","Zauberspeicher"},
         {"Magehelper.Views.Tabs.TabFlameSword","Flammenschwert"},
+        {"Magehelper.Views.Tabs.TabArtefact","Artefakte"},
+        {"Magehelper.Views.Tabs.TabArcaneGlyphs","Zauberzeichen"},
         {"Magehelper.Views.Tabs.TabCharacter","Charakter"},
         {"Magehelper.Views.Tabs.TabPet","Vertrautentier"},
         {"Magehelper.Views.Tabs.TabTimer","Timer"},

@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Reflection;
 
 namespace Magehelper.Core;
@@ -305,7 +306,6 @@ public class Core
             xw.WriteAttributeString("name", artifact.Name);
             xw.WriteAttributeString("boundSpells", artifact.BoundSpells.Count.ToString());
 
-            //TODO
             if (artifact.Name is "Kristallkugel" or "Ring des Lebens" or "Vulkanglasdolch")
             {
                 xw.WriteAttributeString("maxSpells", (artifact as IMaxSpellArtifact)?.MaxSpells.ToString());
@@ -430,6 +430,55 @@ public class Core
                 xw.WriteAttributeString("text", Timers[i].Text);
                 xw.WriteAttributeString("duration", Timers[i].Duration.ToString());
                 xw.WriteAttributeString("guid", Timers[i].Guid);
+                xw.WriteEndElement();
+            }
+        }
+
+        xw.WriteEndElement();
+        xw.WriteStartElement("artifacts");
+
+        if (Artifacts != null)
+        {
+            foreach (Artifact artifact in Artifacts)
+            {
+                xw.WriteStartElement("artifact");
+                xw.WriteAttributeString("guid", artifact.Guid);
+                xw.WriteAttributeString("name", artifact.Name);
+                xw.WriteAttributeString("description", artifact.Description);
+                xw.WriteAttributeString("type", artifact.Type.ToString());
+                xw.WriteAttributeString("interval", artifact.Interval?.ToString());
+                xw.WriteAttributeString("currentCharges", artifact.CurrentCharges?.ToString());
+                xw.WriteAttributeString("maxCharges", artifact.MaxCharges?.ToString());
+                xw.WriteEndElement();
+            }
+        }
+
+        xw.WriteEndElement();
+        xw.WriteStartElement("arcaneGlyphs");
+
+        if (ArcaneGlyphs != null)
+        {
+            foreach (ArcaneGlyph glyph in ArcaneGlyphs)
+            {
+                xw.WriteStartElement("arcaneGlyph");
+                xw.WriteAttributeString("guid", glyph.Guid);
+                xw.WriteAttributeString("name", glyph.Name);
+                xw.WriteAttributeString("appliedTo", glyph.AppliedTo);
+                xw.WriteAttributeString("size", glyph.Size.ToString(CultureInfo.InvariantCulture));
+                xw.WriteAttributeString("rkw", glyph.Rkw.ToString());
+                xw.WriteAttributeString("rkp", glyph.Rkp.ToString());
+                xw.WriteAttributeString("cost", glyph.Cost.ToString());
+                xw.WriteAttributeString("duration", glyph.Duration?.ToString());
+                xw.WriteAttributeString("remainingDuration", glyph.RemainingDuration?.ToString());
+                xw.WriteStartElement("additionalGlyphs");
+                foreach (AdditionalGlyph additionalGlyph in glyph.AdditionalGlyphs)
+                {
+                    xw.WriteStartElement("additionalGlyph");
+                    xw.WriteAttributeString("name", additionalGlyph.Name);
+                    xw.WriteAttributeString("value", additionalGlyph.Value);
+                    xw.WriteEndElement();
+                }
+                xw.WriteEndElement();
                 xw.WriteEndElement();
             }
         }
@@ -635,18 +684,85 @@ public class Core
             Pet.Knownspells = knownSpells;
         }
 
-        if (Timers == null || !xml.SelectSingleNode("//timers")!.HasChildNodes)
-        {
-            return;
-        }
-
+        if (Timers != null && xml.SelectSingleNode("//timers")!.HasChildNodes)
         {
             foreach (XmlNode timer in xml.GetElementsByTagName("timer"))
             {
                 string guid = timer!.Attributes!["guid"]!.Value;
                 string text = timer.Attributes!["text"]!.Value;
                 int duration = int.Parse(timer.Attributes!["duration"]!.Value);
-                Timers.Add(text, duration, guid);
+                Timers!.Add(text, duration, guid);
+            }
+        }
+
+        if (Artifacts != null && xml.SelectSingleNode("//artifacts")!.HasChildNodes)
+        {
+            foreach (XmlNode artifact in xml.GetElementsByTagName("artifact"))
+            {
+                string guid = artifact!.Attributes!["guid"]!.Value;
+                string name = artifact.Attributes!["name"]!.Value;
+                string description = artifact.Attributes!["description"]!.Value;
+                ArtifactType type = Enum.Parse<ArtifactType>(artifact.Attributes!["type"]!.Value);
+                ArtifactInterval? interval = artifact.Attributes["interval"]!.Value == "null"
+                     ? null
+                     : Enum.Parse<ArtifactInterval>(artifact.Attributes!["interval"]!.Value);
+
+                int? currentCharges = artifact.Attributes["currentCharges"]!.Value == "null"
+                ? null
+                    : int.Parse(artifact.Attributes["currentCharges"]!.Value);
+                int? maxCharges = artifact.Attributes["maxCharges"]!.Value == "null"
+                    ? null
+                    : int.Parse(artifact.Attributes["maxCharges"]!.Value);
+
+                Artifacts.CreateArtifact(name,
+                    description,
+                    type,
+                    currentCharges,
+                    maxCharges,
+                    interval,
+                    guid);
+            }
+        }
+
+        // ReSharper disable once InvertIf
+        if (ArcaneGlyphs != null && xml.SelectSingleNode("//arcaneGlyphs")!.HasChildNodes)
+        {
+            foreach (XmlNode arcaneGlyph in xml.GetElementsByTagName("arcaneGlyph"))
+            {
+                string guid = arcaneGlyph!.Attributes!["guid"]!.Value;
+                string name = arcaneGlyph.Attributes!["name"]!.Value;
+                string appliedTo = arcaneGlyph.Attributes!["appliedTo"]!.Value;
+                double size = double.Parse(arcaneGlyph.Attributes!["size"]!.Value, CultureInfo.InvariantCulture);
+                int rkw = int.Parse(arcaneGlyph.Attributes!["rkw"]!.Value);
+                int rkp = int.Parse(arcaneGlyph.Attributes!["rkp"]!.Value);
+                int cost = int.Parse(arcaneGlyph.Attributes!["cost"]!.Value);
+                int? duration = arcaneGlyph.Attributes["duration"]!.Value == "null"
+                    ? null
+                    : int.Parse(arcaneGlyph.Attributes!["duration"]!.Value);
+                int? remainingDuration = arcaneGlyph.Attributes["remainingDuration"]!.Value == "null"
+                    ? null
+                    : int.Parse(arcaneGlyph.Attributes!["remainingDuration"]!.Value);
+                AdditionalGlyph[] additionalGlyphs = [];
+
+                additionalGlyphs = arcaneGlyph.ChildNodes[0]!.ChildNodes.Cast<XmlNode>()
+                    .Aggregate(additionalGlyphs,
+                        (current, additionalGlyph) =>
+                            [
+                                .. current,
+                                new(additionalGlyph!.Attributes!["name"]!.Value,
+                                    additionalGlyph.Attributes!["value"]!.Value),
+                            ]);
+
+                ArcaneGlyphs.Add(name,
+                    appliedTo,
+                    additionalGlyphs,
+                    size,
+                    rkw,
+                    rkp,
+                    cost,
+                    duration,
+                    remainingDuration,
+                    guid);
             }
         }
     }

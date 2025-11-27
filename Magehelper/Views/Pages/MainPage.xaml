@@ -49,6 +49,14 @@
                                 Click="MenuFileTabFlameSword_OnClick"
                                 Text="Flammenschwert" />
                             <ToggleMenuFlyoutItem
+                                x:Name="MenuFileTabArtifacts"
+                                Click="MenuFileTabArtifacts_OnClick"
+                                Text="Artefakte" />
+                            <ToggleMenuFlyoutItem
+                                x:Name="MenuFileTabArcaneGlyphs"
+                                Click="MenuFileTabArcaneGlyphs_OnClick"
+                                Text="Zauberzeichen" />
+                            <ToggleMenuFlyoutItem
                                 x:Name="MenuFileTabCharacter"
                                 Click="MenuFileTabCharacter_OnClick"
                                 Text="Charakter" />

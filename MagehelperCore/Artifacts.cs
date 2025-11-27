@@ -73,7 +73,7 @@ public partial class Artifacts : IEnumerable<Artifact>
         }
     }
 
-    public Artifact CreateArtifact(string name, string description, ArtifactType type, int? charges,
+    public Artifact CreateArtifact(string name, string description, ArtifactType type, int? charges, int? maxCharges,
         ArtifactInterval? interval = null, string? guid = null)
     {
         guid ??= Guid.NewGuid().ToString();
@@ -96,7 +96,7 @@ public partial class Artifacts : IEnumerable<Artifact>
                 Description = description,
                 Type = type,
                 CurrentCharges = charges,
-                MaxCharges = charges
+                MaxCharges = maxCharges
             },
             ArtifactType.Semipermanent => new()
             {

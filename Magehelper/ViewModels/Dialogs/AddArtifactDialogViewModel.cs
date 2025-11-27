@@ -100,7 +100,7 @@ public partial class AddArtifactDialogViewModel : ObservableObject
             interval = null;
         }
 
-        Artifact artifact = Core.Core.GetInstance().Artifacts!.CreateArtifact(Name, Description, type, Charges, interval);
+        Artifact artifact = Core.Core.GetInstance().Artifacts!.CreateArtifact(Name, Description, type, Charges, Charges, interval);
 
         WeakReferenceMessenger.Default.Send(new AddArtifactMessage(artifact));
     }

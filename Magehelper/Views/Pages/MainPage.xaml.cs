@@ -155,6 +155,27 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
         }
     }
 
+
+    private void MenuFileTabArtifacts_OnClick(object sender, RoutedEventArgs e)
+    {
+        ToggleTab<TabArtifact>();
+
+        if (TabView.TabItems.OfType<TabArtifact>().Any())
+        {
+            TabView.SelectedItem = TabView.TabItems.OfType<TabArtifact>().First();
+        }
+    }
+
+    private void MenuFileTabArcaneGlyphs_OnClick(object sender, RoutedEventArgs e)
+    {
+        ToggleTab<TabArcaneGlyphs>();
+
+        if (TabView.TabItems.OfType<TabArcaneGlyphs>().Any())
+        {
+            TabView.SelectedItem = TabView.TabItems.OfType<TabArcaneGlyphs>().First();
+        }
+    }
+
     private void MenuFileTabFlameSword_OnClick(object sender, RoutedEventArgs e)
     {
         ToggleTab<TabFlameSword>();
@@ -315,7 +336,6 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
     private void LoadTabs()
     {
-        ToggleTab<TabArcaneGlyphs>();
         foreach (string tab in Settings.GetInstance().DefaultTabs)
         {
             switch (tab)
@@ -336,10 +356,12 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
                     break;
                 case "Artefakte":
-                    //TODO
+                    MenuFileTabArtifacts.IsChecked = true;
+                    ToggleTab<TabArtifact>();
                     break;
                 case "Zauberzeichen":
-                    //TODO
+                    MenuFileTabArcaneGlyphs.IsChecked = true;
+                    ToggleTab<TabArcaneGlyphs>();
                     break;
                 case "Charakter":
                     MenuFileTabCharacter.IsChecked = true;
