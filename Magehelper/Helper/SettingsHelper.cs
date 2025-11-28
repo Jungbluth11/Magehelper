@@ -6,10 +6,10 @@ public static class SettingsHelper
 
     public static Dictionary<string, string> TabName => new()
     {
-        {"Magehelper.Views.Tabs.TabArtifact","Traditionsartefakt"},
+        {"Magehelper.Views.Tabs.TabTraditionArtifact","Traditionsartefakt"},
         {"Magehelper.Views.Tabs.TabSpellStorage","Zauberspeicher"},
         {"Magehelper.Views.Tabs.TabFlameSword","Flammenschwert"},
-        {"Magehelper.Views.Tabs.TabArtefact","Artefakte"},
+        {"Magehelper.Views.Tabs.TabArtifact","Artefakte"},
         {"Magehelper.Views.Tabs.TabArcaneGlyphs","Zauberzeichen"},
         {"Magehelper.Views.Tabs.TabCharacter","Charakter"},
         {"Magehelper.Views.Tabs.TabPet","Vertrautentier"},

@@ -43,6 +43,42 @@ public partial class Artifacts : IEnumerable<Artifact>
     public Artifacts()
     {
         _core.Artifacts = this;
+        Readfile();
+    }
+
+    internal void Readfile()
+    {
+        if (_core.XmlDoc == null || !_core.XmlDoc.SelectSingleNode("//artifacts")!.HasChildNodes || _core.GetFileVersion() == "3.0.0")
+        {
+            return;
+        }
+
+        foreach (XmlNode artifact in _core.XmlDoc.GetElementsByTagName("artifact"))
+        {
+            string guid = artifact!.Attributes!["guid"]!.Value;
+            string name = artifact.Attributes!["name"]!.Value;
+            string description = artifact.Attributes!["description"]!.Value;
+            ArtifactType type = Enum.Parse<ArtifactType>(artifact.Attributes!["type"]!.Value);
+            ArtifactInterval? interval = artifact.Attributes["interval"]!.Value == "null"
+                ? null
+                : Enum.Parse<ArtifactInterval>(artifact.Attributes!["interval"]!.Value);
+
+            int? currentCharges = artifact.Attributes["currentCharges"]!.Value == "null"
+                ? null
+                : int.Parse(artifact.Attributes["currentCharges"]!.Value);
+
+            int? maxCharges = artifact.Attributes["maxCharges"]!.Value == "null"
+                ? null
+                : int.Parse(artifact.Attributes["maxCharges"]!.Value);
+
+            CreateArtifact(name,
+                description,
+                type,
+                currentCharges,
+                maxCharges,
+                interval,
+                guid);
+        }
     }
 
     public IEnumerator<Artifact> GetEnumerator()

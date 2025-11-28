@@ -54,7 +54,6 @@ public partial class TabArcaneGlyphsViewModel : ObservableObject,
 
     public void ResetTab()
     {
-        _arcaneGlyphs.RemoveAll();
         ArcaneGlyphs.Clear();
     }
 

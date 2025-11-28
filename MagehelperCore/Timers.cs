@@ -28,6 +28,24 @@ public class Timers : IEnumerable<Timer>
     public Timers()
     {
         _core.Timers = this;
+        ReadFile();
+        
+    }
+
+    internal void ReadFile()
+    {
+        if (_core.XmlDoc == null || !_core.XmlDoc!.SelectSingleNode("//timers")!.HasChildNodes)
+        {
+            return;
+        }
+
+        foreach (XmlNode timer in _core.XmlDoc.GetElementsByTagName("timer"))
+        {
+            string guid = timer!.Attributes!["guid"]!.Value;
+            string text = timer.Attributes!["text"]!.Value;
+            int duration = int.Parse(timer.Attributes!["duration"]!.Value);
+            Add(text, duration, guid);
+        }
     }
 
     /// <summary>

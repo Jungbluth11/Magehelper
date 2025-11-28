@@ -20,6 +20,7 @@ public partial class TabArtifactViewModel : ObservableObject,
         {
             case FileAction.New:
                 ResetTab();
+
                 break;
             case FileAction.Loaded:
                 ResetTab();

@@ -45,6 +45,38 @@ public class SpellStorage
     public SpellStorage()
     {
         _core.SpellStorage = this;
+        Readfile();
+    }
+
+    internal void Readfile()
+    {
+        if (_core.XmlDoc == null || !_core.XmlDoc.SelectSingleNode("//spellStorage")!.HasChildNodes)
+        {
+            return;
+        }
+
+        List<int> spellStorages = [];
+
+        spellStorages.AddRange(from XmlNode volume in _core.XmlDoc.GetElementsByTagName("volume")
+            select int.Parse(volume.InnerText));
+
+        EnableStorage(spellStorages);
+
+        foreach (XmlNode spell in _core.XmlDoc.SelectNodes("//spellStorage/spells/spell")!)
+        {
+            string guid = spell!.Attributes!["guid"]!.Value;
+            string name = spell.Attributes["name"]!.Value;
+            string characteristics = spell.Attributes["characteristics"]!.Value;
+            string komplex = spell.Attributes["komplex"]!.Value;
+            int cost = int.Parse(spell.Attributes["cost"]!.Value);
+            int storage = int.Parse(spell.Attributes["storage"]!.Value);
+
+            int? zfp = spell.Attributes["zfp"]!.Value == "null"
+                ? null
+                : int.Parse(spell.Attributes["zfp"]!.Value);
+
+            AddSpell(name, characteristics, komplex, cost, zfp, storage, guid);
+        }
     }
 
     /// <summary>

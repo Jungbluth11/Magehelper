@@ -10,5 +10,6 @@ public class RingOfLife : TraditionArtifact, IMaxSpellArtifact
     public RingOfLife() : base("ringOfLife.json", "Ring des Lebens")
     {
         _core.RingOfLife = this;
+        Readfile();
     }
 }

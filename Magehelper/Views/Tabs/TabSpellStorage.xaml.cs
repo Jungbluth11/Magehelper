@@ -2,7 +2,7 @@ namespace Magehelper.Views.Tabs;
 
 public sealed partial class TabSpellStorage : TabViewItem
 {
-    private TabSpellStorageViewModel ViewModel => (TabSpellStorageViewModel) DataContext;
+    private TabSpellStorageViewModel ViewModel => (TabSpellStorageViewModel)DataContext;
     public TabSpellStorage()
     {
         InitializeComponent();
@@ -13,7 +13,7 @@ public sealed partial class TabSpellStorage : TabViewItem
     {
         try
         {
-            if (e.PropertyName != "IsSpellStorageEnabled" || ViewModel.SpellStorageList.Any())
+            if (ViewModel == null || e.PropertyName != "IsSpellStorageEnabled" || ViewModel.SpellStorageList.Any())
             {
                 return;
             }

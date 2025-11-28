@@ -9,7 +9,7 @@ public partial class TabSpellStorageViewModel : ObservableObject, IRecipient<Fil
     private bool _showNoSpellStorageText = true;
 
     public int Points { get; private set; }
-    [ObservableProperty] private ObservableCollection<SpellStorageControl> _spellStorageList = [];
+    public ObservableCollection<SpellStorageControlViewModel> SpellStorageList { get; } = [];
     private readonly SpellStorage _spellStorage;
 
     public TabSpellStorageViewModel()
@@ -23,6 +23,7 @@ public partial class TabSpellStorageViewModel : ObservableObject, IRecipient<Fil
         WeakReferenceMessenger.Default.RegisterAll(this);
     }
 
+
     public void ResetTab()
     {
         IsSpellStorageEnabled = false;
@@ -34,10 +35,9 @@ public partial class TabSpellStorageViewModel : ObservableObject, IRecipient<Fil
     {
         for (int i = 0; i < _spellStorage.StorageCount; i++)
         {
-            SpellStorageControl spellStorageControl = new();
-            (spellStorageControl.DataContext as SpellStorageControlViewModel)!.Init(i, _spellStorage);
+            
 
-            SpellStorageList.Add(spellStorageControl);
+            SpellStorageList.Add(new(i, _spellStorage));
         }
 
         IsSpellStorageEnabled = true;

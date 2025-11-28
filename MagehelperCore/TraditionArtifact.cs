@@ -52,6 +52,30 @@ public abstract class TraditionArtifact
         }
     }
 
+    protected XmlNode GetTraditionArtifactNode()
+    {
+        string traditionArtifactNodeName = _core.GetFileVersion() == "3.0.0" ? "artifact" : "traditionArtifact";
+        return _core.XmlDoc!.SelectSingleNode($"//{traditionArtifactNodeName}/data[@name='{Name}']/..")!;
+    }
+
+    internal void Readfile()
+    {
+        if (_core.XmlDoc == null)
+        {
+            return;
+        }
+
+        XmlNode node = GetTraditionArtifactNode();
+        HasApport = node.ChildNodes[0]!.Attributes!["apport"]!.Value == "True";
+
+        foreach (XmlNode boundSpell in node.ChildNodes[1]!.ChildNodes)
+        {
+            string guid = boundSpell.Attributes!["guid"]!.Value;
+            string name = boundSpell.Attributes["name"]!.Value;
+            AddSpell(name, guid);
+        }
+    }
+
     /// <summary>
     /// Adds an spells to this artifact.
     /// </summary>

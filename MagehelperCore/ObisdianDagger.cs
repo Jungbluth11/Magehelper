@@ -11,5 +11,6 @@ public class ObsidianDagger : TraditionArtifact, IMaxSpellArtifact
     public ObsidianDagger() : base("obsidianDagger.json", "Vulkanglasdolch")
     {
         _core.ObsidianDagger = this;
+        Readfile();
     }
 }

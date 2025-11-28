@@ -34,7 +34,7 @@ public class Settings
     public int SpellStoragePoints { get; set; }
     public ArtifactSpell[] StaffSpells { get; set; } = [];
     public TabSetting[] TabSettings { get; private set; } = [];
-    public IEnumerable<string> DefaultTabs => from tabSetting in TabSettings where tabSetting.ShowTab select tabSetting.TabName;
+    public string[] DefaultTabs => [..from tabSetting in TabSettings where tabSetting.ShowTab select tabSetting.TabName];
     public bool UseHeldentoolNames { get; set; }
     public bool WarnOtherVersionFiles { get; set; }
     public string CurrentConfigName { get; private set; }

@@ -45,6 +45,20 @@ public class Bowl : TraditionArtifact
     public Bowl() : base("bowl.json", "Alchemistenschale")
     {
         _core.Bowl = this;
+        Readfile();
+    }
+
+    internal new void Readfile()
+    {
+        if (_core.XmlDoc == null)
+        {
+            return;
+        }
+
+        XmlNode node = GetTraditionArtifactNode();
+        XmlAttributeCollection data = node.ChildNodes[0]!.Attributes!;
+        Material = (BowlMaterial)int.Parse(data["material"]!.Value);
+        base.Readfile();
     }
 
     public new ArtifactSpell AddSpell(string spellName, string? guid = null)

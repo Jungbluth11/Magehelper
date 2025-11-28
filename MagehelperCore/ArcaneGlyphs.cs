@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Magehelper.Core;
 
 public class ArcaneGlyphs : IEnumerable<ArcaneGlyph>
@@ -79,7 +81,7 @@ public class ArcaneGlyphs : IEnumerable<ArcaneGlyph>
         "bis zur nächsten Wintersonnenwende"
     ];
 
-    public static string[] SizeStrings => 
+    public static string[] SizeStrings =>
     [
         "1 Finger",
         "1 Halbfinger",
@@ -103,6 +105,53 @@ public class ArcaneGlyphs : IEnumerable<ArcaneGlyph>
     public ArcaneGlyphs()
     {
         _core.ArcaneGlyphs = this;
+        Readfile();
+    }
+
+    internal void Readfile()
+    {
+        if (_core.XmlDoc?.SelectSingleNode("//arcaneGlyphs") == null || !_core.XmlDoc.SelectSingleNode("//arcaneGlyphs")!.HasChildNodes)
+        {
+            return;
+        }
+        
+        foreach (XmlNode arcaneGlyph in _core.XmlDoc.GetElementsByTagName("arcaneGlyph"))
+        {
+            string guid = arcaneGlyph!.Attributes!["guid"]!.Value;
+            string name = arcaneGlyph.Attributes!["name"]!.Value;
+            string appliedTo = arcaneGlyph.Attributes!["appliedTo"]!.Value;
+            double size = double.Parse(arcaneGlyph.Attributes!["size"]!.Value, CultureInfo.InvariantCulture);
+            int rkw = int.Parse(arcaneGlyph.Attributes!["rkw"]!.Value);
+            int rkp = int.Parse(arcaneGlyph.Attributes!["rkp"]!.Value);
+            int cost = int.Parse(arcaneGlyph.Attributes!["cost"]!.Value);
+            int? duration = arcaneGlyph.Attributes["duration"]!.Value == "null"
+                ? null
+                : int.Parse(arcaneGlyph.Attributes!["duration"]!.Value);
+            int? remainingDuration = arcaneGlyph.Attributes["remainingDuration"]!.Value == "null"
+                ? null
+                : int.Parse(arcaneGlyph.Attributes!["remainingDuration"]!.Value);
+            AdditionalGlyph[] additionalGlyphs = [];
+
+            additionalGlyphs = arcaneGlyph.ChildNodes[0]!.ChildNodes.Cast<XmlNode>()
+                .Aggregate(additionalGlyphs,
+                    (current, additionalGlyph) =>
+                    [
+                        .. current,
+                        new(additionalGlyph!.Attributes!["name"]!.Value,
+                            additionalGlyph.Attributes!["value"]!.Value),
+                    ]);
+
+            Add(name,
+                appliedTo,
+                additionalGlyphs,
+                size,
+                rkw,
+                rkp,
+                cost,
+                duration,
+                remainingDuration,
+                guid);
+        }
     }
 
     public ArcaneGlyph Add(string name, string appliedTo, AdditionalGlyph[] additionalGlyphs, double size, int rkw, int rkp, int cost, int? duration, int? remainingDuration, string? guid = null)
@@ -134,8 +183,8 @@ public class ArcaneGlyphs : IEnumerable<ArcaneGlyph>
         foreach (AdditionalGlyph a in additionalGlyphs)
         {
             int c = (from additionalGlyph in AdditionalGlyphs
-                    where additionalGlyph.Name == a.Name
-                    select additionalGlyph.AdditionalComplexity).First();
+                     where additionalGlyph.Name == a.Name
+                     select additionalGlyph.AdditionalComplexity).First();
 
             if (a.Name != "Zusatzzeichen Zielbeschränkung" && !string.IsNullOrEmpty(a.Value))
             {
@@ -153,7 +202,7 @@ public class ArcaneGlyphs : IEnumerable<ArcaneGlyph>
             {
                 double baseComplexity = complexity - int.Parse(additionalGlyph.Value);
 
-                size =  int.Parse(additionalGlyph.Value) switch
+                size = int.Parse(additionalGlyph.Value) switch
                 {
                     1 => baseComplexity * 2,
                     2 => baseComplexity * 1,
@@ -163,7 +212,7 @@ public class ArcaneGlyphs : IEnumerable<ArcaneGlyph>
 
             else if (additionalGlyph.Name == "Zusatzzeichen Satinavs Siegel")
             {
-                duration =  int.Parse(additionalGlyph.Value) switch
+                duration = int.Parse(additionalGlyph.Value) switch
                 {
                     1 => 30,
                     2 => 90,

@@ -61,6 +61,40 @@ public class Staff : TraditionArtifact
     public Staff() : base("staff.json", "Magierstab")
     {
         _core.Staff = this;
+        Readfile();
+    }
+
+    internal new void Readfile()
+    {
+        if (_core.XmlDoc == null)
+        {
+            return;
+        }
+
+        XmlNode node = GetTraditionArtifactNode();
+        XmlAttributeCollection data = node.ChildNodes[0]!.Attributes!;
+
+        Material = int.Parse(data["material"]!.Value);
+        Length = int.Parse(data["length"]!.Value);
+        Pasp = int.Parse(data["pasp"]!.Value);
+        AfvTotal();
+        HammerRkp = int.Parse(data["hammerRkp"]!.Value);
+        IsFlameSwordFive = data["FlameSwordFive"]!.Value == "True";
+
+        if ((node.ChildNodes[0] as XmlElement)!.HasAttribute("FlameSwordFour") &&
+            node.ChildNodes[0]!.Attributes!["FlameSwordFour"]!.Value == "True")
+        {
+            LostPoints += 7;
+        }
+
+        foreach (XmlNode boundSpell in node.ChildNodes[1]!.ChildNodes)
+        {
+            string guid = boundSpell.Attributes!["guid"]!.Value;
+            string name = boundSpell.Attributes["name"]!.Value;
+            string characteristic = boundSpell.Attributes["characteristic"]!.Value;
+            int points = int.Parse(boundSpell.Attributes["points"]!.Value);
+            AddSpell(name, characteristic, points, guid);
+        }
     }
 
     public void AfvTotal()
@@ -84,7 +118,7 @@ public class Staff : TraditionArtifact
 
         if (!IsFlameSwordFive)
         {
-            afv = lenghtMod + materialMod + (double)Pasp / 3;
+            afv = lenghtMod + materialMod + ((double)Pasp / 3);
         }
         else
         {
@@ -239,7 +273,7 @@ public class Staff : TraditionArtifact
 
         if (flameSwordFailure < 4)
         {
-            damage = DSA.Roll(1, 20)[0] + _core.Character!.Rkw["Gildenmagie"] / 2;
+            damage = DSA.Roll(1, 20)[0] + (_core.Character!.Rkw["Gildenmagie"] / 2);
         }
 
         return (flameSwordFailure, damage);

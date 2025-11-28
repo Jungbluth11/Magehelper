@@ -139,7 +139,7 @@ public class PetGenerator
         pet = Core.GetInstance().Pet!;
         List<string> speciesStrings = [];
         List<PetData> baseData = [];
-        string json = File.ReadAllText(Path.Combine(pet.Core.SettingsPath, "petData.json"));
+        string json = File.ReadAllText(Path.Combine(Core.GetInstance().SettingsPath, "petData.json"));
         dynamic[][] petData = JsonSerializer.Deserialize<dynamic[][]>(json);
         foreach (dynamic[] p in petData)
         {

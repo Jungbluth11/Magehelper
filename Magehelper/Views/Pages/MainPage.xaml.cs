@@ -8,18 +8,15 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
     private readonly ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
     private readonly Core.Core _core = Core.Core.GetInstance();
     private readonly List<string> _loadedTabs = [];
-
-    private MainPageViewModel ViewModel => (MainPageViewModel)DataContext;
-
     private ApplicationView View => ApplicationView.GetForCurrentView();
+    private MainPageViewModel ViewModel => (MainPageViewModel) DataContext;
 
     public MainPage()
     {
         InitializeComponent();
         WeakReferenceMessenger.Default.RegisterAll(this);
     }
-
-
+    
     public void Receive(CharacterLoadedMessage message)
     {
         View.Title = $"Magehelper - {message.Value.Name}";
@@ -32,9 +29,11 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
         {
             case FileAction.New:
                 View.Title = "Magehelper";
+
                 break;
             case FileAction.Loaded:
                 View.Title = $"Magehelper - {_core.FileName}";
+
                 break;
             case FileAction.Changed:
                 if (_core.FileChanged)
@@ -45,13 +44,14 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
                 {
                     View.Title = View.Title.TrimStart('*');
                 }
+
                 break;
         }
     }
 
     private void MainPage_OnLoaded(object sender, RoutedEventArgs e)
     {
-        (XamlRoot!.Content as FrameworkElement)!.RequestedTheme = (string)_localSettings.Values["theme"] switch
+        (XamlRoot!.Content as FrameworkElement)!.RequestedTheme = (string) _localSettings.Values["theme"] switch
         {
             "Light" => ElementTheme.Light,
             "Dark" => ElementTheme.Dark,
@@ -60,7 +60,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
         if (_loadedTabs.Count == 0)
         {
-            LoadTabs();
+            LoadTabs(Settings.GetInstance().DefaultTabs);
         }
     }
 
@@ -81,13 +81,21 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
         }
     }
 
+    private void MenuCharacterLinkToFile_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (_loadedTabs.Contains("Charakter"))
+        {
+            _core.Character!.ToggleLinkCharacterToFile();
+        }
+    }
+
     private async void MenuCharacterLoadFromFile_OnClick(object sender, RoutedEventArgs e)
     {
         try
         {
             FileOpenPicker fileOpenPicker = new()
             {
-                FileTypeFilter = { ".xml" },
+                FileTypeFilter = {".xml"},
                 CommitButtonText = "Auswählen"
             };
 
@@ -130,11 +138,69 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
         }
     }
 
-    private void MenuCharacterLinkToFile_OnClick(object sender, RoutedEventArgs e)
+    private async void MenuFileLoad_OnClick(object sender, RoutedEventArgs e)
     {
-        if (_loadedTabs.Contains("Magehelper.Views.Tabs.TabCharacter"))
+        try
         {
-            _core.Character!.ToggleLinkCharacterToFile();
+            FileOpenPicker fileOpenPicker = new()
+            {
+                FileTypeFilter = {".magehelper"},
+                CommitButtonText = "Öffnen"
+            };
+
+            StorageFile file = await fileOpenPicker.PickSingleFileAsync();
+
+            if (file != null)
+            {
+                await LoadFile(file.Path);
+            }
+        }
+        catch (Exception ex)
+        {
+            await ErrorMessageHelper.ShowErrorDialog(ex.Message, XamlRoot!);
+        }
+    }
+
+    private void MenuFileNew_OnClick(object sender, RoutedEventArgs e)
+    {
+        ResetTool(Settings.GetInstance().DefaultTabs);
+        ViewModel.NewFile();
+    }
+
+    private void MenuFileSave_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (_core.FileName == string.Empty)
+        {
+            SaveFileAs();
+        }
+        else
+        {
+            ViewModel.SaveFile(_core.FileName);
+        }
+    }
+
+    private void MenuFileSaveAs_OnClick(object sender, RoutedEventArgs e)
+    {
+        SaveFileAs();
+    }
+
+    private void MenuFileTabArcaneGlyphs_OnClick(object sender, RoutedEventArgs e)
+    {
+        ToggleTab<TabArcaneGlyphs>();
+
+        if (TabView.TabItems.OfType<TabArcaneGlyphs>().Any())
+        {
+            TabView.SelectedItem = TabView.TabItems.OfType<TabArcaneGlyphs>().First();
+        }
+    }
+    
+    private void MenuFileTabArtifacts_OnClick(object sender, RoutedEventArgs e)
+    {
+        ToggleTab<TabArtifact>();
+
+        if (TabView.TabItems.OfType<TabArtifact>().Any())
+        {
+            TabView.SelectedItem = TabView.TabItems.OfType<TabArtifact>().First();
         }
     }
 
@@ -152,27 +218,6 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
         {
             MenuCharacterLoadFromFile.IsEnabled = false;
             MenuCharacterLoadFromTool.IsEnabled = false;
-        }
-    }
-
-
-    private void MenuFileTabArtifacts_OnClick(object sender, RoutedEventArgs e)
-    {
-        ToggleTab<TabArtifact>();
-
-        if (TabView.TabItems.OfType<TabArtifact>().Any())
-        {
-            TabView.SelectedItem = TabView.TabItems.OfType<TabArtifact>().First();
-        }
-    }
-
-    private void MenuFileTabArcaneGlyphs_OnClick(object sender, RoutedEventArgs e)
-    {
-        ToggleTab<TabArcaneGlyphs>();
-
-        if (TabView.TabItems.OfType<TabArcaneGlyphs>().Any())
-        {
-            TabView.SelectedItem = TabView.TabItems.OfType<TabArcaneGlyphs>().First();
         }
     }
 
@@ -236,53 +281,6 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
         }
     }
 
-    private async void MenuFileLoad_OnClick(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            FileOpenPicker fileOpenPicker = new()
-            {
-                FileTypeFilter = { ".magehelper" },
-                CommitButtonText = "Öffnen"
-            };
-
-            StorageFile file = await fileOpenPicker.PickSingleFileAsync();
-
-            if (file != null)
-            {
-                await LoadFile(file.Path);
-            }
-        }
-        catch (Exception ex)
-        {
-            await ErrorMessageHelper.ShowErrorDialog(ex.Message, XamlRoot!);
-        }
-    }
-
-    private void MenuFileNew_OnClick(object sender, RoutedEventArgs e)
-    {
-        ResetTool();
-        LoadTabs();
-        ViewModel.NewFile();
-    }
-
-    private void MenuFileSave_OnClick(object sender, RoutedEventArgs e)
-    {
-        if (_core.FileName == string.Empty)
-        {
-            SaveFileAs();
-        }
-        else
-        {
-            ViewModel.SaveFile(_core.FileName);
-        }
-    }
-
-    private void MenuFileSaveAs_OnClick(object sender, RoutedEventArgs e)
-    {
-        SaveFileAs();
-    }
-
     private void MenuSettings_OnClick(object sender, RoutedEventArgs e)
     {
         Frame.Navigate(typeof(SettingsPage));
@@ -325,8 +323,13 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
                 }
             }
 
-            ResetTool();
             ViewModel.LoadFile(path);
+
+            string[] tabList = _core.FileTabs.Any()
+                ? _core.FileTabs.ToArray()
+                : Settings.GetInstance().DefaultTabs;
+
+            ResetTool(tabList);
         }
         catch
         {
@@ -334,9 +337,17 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
         }
     }
 
-    private void LoadTabs()
+    private void LoadTabs(string[] tabList)
     {
-        foreach (string tab in Settings.GetInstance().DefaultTabs)
+        if (_loadedTabs.SequenceEqual(tabList))
+        {
+            return;
+        }
+
+        _loadedTabs.Clear();
+        TabView.TabItems.Clear();
+
+        foreach (string tab in tabList)
         {
             switch (tab)
             {
@@ -358,10 +369,12 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
                 case "Artefakte":
                     MenuFileTabArtifacts.IsChecked = true;
                     ToggleTab<TabArtifact>();
+
                     break;
                 case "Zauberzeichen":
                     MenuFileTabArcaneGlyphs.IsChecked = true;
                     ToggleTab<TabArcaneGlyphs>();
+
                     break;
                 case "Charakter":
                     MenuFileTabCharacter.IsChecked = true;
@@ -387,22 +400,24 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
                     break;
             }
         }
+
+        TabView.SelectedIndex = 0;
     }
 
-    private void ResetTool()
+    private void ResetTool(string[] tabList)
     {
         MenuFileTabTraditionalArtifact.IsChecked = false;
         MenuFileTabSpellStorage.IsChecked = false;
         MenuFileTabFlameSword.IsChecked = false;
+        MenuFileTabArtifacts.IsChecked = false;
+        MenuFileTabArcaneGlyphs.IsChecked = false;
         MenuFileTabCharacter.IsChecked = false;
         MenuFileTabPet.IsChecked = false;
         MenuFileTabTimer.IsChecked = false;
         MenuFileTabMod.IsChecked = false;
         MenuCharacterLoadFromFile.IsEnabled = false;
         MenuCharacterLoadFromTool.IsEnabled = false;
-        _loadedTabs.Clear();
-        TabView.TabItems.Clear();
-        LoadTabs();
+        LoadTabs(tabList);
     }
 
     private async void SaveFileAs()
@@ -430,6 +445,11 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
                     return;
                 }
 
+                if (!_core.FileTabs.Any())
+                {
+                    _core.FileTabs.AddRange(_loadedTabs);
+                }
+
                 ViewModel.SaveFile(file.Path);
             }
             catch
@@ -445,15 +465,27 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
     private void ToggleTab<T>() where T : TabViewItem, new()
     {
+        string tabName = SettingsHelper.TabName[typeof(T).ToString()];
+
         if (!TabView.TabItems.OfType<T>().Any())
         {
-            _loadedTabs.Add(typeof(T).ToString());
+            _loadedTabs.Add(tabName);
             TabView.TabItems.Add(new T());
+
+            if (_core.FileTabs.Any())
+            {
+                _core.FileTabs.Add(tabName);
+            }
         }
         else
         {
-            _loadedTabs.Remove(typeof(T).ToString());
+            _loadedTabs.Remove(tabName);
             TabView.TabItems.Remove(TabView.TabItems.OfType<T>().First());
+
+            if (_core.FileTabs.Any())
+            {
+                _core.FileTabs.Remove(tabName);
+            }
         }
     }
 }

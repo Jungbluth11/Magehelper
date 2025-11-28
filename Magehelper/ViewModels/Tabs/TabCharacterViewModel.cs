@@ -27,28 +27,17 @@ public partial class TabCharacterViewModel : ObservableObject, IRecipient<FileAc
     public TabCharacterViewModel()
     {
         _character = Core.Core.GetInstance().Character ?? new();
+
+        if (_character is {IsLoaded: true})
+        {
+            LoadTabContents();
+        }
+
         WeakReferenceMessenger.Default.RegisterAll(this);
     }
 
-    public (int pointsLeft, int[] rollData, string textResult) RollSpell(CharacterSpell spell, string? selectedAttribute = null, int? attributeIndex = null)
+    private void LoadTabContents()
     {
-        if (selectedAttribute != null)
-        {
-            spell.Attributes[(int)attributeIndex!] = selectedAttribute;
-        }
-
-        return _character.RollSpell(spell);
-    }
-
-    public (int pointsLeft, int[] rollData, string textResult) RollRitual(CharacterRitual spell)
-    {
-        return _character.RollRitual(spell);
-    }
-
-    public void Receive(CharacterSelectedMessage message)
-    {
-        ResetTab();
-        _character.LoadCharacter(message.Value);
         Mu = _character.Mu;
         Kl = _character.Kl;
         In = _character.In;
@@ -58,6 +47,9 @@ public partial class TabCharacterViewModel : ObservableObject, IRecipient<FileAc
         Ko = _character.Ko;
         Kk = _character.Kk;
         Mr = _character.Mr;
+        Aup = _character.AuP;
+        Lep = _character.LeP;
+        Asp = _character.AsP;
 
         if (_character.Spells != null)
         {
@@ -88,6 +80,28 @@ public partial class TabCharacterViewModel : ObservableObject, IRecipient<FileAc
         WeakReferenceMessenger.Default.Send(new CharacterLoadedMessage(_character.Data!));
     }
 
+    public (int pointsLeft, int[] rollData, string textResult) RollSpell(CharacterSpell spell, string? selectedAttribute = null, int? attributeIndex = null)
+    {
+        if (selectedAttribute != null)
+        {
+            spell.Attributes[(int)attributeIndex!] = selectedAttribute;
+        }
+
+        return _character.RollSpell(spell);
+    }
+
+    public (int pointsLeft, int[] rollData, string textResult) RollRitual(CharacterRitual spell)
+    {
+        return _character.RollRitual(spell);
+    }
+
+    public void Receive(CharacterSelectedMessage message)
+    {
+        ResetTab();
+        _character.LoadCharacter(message.Value);
+        LoadTabContents();
+    }
+
     public void Receive(FileActionMessage message)
     {
         switch (message.Value)
@@ -97,9 +111,12 @@ public partial class TabCharacterViewModel : ObservableObject, IRecipient<FileAc
                 break;
             case FileAction.Loaded:
                 ResetTab();
-                Aup = _character.AuP;
-                Lep = _character.LeP;
-                Asp = _character.AsP;
+
+                if (_character is { IsLoaded: true })
+                {
+                    LoadTabContents();
+                }
+
                 break;
         }
     }

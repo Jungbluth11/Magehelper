@@ -1,5 +1,7 @@
+using System.Collections.Specialized;
 using System.Globalization;
 using System.Reflection;
+using System.Text.Json;
 
 namespace Magehelper.Core;
 
@@ -58,6 +60,11 @@ public class Core
     ///     File name of the loaded save or name to create these.
     /// </summary>
     public string FileName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Tabs that loaded for this file.
+    /// </summary>
+    public ObservableCollection<string> FileTabs { get; } = [];
 
     /// <summary>
     ///     Has the application currently a flame sword.
@@ -152,14 +159,12 @@ public class Core
     public string GetFileVersion(string path)
     {
         string xml = File.ReadAllText(path);
-        XmlDocument xmlDoc = new();
-        xmlDoc.LoadXml(xml);
+        XmlDoc = new();
+        XmlDoc.LoadXml(xml);
 
         try
         {
-            XmlNode root = xmlDoc.SelectSingleNode("magehelper")!;
-
-            return root.Attributes!["versionCreated"] == null ? "0" : root.Attributes["versionCreated"]!.Value;
+            return GetFileVersion();
         }
         catch
         {
@@ -167,35 +172,47 @@ public class Core
         }
     }
 
+    internal string GetFileVersion()
+    {
+        XmlNode root = XmlDoc!.SelectSingleNode("magehelper")!;
+        return root.Attributes!["versionCreated"] == null ? "0" : root.Attributes["versionCreated"]!.Value;
+    }
+
+    internal XmlDocument? XmlDoc { get; private set; }
+
     /// <summary>
     ///     Reads a saved file.
     /// </summary>
     /// <param name="path"></param>
     public void ReadFileVersionSelector(string path)
     {
-        string xml = File.ReadAllText(path);
 
         try
         {
-            XmlDocument xmlDoc = new();
-            xmlDoc.LoadXml(xml);
+            ResetTool();
+
+            if (XmlDoc == null)
+            {
+                string xml = File.ReadAllText(path);
+                XmlDoc = new();
+                XmlDoc.LoadXml(xml);
+            }
+
             bool isLegacy = false;
-            string version = GetFileVersion(path);
+            string version = GetFileVersion();
 
             if (version == "0")
             {
                 isLegacy = true;
             }
 
-            ResetTool();
-
             if (isLegacy)
             {
-                ReadFileLegacy(xmlDoc);
+                ReadFileLegacy(XmlDoc);
             }
             else
             {
-                ReadFile(xmlDoc);
+                ReadFile(XmlDoc);
             }
 
             FileName = path;
@@ -229,12 +246,16 @@ public class Core
         Pet?.ResetTool();
         Timers?.RemoveAll();
         Artifacts?.DeleteAll();
+        ArcaneGlyphs?.RemoveAll();
         FileName = string.Empty;
         HasSpellStorage = false;
         HasFlameSword = false;
         FileAup = false;
         FileLep = false;
         FileAsp = false;
+        FileTabs.CollectionChanged -= FileTabs_CollectionChanged;
+        FileTabs.Clear();
+        XmlDoc = null;
         FileChanged = false;
     }
 
@@ -250,6 +271,7 @@ public class Core
         xw.WriteStartDocument();
         xw.WriteStartElement("magehelper");
         xw.WriteAttributeString("versionCreated", MagehelperFileVersion);
+        xw.WriteElementString("tabs", JsonSerializer.Serialize(FileTabs));
 
         if (FileAup)
         {
@@ -282,8 +304,8 @@ public class Core
 
         if (Character == null || Character.LinkedCharacterType == Character.CharacterType.None)
         {
-            xw.WriteAttributeString("linkedCharacter", null);
-            xw.WriteAttributeString("characterType", null);
+            xw.WriteAttributeString("linkedCharacter", "null");
+            xw.WriteAttributeString("characterType", "null");
         }
         else
         {
@@ -292,7 +314,7 @@ public class Core
         }
 
         xw.WriteEndElement();
-        xw.WriteStartElement("artifacts");
+        xw.WriteStartElement("traditionArtifacts");
 
         foreach (TraditionArtifact? artifact in artifacts)
         {
@@ -301,7 +323,7 @@ public class Core
                 continue;
             }
 
-            xw.WriteStartElement("artifact");
+            xw.WriteStartElement("traditionArtifact");
             xw.WriteStartElement("data");
             xw.WriteAttributeString("name", artifact.Name);
             xw.WriteAttributeString("boundSpells", artifact.BoundSpells.Count.ToString());
@@ -446,7 +468,7 @@ public class Core
                 xw.WriteAttributeString("name", artifact.Name);
                 xw.WriteAttributeString("description", artifact.Description);
                 xw.WriteAttributeString("type", artifact.Type.ToString());
-                xw.WriteAttributeString("interval", artifact.Interval?.ToString());
+                xw.WriteAttributeString("interval", artifact.Interval == null ? "null" : artifact.Interval.ToString());
                 xw.WriteAttributeString("currentCharges", artifact.CurrentCharges?.ToString());
                 xw.WriteAttributeString("maxCharges", artifact.MaxCharges?.ToString());
                 xw.WriteEndElement();
@@ -468,8 +490,8 @@ public class Core
                 xw.WriteAttributeString("rkw", glyph.Rkw.ToString());
                 xw.WriteAttributeString("rkp", glyph.Rkp.ToString());
                 xw.WriteAttributeString("cost", glyph.Cost.ToString());
-                xw.WriteAttributeString("duration", glyph.Duration?.ToString());
-                xw.WriteAttributeString("remainingDuration", glyph.RemainingDuration?.ToString());
+                xw.WriteAttributeString("duration", glyph.Duration == null ? "null" : glyph.Duration.ToString());
+                xw.WriteAttributeString("remainingDuration", glyph.RemainingDuration == null ? "null" : glyph.RemainingDuration.ToString());
                 xw.WriteStartElement("additionalGlyphs");
                 foreach (AdditionalGlyph additionalGlyph in glyph.AdditionalGlyphs)
                 {
@@ -493,6 +515,16 @@ public class Core
     private void ReadFile(XmlDocument xml)
     {
         TraditionArtifact?[] traditionArtifacts = [Bowl, BoneCub, CrystalBall, Staff, RingOfLife, ObsidianDagger];
+
+        XmlNode? tabNode = xml.SelectSingleNode("//tabs");
+        if (tabNode != null)
+        {
+            foreach (string tab in JsonSerializer.Deserialize<string[]>(tabNode.FirstChild!.Value!)!)
+            {
+                FileTabs.Add(tab);
+            }
+            FileTabs.CollectionChanged += FileTabs_CollectionChanged;
+        }
 
         string? aup = xml.SelectSingleNode("//aup")!.Value;
 
@@ -518,30 +550,13 @@ public class Core
             FileAspValue = int.Parse(asp);
         }
 
-        XmlNode? characterNode = xml.SelectSingleNode("//character");
-
-        if (characterNode != null)
-        {
-            Character ??= new();
-
-            Character.LinkedCharacterType = characterNode.Attributes!["characterType"]!.Value switch
-            {
-                "File" => Character.CharacterType.File,
-                "HeldenSoftware" => Character.CharacterType.HeldenSoftware,
-                _ => Character.CharacterType.None
-            };
-
-            if (Character.LinkedCharacterType != Character.CharacterType.None)
-            {
-                Character.LoadCharacter(characterNode.Attributes["linkedCharacter"]!.Value);
-            }
-        }
-
-
+        Character?.Readfile();
+        
         for (int i = 0; i < traditionArtifacts.Length; i++)
         {
             TraditionArtifact traditionArtifact = traditionArtifacts[i]!;
-            XmlNode? traditionArtifactNode = xml.SelectSingleNode("//artifact/data[@name='" + TraditionArtifactNames[i] + "']/..");
+            string traditionArtifactNodeName = GetFileVersion() == "3.0.0" ? "artifact" : "traditionArtifact";
+            XmlNode? traditionArtifactNode = xml.SelectSingleNode($"//{traditionArtifactNodeName}/data[@name='{TraditionArtifactNames[i]}']/..");
 
             if (traditionArtifactNode == null)
             {
@@ -554,217 +569,72 @@ public class Core
                 {
                     case "Alchemistenschale":
                         Bowl = new();
-                        traditionArtifact = Bowl;
 
                         break;
                     case "Knochenkeule":
                         BoneCub = new();
-                        traditionArtifact = BoneCub;
 
                         break;
                     case "Kristallkugel":
                         CrystalBall = new();
-                        traditionArtifact = CrystalBall;
 
                         break;
                     case "Magierstab":
                         Staff = new();
-                        traditionArtifact = Staff;
 
                         break;
                     case "Ring des Lebens":
                         RingOfLife = new();
-                        traditionArtifact = RingOfLife;
 
                         break;
                     case "Vulkanglasdolch":
                         ObsidianDagger = new();
-                        traditionArtifact = ObsidianDagger;
 
                         break;
                 }
             }
-
-            XmlAttributeCollection data = traditionArtifactNode.ChildNodes[0]!.Attributes!;
-
-            // ReSharper disable once ConvertIfStatementToSwitchStatement
-            if (traditionArtifact is Staff)
+            else
             {
-                Staff!.Material = int.Parse(data["material"]!.Value);
-                Staff.Length = int.Parse(data["length"]!.Value);
-                Staff.Pasp = int.Parse(data["pasp"]!.Value);
-                Staff.AfvTotal();
-                Staff.HammerRkp = int.Parse(data["hammerRkp"]!.Value);
-                Staff.IsFlameSwordFive = data["FlameSwordFive"]!.Value == "True";
-
-                if ((traditionArtifactNode.ChildNodes[0] as XmlElement)!.HasAttribute("FlameSwordFour") &&
-                    traditionArtifactNode.ChildNodes[0]!.Attributes!["FlameSwordFour"]!.Value == "True")
+                switch (TraditionArtifactNames[i])
                 {
-                    Staff.LostPoints += 7;
-                }
-            }
+                    case "Alchemistenschale":
+                        Bowl!.Readfile();
 
-            if (traditionArtifact is CrystalBall)
-            {
-                CrystalBall!.Material = (CrystalBallMaterial)int.Parse(data["material"]!.Value);
-            }
+                        break;
+                    case "Knochenkeule":
+                        BoneCub!.Readfile();
 
-            if (traditionArtifact is Bowl)
-            {
-                Bowl!.Material = (BowlMaterial)int.Parse(data["material"]!.Value);
-            }
+                        break;
+                    case "Kristallkugel":
+                        CrystalBall!.Readfile();
 
-            traditionArtifact!.HasApport = data["apport"]!.Value == "True";
+                        break;
+                    case "Magierstab":
+                        Staff!.Readfile();
 
-            foreach (XmlNode boundSpell in traditionArtifactNode.ChildNodes[1]!.ChildNodes)
-            {
-                if (traditionArtifact is Staff)
-                {
-                    string guid = boundSpell.Attributes!["guid"]!.Value;
-                    string name = boundSpell.Attributes["name"]!.Value;
-                    string characteristic = boundSpell.Attributes["characteristic"]!.Value;
-                    int points = int.Parse(boundSpell.Attributes["points"]!.Value);
-                    Staff!.AddSpell(name, characteristic, points, guid);
-                }
-                else
-                {
-                    string guid = boundSpell.Attributes!["guid"]!.Value;
-                    string name = boundSpell.Attributes["name"]!.Value;
-                    traditionArtifact.AddSpell(name, guid);
+                        break;
+                    case "Ring des Lebens":
+                        RingOfLife!.Readfile();
+
+                        break;
+                    case "Vulkanglasdolch":
+                        ObsidianDagger!.Readfile();
+
+                        break;
                 }
             }
         }
 
-        if (SpellStorage != null && xml.SelectSingleNode("//spellStorage")!.HasChildNodes)
-        {
-            List<int> spellStorages = [];
+        SpellStorage?.Readfile();
+        Pet?.Readfile();
+        Timers?.ReadFile();
+        Artifacts?.Readfile();
+        ArcaneGlyphs?.Readfile();
+    }
 
-            spellStorages.AddRange(from XmlNode volume in xml.GetElementsByTagName("volume")
-                                   select int.Parse(volume.InnerText));
-
-            SpellStorage.EnableStorage(spellStorages);
-
-            foreach (XmlNode spell in xml.SelectNodes("//spellStorage/spells/spell")!)
-            {
-                string guid = spell!.Attributes!["guid"]!.Value;
-                string name = spell.Attributes["name"]!.Value;
-                string characteristics = spell.Attributes["characteristics"]!.Value;
-                string komplex = spell.Attributes["komplex"]!.Value;
-                int cost = int.Parse(spell.Attributes["cost"]!.Value);
-                int storage = int.Parse(spell.Attributes["storage"]!.Value);
-
-                int? zfp = spell.Attributes["zfp"]!.Value == "null"
-                    ? null
-                    : int.Parse(spell.Attributes["zfp"]!.Value);
-
-                SpellStorage.AddSpell(name, characteristics, komplex, cost, zfp, storage, guid);
-            }
-        }
-
-        if (Pet != null && xml.SelectSingleNode("//pet")!.HasChildNodes)
-        {
-            Pet.Species = xml.SelectSingleNode("//species")!.InnerText;
-            Pet.IsFlying = xml.SelectSingleNode("//flying")!.InnerText == "True";
-            Pet.IsMightyCompanion = xml.SelectSingleNode("//mightyCompanion")!.InnerText == "True";
-            Pet.Rkw = int.Parse(xml.SelectSingleNode("//rkp")!.InnerText);
-            Pet.Ae = int.Parse(xml.SelectSingleNode("//ae")!.InnerText);
-
-            foreach (XmlNode attribute in xml.GetElementsByTagName("attribute"))
-            {
-                PropertyInfo[] p = Pet.GetAttribute(attribute!.Attributes!["name"]!.Value);
-                p[0].SetValue(Pet, int.Parse(attribute.Attributes["current"]!.Value));
-                p[1].SetValue(Pet, int.Parse(attribute.Attributes["start"]!.Value));
-            }
-
-            List<PetSpell> knownSpells = [];
-
-            knownSpells.AddRange(from XmlNode spell in xml.SelectNodes("//pet/spells/spell")!
-                                 select Pet.SpellsAvailable.Single(p => p.Name == spell.InnerText));
-
-            Pet.Knownspells = knownSpells;
-        }
-
-        if (Timers != null && xml.SelectSingleNode("//timers")!.HasChildNodes)
-        {
-            foreach (XmlNode timer in xml.GetElementsByTagName("timer"))
-            {
-                string guid = timer!.Attributes!["guid"]!.Value;
-                string text = timer.Attributes!["text"]!.Value;
-                int duration = int.Parse(timer.Attributes!["duration"]!.Value);
-                Timers!.Add(text, duration, guid);
-            }
-        }
-
-        if (Artifacts != null && xml.SelectSingleNode("//artifacts")!.HasChildNodes)
-        {
-            foreach (XmlNode artifact in xml.GetElementsByTagName("artifact"))
-            {
-                string guid = artifact!.Attributes!["guid"]!.Value;
-                string name = artifact.Attributes!["name"]!.Value;
-                string description = artifact.Attributes!["description"]!.Value;
-                ArtifactType type = Enum.Parse<ArtifactType>(artifact.Attributes!["type"]!.Value);
-                ArtifactInterval? interval = artifact.Attributes["interval"]!.Value == "null"
-                     ? null
-                     : Enum.Parse<ArtifactInterval>(artifact.Attributes!["interval"]!.Value);
-
-                int? currentCharges = artifact.Attributes["currentCharges"]!.Value == "null"
-                ? null
-                    : int.Parse(artifact.Attributes["currentCharges"]!.Value);
-                int? maxCharges = artifact.Attributes["maxCharges"]!.Value == "null"
-                    ? null
-                    : int.Parse(artifact.Attributes["maxCharges"]!.Value);
-
-                Artifacts.CreateArtifact(name,
-                    description,
-                    type,
-                    currentCharges,
-                    maxCharges,
-                    interval,
-                    guid);
-            }
-        }
-
-        // ReSharper disable once InvertIf
-        if (ArcaneGlyphs != null && xml.SelectSingleNode("//arcaneGlyphs")!.HasChildNodes)
-        {
-            foreach (XmlNode arcaneGlyph in xml.GetElementsByTagName("arcaneGlyph"))
-            {
-                string guid = arcaneGlyph!.Attributes!["guid"]!.Value;
-                string name = arcaneGlyph.Attributes!["name"]!.Value;
-                string appliedTo = arcaneGlyph.Attributes!["appliedTo"]!.Value;
-                double size = double.Parse(arcaneGlyph.Attributes!["size"]!.Value, CultureInfo.InvariantCulture);
-                int rkw = int.Parse(arcaneGlyph.Attributes!["rkw"]!.Value);
-                int rkp = int.Parse(arcaneGlyph.Attributes!["rkp"]!.Value);
-                int cost = int.Parse(arcaneGlyph.Attributes!["cost"]!.Value);
-                int? duration = arcaneGlyph.Attributes["duration"]!.Value == "null"
-                    ? null
-                    : int.Parse(arcaneGlyph.Attributes!["duration"]!.Value);
-                int? remainingDuration = arcaneGlyph.Attributes["remainingDuration"]!.Value == "null"
-                    ? null
-                    : int.Parse(arcaneGlyph.Attributes!["remainingDuration"]!.Value);
-                AdditionalGlyph[] additionalGlyphs = [];
-
-                additionalGlyphs = arcaneGlyph.ChildNodes[0]!.ChildNodes.Cast<XmlNode>()
-                    .Aggregate(additionalGlyphs,
-                        (current, additionalGlyph) =>
-                            [
-                                .. current,
-                                new(additionalGlyph!.Attributes!["name"]!.Value,
-                                    additionalGlyph.Attributes!["value"]!.Value),
-                            ]);
-
-                ArcaneGlyphs.Add(name,
-                    appliedTo,
-                    additionalGlyphs,
-                    size,
-                    rkw,
-                    rkp,
-                    cost,
-                    duration,
-                    remainingDuration,
-                    guid);
-            }
-        }
+    private void FileTabs_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        FileChanged = true;
     }
 
     private void ReadFileLegacy(XmlDocument xml)

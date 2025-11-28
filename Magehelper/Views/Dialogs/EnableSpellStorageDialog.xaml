@@ -30,13 +30,14 @@
                     Margin="-7,0,0,0"
                     VerticalAlignment="Center" />
             </StackPanel>
-            <NumberBox SpinButtonPlacementMode="Compact"
+            <NumberBox
                 Grid.Column="0"
                 Width="100"
                 VerticalAlignment="Center"
                 KeyDown="UIElement_OnKeyDown"
                 Maximum="{Binding PointsRemain}"
                 Minimum="1"
+                SpinButtonPlacementMode="Compact"
                 Value="1" />
         </Grid>
         <ItemsControl Grid.Row="1" ItemsSource="{Binding SpellStorages}">

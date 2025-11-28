@@ -47,7 +47,7 @@ public class Pet
     internal int ParryFlyingStart { get; set; }
     internal double GsStart { get; set; }
     internal double GsFlyingStart { get; set; }
-    internal Core Core => Core.GetInstance();
+    private readonly Core _core = Core.GetInstance();
     /// <summary>
     /// the spells the pet already knows.
     /// </summary>
@@ -110,7 +110,36 @@ public class Pet
     public Pet()
 #pragma warning restore CS8618
     {
-        Core.Pet = this;
+        _core.Pet = this;
+        Readfile();
+    }
+
+    internal void Readfile()
+    {
+        if (_core.XmlDoc == null || !_core.XmlDoc.SelectSingleNode("//pet")!.HasChildNodes)
+        {
+            return;
+        }
+
+        Species = _core.XmlDoc.SelectSingleNode("//species")!.InnerText;
+        IsFlying = _core.XmlDoc.SelectSingleNode("//flying")!.InnerText == "True";
+        IsMightyCompanion = _core.XmlDoc.SelectSingleNode("//mightyCompanion")!.InnerText == "True";
+        Rkw = int.Parse(_core.XmlDoc.SelectSingleNode("//rkp")!.InnerText);
+        Ae = int.Parse(_core.XmlDoc.SelectSingleNode("//ae")!.InnerText);
+
+        foreach (XmlNode attribute in _core.XmlDoc.GetElementsByTagName("attribute"))
+        {
+            PropertyInfo[] p = GetAttribute(attribute!.Attributes!["name"]!.Value);
+            p[0].SetValue(this, int.Parse(attribute.Attributes["current"]!.Value));
+            p[1].SetValue(this, int.Parse(attribute.Attributes["start"]!.Value));
+        }
+
+        List<PetSpell> knownSpells = [];
+
+        knownSpells.AddRange(from XmlNode spell in _core.XmlDoc.SelectNodes("//pet/spells/spell")!
+            select SpellsAvailable.Single(p => p.Name == spell.InnerText));
+
+        Knownspells = knownSpells;
     }
 
     /// <summary>
@@ -154,8 +183,8 @@ public class Pet
         {
             LearnSpell("Krötenschlag");
         }
-        Core.HasPet = true;
-        Core.FileChanged = true;
+        _core.HasPet = true;
+        _core.FileChanged = true;
     }
 
     /// <summary>
@@ -184,7 +213,7 @@ public class Pet
         {
             p[0].SetValue(this, currentValue);
         }
-        Core.FileChanged = true;
+        _core.FileChanged = true;
     }
 
     /// <summary>
@@ -199,19 +228,19 @@ public class Pet
     public void ResetAuP()
     {
         AuP = Au;
-        Core.FileChanged = true;
+        _core.FileChanged = true;
     }
 
     public void ResetLeP()
     {
         LeP = Le;
-        Core.FileChanged = true;
+        _core.FileChanged = true;
     }
 
     public void ResetAsP()
     {
         AsP = Ae;
-        Core.FileChanged = true;
+        _core.FileChanged = true;
     }
 
     public (int, int[], string) RollSpell(PetSpell spell)
@@ -279,7 +308,7 @@ public class Pet
         IsMightyCompanion = false;
         Knownspells.Clear();
         SpellsAvailable = Array.Empty<PetSpell>().ToList().AsReadOnly();
-        Core.HasPet = false;
+        _core.HasPet = false;
     }
 
     internal PropertyInfo[] GetAttribute(string attribute)

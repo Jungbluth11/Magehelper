@@ -29,6 +29,11 @@ public sealed partial class TraditionArtifactControl : UserControl
 
     private void TraditionArtifactControl_OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
     {
+        if (ViewModel == null)
+        {
+            return;
+        }
+
         UserControl control = ViewModel.Artifact switch
         {
             Bowl => new BowlControl(),

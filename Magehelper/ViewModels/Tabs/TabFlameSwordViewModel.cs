@@ -32,7 +32,20 @@ public partial class TabFlameSwordViewModel : ObservableObject, IRecipient<FileA
         ParryRkpMax = _flameSword.ParryMaxPoints;
         GsValue = _flameSword.Gs[0];
         GsRkpMax = _flameSword.GsMaxPoints;
+        LoadTabContents();
+
         WeakReferenceMessenger.Default.Register(this);
+    }
+
+    private void LoadTabContents()
+    {
+        if (!_core.HasFlameSword)
+        {
+            return;
+        }
+
+        FlameSwordExist = true;
+        ShowNoFlameSwordText = false;
     }
 
     public void Receive(FileActionMessage message)
@@ -45,12 +58,7 @@ public partial class TabFlameSwordViewModel : ObservableObject, IRecipient<FileA
                 break;
             case FileAction.Loaded:
                 ResetTab();
-
-                if (_core.HasFlameSword)
-                {
-                    FlameSwordExist = true;
-                    ShowNoFlameSwordText = false;
-                }
+                LoadTabContents();
 
                 break;
         }

@@ -61,6 +61,7 @@ public class BoneCub : TraditionArtifact
     public BoneCub() : base("boneCub.json", "Knochenkeule")
     {
         _core.BoneCub = this;
+        Readfile();
     }
 
     public (int pointsLeft, int[] diceResult, string text) RollEnsoulEntity(int pAsp, int mod)
@@ -80,6 +81,23 @@ public class BoneCub : TraditionArtifact
         EnsoulEntityLoyalty += pointsLeft < 0 ? 0 : pointsLeft + pAsp;
 
         return (pointsLeft, diceResult, text);
+    }
+
+    internal new void Readfile()
+    {
+        if (_core.XmlDoc == null)
+        {
+            return;
+        }
+
+        XmlNode node = GetTraditionArtifactNode();
+        XmlAttributeCollection data = node.ChildNodes[0]!.Attributes!;
+        AdditionalMtp = int.Parse(data["additionalMtp"]!.Value);
+        SenseMagicSkill = int.Parse(data["senseMagicSkill"]!.Value);
+        Bf = data["bf"]!.Value == "null" ? null : int.Parse(data["bf"]!.Value);
+        EnsoulEntityLoyalty = data["ensoulEntityLoyalty"]!.Value == "null" ? null : int.Parse(data["ensoulEntityLoyalty"]!.Value);
+        EnsoulEntityName = data["ensoulEntityName"]!.Value;
+        base.Readfile();
     }
 
     public void DeleteEnsoulEntity()

@@ -39,6 +39,20 @@ public class CrystalBall : TraditionArtifact, IMaxSpellArtifact
     public CrystalBall() : base("crystalBall.json", "Kristallkugel")
     {
         _core.CrystalBall = this;
+        Readfile();
+    }
+
+    internal new void Readfile()
+    {
+        if (_core.XmlDoc == null)
+        {
+            return;
+        }
+
+        XmlNode node = GetTraditionArtifactNode();
+        XmlAttributeCollection data = node.ChildNodes[0]!.Attributes!;
+        Material = (CrystalBallMaterial)int.Parse(data["material"]!.Value);
+        base.Readfile();
     }
 
     /// <summary>

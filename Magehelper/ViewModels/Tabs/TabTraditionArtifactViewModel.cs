@@ -19,6 +19,8 @@ public partial class TabTraditionArtifactViewModel : ObservableObject,
         {
             ArtifactControls.CollectionChanged += ArtifactControls_CollectionChanged;
         }
+
+        LoadTabContents();
     }
 
     private void ArtifactControls_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -28,6 +30,17 @@ public partial class TabTraditionArtifactViewModel : ObservableObject,
         if (ArtifactControls.Count > 1)
         {
             TabName += "e";
+        }
+    }
+
+    private void LoadTabContents()
+    {
+        foreach (string artifactName in _core.TraditionArtifactNames)
+        {
+            if (TraditionalArtifactHelper.IsInitialized[artifactName])
+            {
+                AddArtifact(TraditionalArtifactHelper.GetArtifact[artifactName]!);
+            }
         }
     }
 
@@ -111,14 +124,7 @@ public partial class TabTraditionArtifactViewModel : ObservableObject,
                 break;
             case FileAction.Loaded:
                 ResetTab();
-
-                foreach (string artifactName in _core.TraditionArtifactNames)
-                {
-                    if (TraditionalArtifactHelper.IsInitialized[artifactName])
-                    {
-                        AddArtifact(TraditionalArtifactHelper.GetArtifact[artifactName]!);
-                    }
-                }
+                LoadTabContents();
 
                 break;
         }

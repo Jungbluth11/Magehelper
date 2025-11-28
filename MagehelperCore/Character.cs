@@ -61,6 +61,30 @@ public partial class Character
         {
             AsP = _core.FileAspValue;
         }
+
+        Readfile();
+    }
+
+    internal void Readfile()
+    {
+        XmlNode? characterNode = _core.XmlDoc?.SelectSingleNode("//character");
+
+        if (characterNode == null)
+        {
+            return;
+        }
+
+        LinkedCharacterType = characterNode.Attributes!["characterType"]!.Value switch
+        {
+            "File" => CharacterType.File,
+            "HeldenSoftware" => CharacterType.HeldenSoftware,
+            _ => CharacterType.None
+        };
+
+        if (LinkedCharacterType != CharacterType.None)
+        {
+            LoadCharacter(characterNode.Attributes["linkedCharacter"]!.Value);
+        }
     }
 
     /// <summary>

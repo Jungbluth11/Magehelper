@@ -14,7 +14,16 @@ public partial class TabTimerViewModel : ObservableObject,
     public TabTimerViewModel()
     {
         _timers = Core.Core.GetInstance().Timers ?? [];
+        LoadTabContents();
         WeakReferenceMessenger.Default.RegisterAll(this);
+    }
+
+    private void LoadTabContents()
+    {
+        foreach (Timer timer in _timers)
+        {
+            AddTimer(timer);
+        }
     }
 
     public void Receive(AddTimerMessage message)
@@ -32,11 +41,7 @@ public partial class TabTimerViewModel : ObservableObject,
                 break;
             case FileAction.Loaded:
                 ResetTab();
-
-                foreach (Timer timer in _timers)
-                {
-                    AddTimer(timer);
-                }
+                LoadTabContents();
 
                 break;
         }
