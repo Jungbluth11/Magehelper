@@ -138,7 +138,9 @@ public class ArcaneGlyphs : IEnumerable<ArcaneGlyph>
                     [
                         .. current,
                         new(additionalGlyph!.Attributes!["name"]!.Value,
-                            additionalGlyph.Attributes!["value"]!.Value),
+                            additionalGlyph.Attributes!["value"]!.Value == "null"
+                                ? null
+                                : additionalGlyph.Attributes!["value"]!.Value),
                     ]);
 
             Add(name,
@@ -200,9 +202,9 @@ public class ArcaneGlyphs : IEnumerable<ArcaneGlyph>
         {
             if (additionalGlyph.Name == "Zusatzzeichen Verkleinerung")
             {
-                double baseComplexity = complexity - int.Parse(additionalGlyph.Value);
+                double baseComplexity = complexity - int.Parse(additionalGlyph.Value!);
 
-                size = int.Parse(additionalGlyph.Value) switch
+                size = int.Parse(additionalGlyph.Value!) switch
                 {
                     1 => baseComplexity * 2,
                     2 => baseComplexity * 1,
@@ -212,7 +214,7 @@ public class ArcaneGlyphs : IEnumerable<ArcaneGlyph>
 
             else if (additionalGlyph.Name == "Zusatzzeichen Satinavs Siegel")
             {
-                duration = int.Parse(additionalGlyph.Value) switch
+                duration = int.Parse(additionalGlyph.Value!) switch
                 {
                     1 => 30,
                     2 => 90,

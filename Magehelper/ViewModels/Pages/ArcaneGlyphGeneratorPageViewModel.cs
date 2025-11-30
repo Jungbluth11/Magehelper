@@ -156,7 +156,7 @@ public partial class ArcaneGlyphGeneratorPageViewModel : ObservableObject, IReci
             {
                 DurationString = additionalGlyph.Name switch
                 {
-                    "Zusatzzeichen Satinavs Siegel" => $"Dauer: {ArcaneGlyphs.IntervalStrings[int.Parse(additionalGlyph.Value) - 1]}",
+                    "Zusatzzeichen Satinavs Siegel" => $"Dauer: {ArcaneGlyphs.IntervalStrings[int.Parse(additionalGlyph.Value!) - 1]}",
                     "Zusatzzeichen Kraftquellenspeisung" => "Dauer: Permanent",
                     _ => DurationString
                 };
@@ -291,7 +291,7 @@ public partial class ArcaneGlyphGeneratorPageViewModel : ObservableObject, IReci
         }
 
         string displayValue;
-        string value;
+        string? value;
 
         switch (CurrentAdditionalGlyphName)
         {
@@ -323,7 +323,7 @@ public partial class ArcaneGlyphGeneratorPageViewModel : ObservableObject, IReci
                 break;
             default:
                 displayValue = CurrentAdditionalGlyphName;
-                value = string.Empty;
+                value = null;
 
                 break;
         }

@@ -469,8 +469,8 @@ public class Core
                 xw.WriteAttributeString("description", artifact.Description);
                 xw.WriteAttributeString("type", artifact.Type.ToString());
                 xw.WriteAttributeString("interval", artifact.Interval == null ? "null" : artifact.Interval.ToString());
-                xw.WriteAttributeString("currentCharges", artifact.CurrentCharges?.ToString());
-                xw.WriteAttributeString("maxCharges", artifact.MaxCharges?.ToString());
+                xw.WriteAttributeString("currentCharges", artifact.CurrentCharges == null ? "null" : artifact.CurrentCharges.ToString());
+                xw.WriteAttributeString("maxCharges", artifact.MaxCharges == null ? "null" : artifact.MaxCharges.ToString());
                 xw.WriteEndElement();
             }
         }
@@ -497,7 +497,7 @@ public class Core
                 {
                     xw.WriteStartElement("additionalGlyph");
                     xw.WriteAttributeString("name", additionalGlyph.Name);
-                    xw.WriteAttributeString("value", additionalGlyph.Value);
+                    xw.WriteAttributeString("value", additionalGlyph.Value ?? "null");
                     xw.WriteEndElement();
                 }
                 xw.WriteEndElement();
