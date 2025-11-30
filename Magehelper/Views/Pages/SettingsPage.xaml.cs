@@ -2,6 +2,7 @@ namespace Magehelper.Views.Pages;
 
 public sealed partial class SettingsPage : Page
 {
+    private string? _lastTab;
     private SettingsPageViewModel ViewModel => (DataContext as SettingsPageViewModel)!;
 
     public SettingsPage()
@@ -26,9 +27,14 @@ public sealed partial class SettingsPage : Page
         }
     }
 
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        _lastTab = e.Parameter.ToString();
+    }
+
     private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
     {
-        Frame.GoBack();
+        Frame.Navigate(typeof(MainPage), _lastTab);
     }
 
     private async void BtnSave_OnClick(object sender, RoutedEventArgs e)
@@ -69,7 +75,8 @@ public sealed partial class SettingsPage : Page
                     Environment.Exit(0);
                 }
             }
-            Frame.GoBack();
+
+            Frame.Navigate(typeof(MainPage), _lastTab);
         }
         catch (Exception ex)
         {

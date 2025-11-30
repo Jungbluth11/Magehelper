@@ -9,14 +9,14 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
     private readonly Core.Core _core = Core.Core.GetInstance();
     private readonly List<string> _loadedTabs = [];
     private ApplicationView View => ApplicationView.GetForCurrentView();
-    private MainPageViewModel ViewModel => (MainPageViewModel) DataContext;
+    private MainPageViewModel ViewModel => (MainPageViewModel)DataContext;
 
     public MainPage()
     {
         InitializeComponent();
         WeakReferenceMessenger.Default.RegisterAll(this);
     }
-    
+
     public void Receive(CharacterLoadedMessage message)
     {
         View.Title = $"Magehelper - {message.Value.Name}";
@@ -51,7 +51,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
     private void MainPage_OnLoaded(object sender, RoutedEventArgs e)
     {
-        (XamlRoot!.Content as FrameworkElement)!.RequestedTheme = (string) _localSettings.Values["theme"] switch
+        (XamlRoot!.Content as FrameworkElement)!.RequestedTheme = (string)_localSettings.Values["theme"] switch
         {
             "Light" => ElementTheme.Light,
             "Dark" => ElementTheme.Dark,
@@ -95,7 +95,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
         {
             FileOpenPicker fileOpenPicker = new()
             {
-                FileTypeFilter = {".xml"},
+                FileTypeFilter = { ".xml" },
                 CommitButtonText = "Auswählen"
             };
 
@@ -144,7 +144,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
         {
             FileOpenPicker fileOpenPicker = new()
             {
-                FileTypeFilter = {".magehelper"},
+                FileTypeFilter = { ".magehelper" },
                 CommitButtonText = "Öffnen"
             };
 
@@ -190,17 +190,17 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
         if (TabView.TabItems.OfType<TabArcaneGlyphs>().Any())
         {
-            TabView.SelectedItem = TabView.TabItems.OfType<TabArcaneGlyphs>().First();
+            GoToTab("Zauberzeichen");
         }
     }
-    
+
     private void MenuFileTabArtifacts_OnClick(object sender, RoutedEventArgs e)
     {
         ToggleTab<TabArtifact>();
 
         if (TabView.TabItems.OfType<TabArtifact>().Any())
         {
-            TabView.SelectedItem = TabView.TabItems.OfType<TabArtifact>().First();
+            GoToTab("Artefakte");
         }
     }
 
@@ -210,7 +210,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
         if (TabView.TabItems.OfType<TabCharacter>().Any())
         {
-            TabView.SelectedItem = TabView.TabItems.OfType<TabCharacter>().First();
+            GoToTab("Charakter");
             MenuCharacterLoadFromFile.IsEnabled = true;
             MenuCharacterLoadFromTool.IsEnabled = true;
         }
@@ -227,7 +227,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
         if (TabView.TabItems.OfType<TabFlameSword>().Any())
         {
-            TabView.SelectedItem = TabView.TabItems.OfType<TabFlameSword>().First();
+            GoToTab("Flammenschwert");
         }
     }
 
@@ -237,7 +237,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
         if (TabView.TabItems.OfType<TabMod>().Any())
         {
-            TabView.SelectedItem = TabView.TabItems.OfType<TabMod>().First();
+            GoToTab("Modifikationsrechner");
         }
     }
 
@@ -247,7 +247,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
         if (TabView.TabItems.OfType<TabPet>().Any())
         {
-            TabView.SelectedItem = TabView.TabItems.OfType<TabPet>().First();
+            GoToTab("Vertrautentier");
         }
     }
 
@@ -257,7 +257,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
         if (TabView.TabItems.OfType<TabSpellStorage>().Any())
         {
-            TabView.SelectedItem = TabView.TabItems.OfType<TabSpellStorage>().First();
+            GoToTab("Zauberspeicher");
         }
     }
 
@@ -267,7 +267,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
         if (TabView.TabItems.OfType<TabTimer>().Any())
         {
-            TabView.SelectedItem = TabView.TabItems.OfType<TabTimer>().First();
+            GoToTab("Timer");
         }
     }
 
@@ -277,28 +277,59 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
         if (TabView.TabItems.OfType<TabTraditionArtifact>().Any())
         {
-            TabView.SelectedItem = TabView.TabItems.OfType<TabTraditionArtifact>().First();
+            GoToTab("Traditionsartefakt");
         }
     }
 
     private void MenuSettings_OnClick(object sender, RoutedEventArgs e)
     {
-        Frame.Navigate(typeof(SettingsPage));
+        Frame.Navigate(typeof(SettingsPage), TabView.SelectedItem.ToString());
     }
 
     protected override async void OnNavigatedTo(NavigationEventArgs e)
     {
         try
         {
-            if (e.Parameter != null && e.Parameter.ToString() != string.Empty)
+            if (e.Parameter == null || e.Parameter.ToString() == string.Empty)
+            {
+                return;
+            }
+
+            if (File.Exists(e.Parameter.ToString()))
             {
                 await LoadFile(e.Parameter.ToString()!);
+            }
+            else if (SettingsHelper.TabName.TryGetValue(e.Parameter.ToString()!, out string? tabName) && tabName != null)
+            {
+                string[] tabList = _core.FileTabs.Any()
+                    ? _core.FileTabs.ToArray()
+                    : Settings.GetInstance().DefaultTabs;
+
+                LoadTabs(tabList);
+                GoToTab(tabName);
             }
         }
         catch (Exception ex)
         {
             await ErrorMessageHelper.ShowErrorDialog(ex.Message, XamlRoot!);
         }
+    }
+
+    private void GoToTab(string tabName)
+    {
+        TabView.SelectedItem = tabName switch
+        {
+            "Traditionsartefakt" => TabView.TabItems.OfType<TabTraditionArtifact>().First(),
+            "Zauberspeicher" => TabView.TabItems.OfType<TabSpellStorage>().First(),
+            "Flammenschwert" => TabView.TabItems.OfType<TabFlameSword>().First(),
+            "Artefakte" => TabView.TabItems.OfType<TabArtifact>().First(),
+            "Zauberzeichen" => TabView.TabItems.OfType<TabArcaneGlyphs>().First(),
+            "Charakter" => TabView.TabItems.OfType<TabCharacter>().First(),
+            "Vertrautentier" => TabView.TabItems.OfType<TabPet>().First(),
+            "Timer" => TabView.TabItems.OfType<TabTimer>().First(),
+            "Modifikationsrechner" => TabView.TabItems.OfType<TabMod>().First(),
+            _ => TabView.SelectedItem
+        };
     }
 
     private async Task LoadFile(string path)

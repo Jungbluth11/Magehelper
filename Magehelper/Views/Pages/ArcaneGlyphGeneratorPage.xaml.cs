@@ -18,11 +18,11 @@ public sealed partial class ArcaneGlyphGeneratorPage : Page
     private void BtnAdd_OnClick(object sender, RoutedEventArgs e)
     {
         (DataContext as ArcaneGlyphGeneratorPageViewModel)!.AddGlyph();
-        Frame.Navigate(typeof(MainPage));
+        Frame.Navigate(typeof(MainPage), typeof(TabArcaneGlyphs));
     }
 
     private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
     {
-        Frame.Navigate(typeof(MainPage));
+        Frame.Navigate(typeof(MainPage), typeof(TabArcaneGlyphs));
     }
 }

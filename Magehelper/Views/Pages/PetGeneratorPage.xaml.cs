@@ -18,6 +18,6 @@ public sealed partial class PetGeneratorPage : Page
     private void Button_OnClick(object sender, RoutedEventArgs e)
     {
         (DataContext as PetGeneratorPageViewModel)!.Submit();
-        Frame.GoBack();
+        Frame.Navigate(typeof(MainPage), typeof(TabPet));
     }
 }
