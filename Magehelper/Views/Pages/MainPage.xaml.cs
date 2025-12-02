@@ -62,6 +62,31 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
         {
             LoadTabs(Settings.GetInstance().DefaultTabs);
         }
+
+        if(Settings.GetInstance().CheckForUpdates && Updater.CheckForUpdates())
+        {
+            ShowUpdateDialog().RunSynchronously();
+        }
+    }
+
+    private async Task ShowUpdateDialog()
+    {
+        ContentDialog dialog = new()
+        {
+            XamlRoot = XamlRoot,
+            Content = "Es ist eine neue Version von Magehelper verfügbar. Soll sie installiert werden?",
+            PrimaryButtonText = "Ja",
+            CloseButtonText = "Nein"
+        };
+
+        ContentDialogResult contentDialogResult = await dialog.ShowAsync();
+
+        if (contentDialogResult != ContentDialogResult.Primary)
+        {
+            return;
+        }
+
+        await Updater.Update();
     }
 
     private async void MenuAbout_OnClick(object sender, RoutedEventArgs e)

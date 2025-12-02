@@ -153,7 +153,6 @@ public partial class SettingsPageViewModel : ObservableObject, IRecipient<Config
     [RelayCommand]
     private void ForceUpdate()
     {
-        Updater updater = new();
-        updater.Update();
+        Updater.Update().RunSynchronously();
     }
 }

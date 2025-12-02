@@ -10,6 +10,19 @@ public partial class App : Application
     /// </summary>
     public App()
     {
+        VelopackApp.Build()
+                    .OnFirstRun((v) =>
+                    {
+                        CopyDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                                "magehelper",
+                                "config"),
+                            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                                "Jungbluth",
+                                "Magehelper",
+                                "config"));
+                    })
+                    .Run();
+
         InitializeComponent();
     }
 
@@ -59,5 +72,29 @@ public partial class App : Application
         }
         // Ensure the current window is active
         MainWindow.Activate();
+    }
+
+    private void CopyDirectory(string sourceDir, string targetDir)
+    {
+        if (!Directory.Exists(sourceDir))
+        {
+            return;
+        }
+
+        Directory.CreateDirectory(targetDir);
+
+        foreach (string filePath in Directory.GetFiles(sourceDir))
+        {
+            string fileName = Path.GetFileName(filePath);
+            string targetFilePath = Path.Combine(targetDir, fileName);
+            File.Copy(filePath, targetFilePath, overwrite: true);
+        }
+
+        foreach (string dirPath in Directory.GetDirectories(sourceDir))
+        {
+            string dirName = Path.GetFileName(dirPath);
+            string targetSubDir = Path.Combine(targetDir, dirName);
+            CopyDirectory(dirPath, targetSubDir);
+        }
     }
 }

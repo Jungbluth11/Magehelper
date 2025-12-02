@@ -4,13 +4,14 @@ using System.Reflection;
 
 namespace Magehelper.Models;
 
-public class Updater
+public static class Updater
 {
-    public bool CheckForUpdates()
+    public static bool CheckForUpdates()
     {
+        //legacy support
         try
         {
-#pragma warning disable SYSLIB0014
+#pragma warning disable SYSLIB0014 //Legacy WebClient is used here for simplicity
             WebClient webClient = new();
 #pragma warning restore SYSLIB0014
             Version lastVersion = JsonSerializer.Deserialize<Version>(webClient.DownloadString("https://api.jungbluthcloud.de/updates/magehelper/version"));
@@ -34,9 +35,25 @@ public class Updater
         }
     }
 
-    public void Update()
+#pragma warning disable CS1998
+    public static async Task Update()
     {
-        Process.Start(Path.Combine(AppContext.BaseDirectory, "updater.exe"));
-        Application.Current.Exit();
+#if __UNO_SKIA_MACOS__
+        Process.Start("open","https://api.jungbluthcloud.de/updates/magehelper/macos");
+#else
+
+        UpdateManager mgr = new("https://the.place/you-host/updates"); // TODO change to github repo
+        UpdateInfo? newVersion = await mgr.CheckForUpdatesAsync();
+
+        if (newVersion == null)
+        {
+            return;
+        }
+
+        await mgr.DownloadUpdatesAsync(newVersion);
+
+        mgr.ApplyUpdatesAndRestart(newVersion);
+#endif
     }
+#pragma warning restore CS1998 
 }
