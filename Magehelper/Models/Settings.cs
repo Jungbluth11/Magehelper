@@ -49,22 +49,24 @@ public class Settings
         CurrentSettingsPath = Path.Combine(AppContext.BaseDirectory, "BaseSettings");
         CurrentConfigName = "Standard";
 #endif
-        if (_localSettings.Values["CurrrentSettingsPath"] == null)
+        if (_localSettings.Values["CurrentSettingsPath"] == null)
         {
             // ReSharper disable once UnusedVariable --- suppress warning for debug build
             string defaultConfigPath = AddConfig("Standard");
 #if RELEASE
             CurrentSettingsPath = defaultConfigPath;
 #endif
-            SetCurrentConfig();
         }
         else
         {
 #if RELEASE
-            CurrentSettingsPath = _localSettings.Values["CurrrentSettingsPath"].ToString()!;
+            CurrentSettingsPath = _localSettings.Values["CurrentSettingsPath"].ToString()!;
 #endif
-            LoadConfig(CurrentConfigName);
         }
+
+        SetCurrentConfig();
+        LoadConfig(CurrentConfigName);
+
 
         if (_localSettings.Values["theme"] is string theme)
         {
@@ -208,7 +210,7 @@ public class Settings
 
     public void SetCurrentConfig()
     {
-        _localSettings.Values["CurrrentSettingsPath"] = CurrentSettingsPath;
+        _localSettings.Values["CurrentSettingsPath"] = CurrentSettingsPath;
         CurrentConfigName = Path.GetFileName(CurrentSettingsPath);
         //TODO remove
         Console.WriteLine();
