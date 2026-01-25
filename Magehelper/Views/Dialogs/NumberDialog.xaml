@@ -1,0 +1,29 @@
+﻿<ContentDialog
+    x:Class="Magehelper.Views.Dialogs.NumberDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    PrimaryButtonText="OK"
+    Style="{ThemeResource DefaultContentDialogStyle}">
+    <StackPanel>
+        <NumberBox
+            x:Name="InputNumber"
+            Margin="5"
+            KeyDown="InputNumber_OnKeyDown"
+            Minimum="0"
+            SpinButtonPlacementMode="Compact"
+            Value="0" />
+        <Button
+            x:Name="BtnRoll"
+            Margin="5"
+            Click="BtnRoll_OnClick"
+            IsEnabled="False"
+            Visibility="Collapsed">
+            <Image Source="../../Assets/dice.png" />
+        </Button>
+        <TextBlock
+            Name="RollResultText"
+            Margin="5"
+            TextWrapping="WrapWholeWords" />
+    </StackPanel>
+</ContentDialog>

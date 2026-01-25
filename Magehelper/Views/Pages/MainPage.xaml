@@ -1,0 +1,113 @@
+﻿<Page
+    x:Class="Magehelper.Views.Pages.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:utu="clr-namespace:Uno.Toolkit.UI;assembly=Uno.Toolkit.WinUI"
+    xmlns:vm="clr-namespace:Magehelper.ViewModels.Pages"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="MainPage_OnLoaded">
+    <Page.DataContext>
+        <vm:MainPageViewModel />
+    </Page.DataContext>
+    <ScrollViewer IsTabStop="True">
+        <Grid utu:SafeArea.Insets="VisibleBounds">
+            <StackPanel>
+                <MenuBar>
+                    <MenuBarItem Title="Datei">
+                        <MenuFlyoutItem
+                            Name="MenuFileNew"
+                            Click="MenuFileNew_OnClick"
+                            Text="Neu" />
+                        <MenuFlyoutItem
+                            Name="MenuFileLoad"
+                            Click="MenuFileLoad_OnClick"
+                            Text="Laden" />
+                        <MenuFlyoutItem
+                            Name="MenuFileSave"
+                            Click="MenuFileSave_OnClick"
+                            Text="Speichern">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="S" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            Name="MenuFileSaveAs"
+                            Click="MenuFileSaveAs_OnClick"
+                            Text="Speichern unter..." />
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutSubItem Text="Tabs">
+                            <ToggleMenuFlyoutItem
+                                x:Name="MenuFileTabTraditionalArtifact"
+                                Click="MenuFileTabTraditionalArtifact_OnClick"
+                                Text="Traditionsartefakt" />
+                            <ToggleMenuFlyoutItem
+                                x:Name="MenuFileTabSpellStorage"
+                                Click="MenuFileTabSpellStorage_OnClick"
+                                Text="Zauberspeicher" />
+                            <ToggleMenuFlyoutItem
+                                x:Name="MenuFileTabFlameSword"
+                                Click="MenuFileTabFlameSword_OnClick"
+                                Text="Flammenschwert" />
+                            <ToggleMenuFlyoutItem
+                                x:Name="MenuFileTabArtifacts"
+                                Click="MenuFileTabArtifacts_OnClick"
+                                Text="Artefakte" />
+                            <ToggleMenuFlyoutItem
+                                x:Name="MenuFileTabArcaneGlyphs"
+                                Click="MenuFileTabArcaneGlyphs_OnClick"
+                                Text="Zauberzeichen" />
+                            <ToggleMenuFlyoutItem
+                                x:Name="MenuFileTabCharacter"
+                                Click="MenuFileTabCharacter_OnClick"
+                                Text="Charakter" />
+                            <ToggleMenuFlyoutItem
+                                x:Name="MenuFileTabPet"
+                                Click="MenuFileTabPet_OnClick"
+                                Text="Vertrautentier" />
+                            <ToggleMenuFlyoutItem
+                                x:Name="MenuFileTabTimer"
+                                Click="MenuFileTabTimer_OnClick"
+                                Text="Timer" />
+                            <ToggleMenuFlyoutItem
+                                x:Name="MenuFileTabMod"
+                                Click="MenuFileTabMod_OnClick"
+                                Text="Modifikationsrechner" />
+                        </MenuFlyoutSubItem>
+                    </MenuBarItem>
+                    <MenuBarItem Name="MenuCharacter" Title="Charakter">
+                        <MenuFlyoutItem
+                            Name="MenuCharacterLoadFromTool"
+                            Click="MenuCharacterLoadFromTool_OnClick"
+                            IsEnabled="{x:Bind MenuFileTabCharacter.IsChecked}"
+                            Text=" aus Helden-Software laden" />
+                        <MenuFlyoutItem
+                            Name="MenuCharacterLoadFromFile"
+                            Click="MenuCharacterLoadFromFile_OnClick"
+                            IsEnabled="{x:Bind MenuFileTabCharacter.IsChecked}"
+                            Text="aus Datei laden" />
+                        <MenuFlyoutSeparator />
+                        <ToggleMenuFlyoutItem
+                            Name="MenuCharacterLinkToFile"
+                            Click="MenuCharacterLinkToFile_OnClick"
+                            IsEnabled="False"
+                            Text="mit dieser Datei verknüpfen" />
+                    </MenuBarItem>
+                    <MenuBarItem Title="Optionen">
+                        <MenuFlyoutItem
+                            Name="MenuSettings"
+                            Click="MenuSettings_OnClick"
+                            Text="Einstellungen" />
+                        <MenuFlyoutItem
+                            Name="MenuFAbout"
+                            Click="MenuAbout_OnClick"
+                            Text="Über" />
+                    </MenuBarItem>
+                </MenuBar>
+                <TabView
+                    x:Name="TabView"
+                    CanDragTabs="True"
+                    IsAddTabButtonVisible="False" />
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

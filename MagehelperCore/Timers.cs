@@ -1,92 +1,126 @@
-﻿namespace Magehelper.Core
+namespace Magehelper.Core;
+
+public class Timers : IEnumerable<Timer>
 {
-    public class Timers
+    private readonly Core _core = Core.GetInstance();
+    private readonly List<Timer> _timers = [];
+    public Timer this[int i] => _timers[i];
+    public Timer this[string guid] => _timers.SingleOrDefault(t => t.Guid == guid);
+    public int Count => _timers.Count;
+
+    public static Dictionary<string, int> DurationMultiplier => new()
     {
-        private readonly Core core;
-        private readonly List<Timer> timers = new List<Timer>();
-        public Timer this[int i] => timers[i];
-        public Timer this[string guid] => timers.SingleOrDefault(t => t.Guid == guid);
-        public int Count => timers.Count;
-        public static int DurationKRMultplier => 1;
-        public static int DurationSRMultiplier => 100;
-        public static int DurationDaysMultiplier => 28800;
+        {"KR",1},
+        {"SR",100},
+        {"Tage",28800}
+    };
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="core">An instance of <see cref="Core"/>.</param>
-        public Timers(Core core)
+    public static string[] DurationUnits =>
+    [
+        "KR",
+        "SR",
+        "Tage"
+    ];
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    public Timers()
+    {
+        _core.Timers = this;
+        ReadFile();
+        
+    }
+
+    internal void ReadFile()
+    {
+        if (_core.XmlDoc == null || !_core.XmlDoc!.SelectSingleNode("//timers")!.HasChildNodes)
         {
-            this.core = core;
-            core.Timers = this;
+            return;
         }
 
-        /// <summary>
-        /// Adds a timer.
-        /// </summary>
-        /// <param name="text">Text for the timer.</param>
-        /// <param name="duration">Duration thats be displayed in the GUI.</param>
-        /// <param name="guid">GUID of the timer</param>
-        /// <returns></returns>
-        public Timer Add(string text, int duration, string? guid = null)
+        foreach (XmlNode timer in _core.XmlDoc.GetElementsByTagName("timer"))
         {
-            if (guid is null)
+            string guid = timer!.Attributes!["guid"]!.Value;
+            string text = timer.Attributes!["text"]!.Value;
+            int duration = int.Parse(timer.Attributes!["duration"]!.Value);
+            Add(text, duration, guid);
+        }
+    }
+
+    /// <summary>
+    /// Adds a timer.
+    /// </summary>
+    /// <param name="text">Text for the timer.</param>
+    /// <param name="duration">Duration thats be displayed in the GUI.</param>
+    /// <param name="guid">GUID of the timer</param>
+    /// <returns></returns>
+    public Timer Add(string text, int duration, string? guid = null)
+    {
+        guid ??= Guid.NewGuid().ToString();
+        Timer timer = new() { Guid = guid, Text = text, Duration = duration };
+        _timers.Add(timer);
+        _core.FileChanged = true;
+        return timer;
+    }
+
+    /// <summary>
+    /// Remove a timer with the given GUID.
+    /// </summary>
+    /// <param name="guid"></param>
+    public void Remove(string guid)
+    {
+        _timers.Remove(_timers.Single(t => t.Guid == guid));
+        _core.FileChanged = true;
+    }
+
+    /// <summary>
+    /// Remove all Timers.
+    /// </summary>
+    public void RemoveAll()
+    {
+        _timers.Clear();
+        _core.FileChanged = true;
+    }
+
+    public void CountDown(string guid, int amount)
+    {
+        for (int i = 0; i < _timers.Count; i++)
+        {
+            if (_timers[i].Guid != guid)
             {
-                guid = Guid.NewGuid().ToString();
+                continue;
             }
-            Timer timer = new Timer { Guid = guid, Text = text, Duration = duration };
-            timers.Add(timer);
-            core.FileChanged = true;
-            return timer;
-        }
 
-        /// <summary>
-        /// Remove a timer with the given GUID.
-        /// </summary>
-        /// <param name="guid"></param>
-        public void Remove(string guid)
-        {
-            timers.Remove(timers.Single(t => t.Guid == guid));
-            core.FileChanged = true;
-        }
+            Timer timer = _timers[i];
+            timer.Duration -= amount;
+            _timers[i] = timer;
 
-        /// <summary>
-        /// Remove all Timers.
-        /// </summary>
-        public void RemoveAll()
-        {
-            timers.Clear();
-            core.FileChanged = true;
-        }
-
-        public void CountDown(string guid, int amount)
-        {
-            for (int i = 0; i < timers.Count; i++)
+            if (timer.Duration <= 0)
             {
-                if (timers[i].Guid == guid)
-                {
-                    Timer timer = timers[i];
-                    timer.Duration -= amount;
-                    timers[i] = timer;
-                    if (timer.Duration <= 0)
-                    {
-                        timers.RemoveAt(i);
-                    }
-                    core.FileChanged = true;
-                    break;
-                }
+                _timers.RemoveAt(i);
             }
-        }
 
-        public void CountDownAll(int amount, int minDuration)
-        {
-            foreach (Timer timer in timers)
-            {
-                if (timer.Duration >= minDuration)
-                {
-                    CountDown(timer.Guid, amount);
-                }
-            }
+            _core.FileChanged = true;
+            break;
         }
+    }
+
+    public void CountDownAll(int amount, int minDuration)
+    {
+        foreach (Timer timer in _timers.Where(timer => timer.Duration >= minDuration))
+        {
+            CountDown(timer.Guid, amount);
+        }
+    }
+
+    public IEnumerator<Timer> GetEnumerator()
+    {
+        return _timers.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return _timers.GetEnumerator();
     }
 }

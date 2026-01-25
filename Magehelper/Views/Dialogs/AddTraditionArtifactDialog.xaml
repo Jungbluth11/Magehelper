@@ -1,0 +1,111 @@
+﻿<ContentDialog
+    x:Class="Magehelper.Views.Dialogs.AddTraditionArtifactDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:CommunityToolkit.WinUI.UI.Converters;assembly=CommunityToolkit.WinUI.UI"
+    xmlns:vm="clr-namespace:Magehelper.ViewModels.Dialogs"
+    Title="Traditionsartefakt hinzufügen"
+    CloseButtonText="Abbrechen"
+    Loaded="AddTraditionArtifactDialog_OnLoaded"
+    PrimaryButtonCommand="{Binding SubmitCommand}"
+    PrimaryButtonText="Hinzufügen"
+    Style="{ThemeResource DefaultContentDialogStyle}">
+    <ContentDialog.DataContext>
+        <vm:AddTraditionArtifactDialogViewModel />
+    </ContentDialog.DataContext>
+    <ContentDialog.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </ContentDialog.Resources>
+    <StackPanel>
+        <ComboBox
+            Margin="10"
+            ItemsSource="{Binding Artifacts}"
+            SelectedValue="{Binding CurrentArtifact, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <Grid Margin="5" Visibility="{Binding IsStaffSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="5"
+                Text="Länge" />
+            <ComboBox
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                ItemsSource="{Binding StaffLengthStrings, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                SelectedValue="{Binding CurrentStaffLength}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="5"
+                Text="Material" />
+            <ComboBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="5"
+                ItemsSource="{Binding StaffMaterialStrings, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                SelectedValue="{Binding CurrentStaffMaterial}" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="5"
+                Text="Zusätzliche pAsP" />
+            <NumberBox
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="5"
+                KeyDown="UIElement_OnKeyDown"
+                Minimum="0"
+                SpinButtonPlacementMode="Compact"
+                Value="{Binding AdditionalPasp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        </Grid>
+        <Grid Margin="5" Visibility="{Binding IsCrystalBallSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="5"
+                Text="Material" />
+            <ComboBox
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                ItemsSource="{Binding CrystalBallMaterialStrings}"
+                SelectedValue="{Binding CurrentCrystalBallMaterial, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        </Grid>
+        <Grid Margin="5" Visibility="{Binding IsBowlSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="5"
+                Text="Material" />
+            <ComboBox
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                ItemsSource="{Binding BowlMatrialStrings}"
+                SelectedValue="{Binding CurrentBowlMaterial, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        </Grid>
+        <Grid Margin="5" Visibility="{Binding IsBoneCubSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ComboBox
+                Margin="5"
+                ItemsSource="{Binding BoneCubTypeStrings}"
+                SelectedValue="{Binding CurrentBoneCubType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        </Grid>
+    </StackPanel>
+</ContentDialog>

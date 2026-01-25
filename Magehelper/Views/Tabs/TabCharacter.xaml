@@ -1,0 +1,232 @@
+﻿<TabViewItem
+    x:Class="Magehelper.Views.Tabs.TabCharacter"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Magehelper.Views.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:gb="clr-namespace:UnoGroupBox;assembly=UnoGroupBox"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:t="clr-namespace:WinUI.TableView;assembly=WinUI.TableView"
+    xmlns:vm="clr-namespace:Magehelper.ViewModels.Tabs"
+    Header="Charakter"
+    IsClosable="False"
+    mc:Ignorable="d">
+    <TabViewItem.DataContext>
+        <vm:TabCharacterViewModel />
+    </TabViewItem.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <gb:GroupBox
+            Grid.Row="0"
+            Width="1350"
+            Margin="0,0,0,10"
+            Header="Eigenschaften"
+            IsEnabled="{Binding IsCharacterLoaded}"
+            Theme="Fluent">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <controls:AttributeControl
+                    Grid.Column="0"
+                    Text="MU"
+                    Value="{Binding Mu, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
+                    Grid.Column="1"
+                    Text="KL"
+                    Value="{Binding Kl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
+                    Grid.Column="2"
+                    Text="IN"
+                    Value="{Binding In, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
+                    Grid.Column="3"
+                    Text="CH"
+                    Value="{Binding Ch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
+                    Grid.Column="4"
+                    Text="FF"
+                    Value="{Binding Ff, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
+                    Grid.Column="5"
+                    Text="GE"
+                    Value="{Binding Ge, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
+                    Grid.Column="6"
+                    Text="KO"
+                    Value="{Binding Ko, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
+                    Grid.Column="7"
+                    Text="KK"
+                    Value="{Binding Kk, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <controls:AttributeControl
+                    Grid.Column="8"
+                    Text="MR"
+                    Value="{Binding Mr, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            </Grid>
+        </gb:GroupBox>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="250" />
+            </Grid.ColumnDefinitions>
+            <TabView
+                Grid.Column="0"
+                IsAddTabButtonVisible="False"
+                IsEnabled="{Binding IsCharacterLoaded}">
+                <TabViewItem
+                    Name="TabSpells"
+                    Header="Zauber"
+                    IsClosable="False">
+                    <t:TableView
+                        AlternateRowBackground="#50515C6B"
+                        AutoGenerateColumns="False"
+                        CanReorderItems="True"
+                        CornerButtonMode="None"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding Spells}"
+                        SelectionMode="None"
+                        ShowExportOptions="False">
+                        <t:TableView.Columns>
+                            <t:TableViewTextColumn Binding="{Binding Name}" Header="Name" />
+                            <t:TableViewTextColumn Binding="{Binding AttributeString}" Header="Probe" />
+                            <t:TableViewTextColumn Binding="{Binding Komplex}" Header="Komplexität" />
+                            <t:TableViewTextColumn Binding="{Binding Representation}" Header="Repräsentation" />
+                            <t:TableViewTextColumn Binding="{Binding Characteristics}" Header="Merkmale" />
+                            <t:TableViewTextColumn Binding="{Binding Value}" Header="Wert" />
+                            <t:TableViewTemplateColumn>
+                                <t:TableViewTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="ButtonRollSpell_OnClick" Tag="{Binding}">
+                                            <Image Source="/Assets/dice.png" />
+                                        </Button>
+                                    </DataTemplate>
+                                </t:TableViewTemplateColumn.CellTemplate>
+                            </t:TableViewTemplateColumn>
+                        </t:TableView.Columns>
+                    </t:TableView>
+                </TabViewItem>
+                <TabViewItem Header="Rituale" IsClosable="False">
+                    <t:TableView
+                        AlternateRowBackground="#50515C6B"
+                        AutoGenerateColumns="False"
+                        CanReorderItems="True"
+                        CornerButtonMode="None"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding Rituals}"
+                        SelectionMode="None"
+                        ShowExportOptions="False">
+                        <t:TableView.Columns>
+                            <t:TableViewTextColumn Binding="{Binding Name}" Header="Name" />
+                            <t:TableViewTextColumn Binding="{Binding Attributes}" Header="Probe" />
+                            <t:TableViewTemplateColumn>
+                                <t:TableViewTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="ButtonRollRitual_OnClick" Tag="{Binding}">
+                                            <Image Source="/Assets/dice.png" />
+                                        </Button>
+                                    </DataTemplate>
+                                </t:TableViewTemplateColumn.CellTemplate>
+                            </t:TableViewTemplateColumn>
+                        </t:TableView.Columns>
+                    </t:TableView>
+                </TabViewItem>
+            </TabView>
+            <StackPanel Grid.Column="1" Margin="5,25,0,5">
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <NumberBox
+                        Grid.Column="0"
+                        KeyDown="UIElement_OnKeyDown"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        Value="{Binding Aup, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="1" Text="AuP" />
+                    <Button
+                        Grid.Column="2"
+                        Command="{Binding ResetAupCommand}"
+                        Content="Max"
+                        IsEnabled="{Binding IsCharacterLoaded}" />
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <NumberBox
+                        Grid.Column="0"
+                        KeyDown="UIElement_OnKeyDown"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        Value="{Binding Lep, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="1" Text="LeP" />
+                    <Button
+                        Grid.Column="2"
+                        Command="{Binding ResetLepCommand}"
+                        Content="Max"
+                        IsEnabled="{Binding IsCharacterLoaded}" />
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <NumberBox
+                        Grid.Column="0"
+                        KeyDown="UIElement_OnKeyDown"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        Value="{Binding Asp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="1" Text="AsP" />
+                    <Button
+                        Grid.Column="2"
+                        Command="{Binding ResetAspCommand}"
+                        Content="Max"
+                        IsEnabled="{Binding IsCharacterLoaded}" />
+                </Grid>
+                <Button
+                    Width="210"
+                    Margin="4,5,5,5"
+                    Click="ButtonRoll1W20_OnClick"
+                    Content="Eigenschaftswurf (1W20)" />
+                <Button
+                    Width="210"
+                    Margin="4,5,5,5"
+                    Click="ButtonRoll3W20_OnClick"
+                    Content="Probenwurf (3W20)" />
+                <Button
+                    Width="210"
+                    Margin="4,5,5,5"
+                    Click="ButtonRollW6_OnClick">
+                    <StackPanel Orientation="Horizontal">
+                        <NumberBox
+                            Name="AmountW6"
+                            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                            Minimum="1"
+                            SpinButtonPlacementMode="Compact"
+                            Value="1" />
+                        <TextBlock VerticalAlignment="Center" Text="W6 Würfeln" />
+                    </StackPanel>
+                </Button>
+                <ItemsControl Margin="10" ItemsSource="{Binding RkwData}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</TabViewItem>

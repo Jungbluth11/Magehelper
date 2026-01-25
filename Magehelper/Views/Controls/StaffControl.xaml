@@ -1,0 +1,72 @@
+﻿<UserControl
+    x:Class="Magehelper.Views.Controls.StaffControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:CommunityToolkit.WinUI.UI.Converters;assembly=CommunityToolkit.WinUI.UI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Magehelper.ViewModels.Controls"
+    mc:Ignorable="d">
+    <UserControl.DataContext>
+        <vm:StaffControlViewModel />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="5"
+            Text="{Binding Length}" />
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="5"
+            Text="Material:" />
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="5"
+            Text="{Binding Material}" />
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="5"
+            Text="gebundene pAsp:" />
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="5"
+            Text="{Binding Pasp}" />
+        <StackPanel
+            Grid.Row="4"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="5"
+                Text="Flammenschwert misslungen"
+                Visibility="{Binding IsFlameswordFailure, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <TextBlock
+                Margin="5"
+                Text="{Binding FlameSwordFailureFourText}"
+                Visibility="{Binding IsFlameSwordFailureFourVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <TextBlock
+                Margin="5"
+                Text="{Binding FlameSwordFailureFiveText}"
+                Visibility="{Binding IsFlameSwordFailureFiveVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

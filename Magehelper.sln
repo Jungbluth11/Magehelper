@@ -1,18 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.0.32112.339
+VisualStudioVersion = 17.14.36518.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagehelperCore", "MagehelperCore\MagehelperCore.csproj", "{CE6D2CB7-8135-4695-BD04-02A4C3C08E2E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Magehelper", "Magehelper\Magehelper.csproj", "{0388867B-1E71-4146-9EC1-E1A51B92AE2B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagehelperWPF", "MagehelperWPF\MagehelperWPF.csproj", "{E0846CDB-6746-4874-A8F3-3FE469B935D6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagehelperUpdater", "MagehelperUpdater\MagehelperUpdater.csproj", "{6CBD1881-9F52-4F32-8CFB-F31F40A77654}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1BE71AFC-5DF1-49EC-B6A2-BA83DA83F672}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		Directory.Packages.props = Directory.Packages.props
+		global.json = global.json
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagehelperCore", "MagehelperCore\MagehelperCore.csproj", "{789A8885-70E4-3AAE-4C95-71C500887DF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,23 +22,21 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CE6D2CB7-8135-4695-BD04-02A4C3C08E2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE6D2CB7-8135-4695-BD04-02A4C3C08E2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE6D2CB7-8135-4695-BD04-02A4C3C08E2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE6D2CB7-8135-4695-BD04-02A4C3C08E2E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0846CDB-6746-4874-A8F3-3FE469B935D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0846CDB-6746-4874-A8F3-3FE469B935D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0846CDB-6746-4874-A8F3-3FE469B935D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0846CDB-6746-4874-A8F3-3FE469B935D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6CBD1881-9F52-4F32-8CFB-F31F40A77654}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6CBD1881-9F52-4F32-8CFB-F31F40A77654}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6CBD1881-9F52-4F32-8CFB-F31F40A77654}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6CBD1881-9F52-4F32-8CFB-F31F40A77654}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0388867B-1E71-4146-9EC1-E1A51B92AE2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0388867B-1E71-4146-9EC1-E1A51B92AE2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0388867B-1E71-4146-9EC1-E1A51B92AE2B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{0388867B-1E71-4146-9EC1-E1A51B92AE2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0388867B-1E71-4146-9EC1-E1A51B92AE2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0388867B-1E71-4146-9EC1-E1A51B92AE2B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{789A8885-70E4-3AAE-4C95-71C500887DF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{789A8885-70E4-3AAE-4C95-71C500887DF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{789A8885-70E4-3AAE-4C95-71C500887DF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{789A8885-70E4-3AAE-4C95-71C500887DF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B081EFF5-E7C8-4737-A68A-625FFE70F4FB}
+		SolutionGuid = {69134848-23B1-4003-8DB8-FD515886A703}
 	EndGlobalSection
 EndGlobal

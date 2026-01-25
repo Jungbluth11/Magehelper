@@ -1,0 +1,43 @@
+﻿<!--  ReSharper disable Xaml.BindingWithoutContextNotResolved  -->
+<UserControl
+    x:Class="Magehelper.Views.Controls.AddCrystalBallSpellControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="5"
+            Text="Variante wählen"
+            Visibility="{Binding IsSpellVariantVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <ComboBox
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="5"
+            ItemsSource="{Binding SpellVariants, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            SelectedValue="{Binding SpellVariants}"
+            Visibility="{Binding IsSpellVariantVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="5"
+            Text="Beschreibung"
+            Visibility="{Binding IsVariantDescriptionVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="5"
+            Visibility="{Binding IsVariantDescriptionVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+    </Grid>
+</UserControl>

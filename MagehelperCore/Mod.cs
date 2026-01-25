@@ -1,224 +1,222 @@
-﻿using System.Collections.ObjectModel;
+namespace Magehelper.Core;
 
-namespace Magehelper.Core
+/// <summary>
+/// The modification calculator
+/// </summary>
+public class Mod
 {
+    private int _modErleichterung;
+    private decimal _modErschwerniss;
+    private const string _textBor = "nur bei Kenntnis der gildenmagischen Repräsentation";
+    private const string _textDru = "AsP Kosten für Erzwingen halbiert (min. 1 AsP)";
+    private const string _textGeo = "wenn Zauber Merkmal des passenden Elements hat (Brobim-Geoden: Geister)";
+    private const string _textAch = "ohne passenden geschliffenen Edelstein";
+    private const string _textSrl = "nur Illusionszauber";
+    private const string _textHalving = "gesamt Zuschlag wird halbiert";
+    private bool _halvingMod;
+    private readonly string[] _modNames =
+    [
+        "Veränderte Technik",
+       "Veränderte Technik, zentral",
+       "Halbierte Zauberdauer",
+       "Kosten einsparen",
+       "unfreiwilliges statt freiwilliges Zielobjekt",
+       "Freiwillig statt unfreiwillig",
+       "Verdoppelte Zauberdauer",
+       "Mehrere Gefährten verzaubern (freiwillig)",
+       "Vergrößerung von Reichweite o. Wirkungsradius",
+       "Verkleinerung der Reichweite o. Wirkungsradius",
+       "Verdopplung der Wirkungsdauer",
+       "Halbierung der Wirkungsdauer",
+       "Änderung von Aufrechterhalten auf feste Dauer",
+       "Erzwingen"
+    ];
+    private readonly dynamic[][] _modBase =
+    [
+        ["+7 / Komponente",7],
+        ["+12 / Komponente",12],
+        ["+5 / Halbierung",5],
+        ["+3 / -10% AsP",3],
+        ["+5",5],
+        ["+2",7],
+        ["-3",-3],
+        ["+3",3],
+        ["+5 / Stufe",5],
+        ["+3 / Stufe",3],
+        ["+7",7],
+        ["+3",3],
+        ["+7",7],
+        ["-1 pro 1/2/4/8/... AsP",-1]
+    ];
     /// <summary>
-    /// The modification calculator
+    /// the MR to use.
     /// </summary>
-    public class Mod
+    public int Mr { get; set; }
+    /// <summary>
+    /// THe current representation that's been used
+    /// </summary>
+    public string? CurrentRepresentation { get; private set; }
+    /// <summary>
+    /// The info text that's been displayed in GUI.
+    /// </summary>
+    public string? InfoText { get; private set; }
+    /// <summary>
+    /// If MR is used in calculation or not.
+    /// </summary>
+    public bool UseMr { get; set; }
+    /// <summary>
+    /// The names of the representations.
+    /// </summary>
+    public ReadOnlyCollection<string> Representations => _sourceArray.ToList().AsReadOnly();
+    /// <summary>
+    /// The modification data thats been used. (depends on representation)
+    /// </summary>
+    public ReadOnlyCollection<Modification>? Data { get; private set; }
+    private readonly string[] _sourceArray =
+    [
+        "Borbarad",
+        "Gildenmagier",
+        "Scharlatan",
+        "Druide",
+        "Elf",
+        "Geode",
+        "Kristallomant",
+        "sonstige"
+    ];
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    public Mod()
     {
-        private int mod_erleichterung = 0;
-        private decimal mod_erschwerniss = 0;
-        private readonly string text_bor = "nur bei Kenntnis der gildenmagischen Repräsentation";
-        private readonly string text_dru = "AsP Kosten für Erzwingen halbiert (min. 1 AsP)";
-        private readonly string text_geo = "wenn Zauber Merkmal des passenden Elements hat (Brobim-Geoden: Geister)";
-        private readonly string text_ach = "ohne passenden geschliffenen Edelstein";
-        private readonly string text_srl = "nur Illusionszauber";
-        private readonly string text_halving = "gesamt Zuschlag wird halbiert";
-        private bool halvingMod = false;
-        private readonly string[] mod_names = new string[]
-        {
-           "Veränderte Technik",
-           "Veränderte Technik, zentral",
-           "Halbierte Zauberdauer",
-           "Kosten einsparen",
-           "unfreiwilliges statt freiwilliges Zielobjekt",
-           "Freiwillig statt unfreiwillig",
-           "Verdoppelte Zauberdauer",
-           "Mehrere Gefährten verzaubern (freiwillig)",
-           "Vergrößerung von Reichweite o. Wirkungsradius",
-           "Verkleinerung der Reichweite o. Wirkungsradius",
-           "Verdopplung der Wirkungsdauer",
-           "Halbierung der Wirkungsdauer",
-           "Änderung von Aufrechterhalten auf feste Dauer",
-           "Erzwingen"
-        };
-        private readonly dynamic[][] mod_base = new dynamic[][]
-        {
-            new dynamic[]{"+7 / Komponente",7 },
-            new dynamic[]{"+12 / Komponente",12 },
-            new dynamic[]{"+5 / Halbierung",5 },
-            new dynamic[]{"+3 / -10% AsP",3 },
-            new dynamic[]{"+5",5 },
-            new dynamic[]{"+2",7 },
-            new dynamic[]{"-3",-3 },
-            new dynamic[]{"+3",3 },
-            new dynamic[]{"+5 / Stufe",5 },
-            new dynamic[]{"+3 / Stufe",3 },
-            new dynamic[]{"+7",7 },
-            new dynamic[]{"+3",3 },
-            new dynamic[]{"+7",7 },
-            new dynamic[]{"-1 pro 1/2/4/8/... AsP",-1}
-        };
-        /// <summary>
-        /// the MR to use.
-        /// </summary>
-        public int MR { get; set; }
-        /// <summary>
-        /// THe current representation thats been used
-        /// </summary>
-        public string? CurrentRepresentation { get; private set; }
-        /// <summary>
-        /// The info text thats been displayed in GUI.
-        /// </summary>
-        public string? InfoText { get; private set; }
-        /// <summary>
-        /// If MR is used in calculation or not.
-        /// </summary>
-        public bool UseMr { get; set; }
-        /// <summary>
-        /// The names of the representations.
-        /// </summary>
-        public ReadOnlyCollection<string> Representations { get; } = new string[]
-        {
-            "Borbarad",
-            "Gildenmagier",
-            "Scharlatan",
-            "Druide",
-            "Elf",
-            "Geode",
-            "Kristallomant",
-            "sonstige"
-        }.ToList().AsReadOnly();
-        /// <summary>
-        /// The modification data thats been used. (depends on representation)
-        /// </summary>
-        public ReadOnlyCollection<Modification>? Data { get; private set; }
+        SetRepresentation("sonstige");
+    }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public Mod()
-        {
-            SetRepresentation("sonstige");
-        }
+    /// <summary>
+    /// Reset the calculator.
+    /// </summary>
+    public void Reset()
+    {
+        _modErleichterung = 0;
+        _modErschwerniss = 0;
+        Mr = 0;
+        UseMr = false;
+    }
 
-        /// <summary>
-        /// Reset the calculator.
-        /// </summary>
-        public void Reset()
+    /// <summary>
+    /// Sets the representation and the data for it.
+    /// </summary>
+    /// <param name="representation">Name of the chosen representation.</param>
+    public void SetRepresentation(string representation)
+    {
+        dynamic[][] modData = _modBase;
+        List<Modification> modifications = [];
+        CurrentRepresentation = representation;
+        InfoText = string.Empty;
+        switch (representation)
         {
-            mod_erleichterung = 0;
-            mod_erschwerniss = 0;
-            MR = 0;
-            UseMr = false;
+            case "Borbarad":
+                _halvingMod = true;
+                InfoText = _textBor + ", " + _textHalving;
+                modData[6] = ["-4", -4];
+                break;
+            case "Gildenmagier":
+                _halvingMod = true;
+                InfoText = _textHalving;
+                modData[6] = ["-4", -4];
+                break;
+            case "Scharlatan":
+                _halvingMod = true;
+                InfoText = _textSrl + ", " + _textHalving;
+                break;
+            case "Druide":
+                _halvingMod = false;
+                InfoText = _textDru;
+                break;
+            case "Elf":
+                _halvingMod = false;
+                modData[10] = ["+4", 4];
+                break;
+            case "Geode":
+                _halvingMod = false;
+                InfoText = _textGeo;
+                modData[3] = ["+1 / -10% AsP", 1];
+                modData[8] = ["+3 / Stufe", 3];
+                modData[9] = ["+1 / Stufe", 1];
+                modData[10] = ["+5", 5];
+                modData[11] = ["+1", 1];
+                break;
+            case "Kristallomant":
+                _halvingMod = false;
+                InfoText = _textAch;
+                modData =
+                [
+                    ["+14 / Komponente",14],
+                    ["+24 / Komponente",24],
+                    ["+10 / Halbierung",10],
+                    ["+6 / -10% AsP",6],
+                    ["+10",10],
+                    ["+4",4],
+                    ["-3",-3],
+                    ["+6",6],
+                    ["+10 / Stufe",10],
+                    ["+6 / Stufe",6],
+                    ["+14",14],
+                    ["+6",6],
+                    ["+14",14],
+                    ["-1 pro 2/4/8/16/... AsP",-1]
+                ];
+                break;
+            default:
+                _halvingMod = false;
+                break;
         }
+        for (int i = 0; i < 14; i++)
+        {
+            modifications.Add(new Modification(_modNames[i], modData[i][0], modData[i][1]));
+        }
+        Data = modifications.AsReadOnly();
+    }
 
-        /// <summary>
-        /// Sets the representation and the data for it.
-        /// </summary>
-        /// <param name="representation">Name of the chosen representation.</param>
-        public void SetRepresentation(string representation)
+    public void Add(int mod)
+    {
+        if (mod < 0)
         {
-            dynamic[][] mod_data = mod_base;
-            List<Modification> modifications = new List<Modification>();
-            CurrentRepresentation = representation;
-            InfoText = string.Empty;
-            switch (representation)
-            {
-                case "Borbarad":
-                    halvingMod = true;
-                    InfoText = text_bor + ", " + text_halving;
-                    mod_data[6] = new dynamic[] { "-4", -4 };
-                    break;
-                case "Gildenmagier":
-                    halvingMod = true;
-                    InfoText = text_halving;
-                    mod_data[6] = new dynamic[] { "-4", -4 };
-                    break;
-                case "Scharlatan":
-                    halvingMod = true;
-                    InfoText = text_srl + ", " + text_halving;
-                    break;
-                case "Druide":
-                    halvingMod = false;
-                    InfoText = text_dru;
-                    break;
-                case "Elf":
-                    halvingMod = false;
-                    mod_data[10] = new dynamic[] { "+4", 4 };
-                    break;
-                case "Geode":
-                    halvingMod = false;
-                    InfoText = text_geo;
-                    mod_data[3] = new dynamic[] { "+1 / -10% AsP", 1 };
-                    mod_data[8] = new dynamic[] { "+3 / Stufe", 3 };
-                    mod_data[9] = new dynamic[] { "+1 / Stufe", 1 };
-                    mod_data[10] = new dynamic[] { "+5", 5 };
-                    mod_data[11] = new dynamic[] { "+1", 1 };
-                    break;
-                case "Kristallomant":
-                    halvingMod = false;
-                    InfoText = text_ach;
-                    mod_data = new dynamic[][]
-                    {
-                        new dynamic[]{"+14 / Komponente",14 },
-                        new dynamic[]{"+24 / Komponente",24 },
-                        new dynamic[]{"+10 / Halbierung",10 },
-                        new dynamic[]{"+6 / -10% AsP",6 },
-                        new dynamic[]{"+10",10 },
-                        new dynamic[]{"+4",4 },
-                        new dynamic[]{"-3",-3 },
-                        new dynamic[]{"+6",6 },
-                        new dynamic[]{"+10 / Stufe",10 },
-                        new dynamic[]{"+6 / Stufe",6 },
-                        new dynamic[]{"+14",14 },
-                        new dynamic[]{"+6",6 },
-                        new dynamic[]{"+14",14 },
-                        new dynamic[]{"-1 pro 2/4/8/16/... AsP",-1}
-                    };
-                    break;
-                default:
-                    halvingMod = false;
-                    break;
-            }
-            for (int i = 0; i < 14; i++)
-            {
-                modifications.Add(new Modification(mod_names[i], mod_data[i][0], mod_data[i][1]));
-            }
-            Data = modifications.AsReadOnly();
+            _modErleichterung += mod;
         }
+        else
+        {
+            _modErschwerniss += mod;
+        }
+    }
 
-        public void Add(int mod)
+    public void Remove(int mod)
+    {
+        if (mod < 0)
         {
-            if (mod < 0)
-            {
-                mod_erleichterung += mod;
-            }
-            else
-            {
-                mod_erschwerniss += mod;
-            }
+            _modErleichterung -= mod;
         }
+        else
+        {
+            _modErschwerniss -= mod;
+        }
+    }
 
-        public void Remove(int mod)
+    public int Calculate()
+    {
+        int modGesamt;
+        if (_halvingMod)
         {
-            if (mod < 0)
-            {
-                mod_erleichterung -= mod;
-            }
-            else
-            {
-                mod_erschwerniss -= mod;
-            }
+            modGesamt = (int)Math.Ceiling(_modErschwerniss / 2 + _modErleichterung);
         }
-
-        public int Calculate()
+        else
         {
-            int mod_gesamt;
-            if (halvingMod)
-            {
-                mod_gesamt = (int)Math.Ceiling(mod_erschwerniss / 2 + mod_erleichterung);
-            }
-            else
-            {
-                mod_gesamt = (int)mod_erschwerniss + mod_erleichterung;
-            }
-            if (UseMr)
-            {
-                mod_gesamt += MR;
-            }
-            return mod_gesamt;
+            modGesamt = (int)_modErschwerniss + _modErleichterung;
         }
+        if (UseMr)
+        {
+            modGesamt += Mr;
+        }
+        return modGesamt;
     }
 }

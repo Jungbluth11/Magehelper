@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<RootNamespace>Magehelper.Core</RootNamespace>
-	<Version>3.0.3</Version>
-	<AssemblyVersion>3.0.3</AssemblyVersion>
-	<FileVersion>3.0.3</FileVersion>
+	<Version>4.0.0</Version>
+	<AssemblyVersion>4.0.0</AssemblyVersion>
+	<FileVersion>4.0.0</FileVersion>
   </PropertyGroup>
 
 <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
@@ -19,12 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="DSAUtils">
-      <HintPath>..\DSAUtils.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Update="BaseSettings\appSettings.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Update="BaseSettings\boneCub.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -47,4 +44,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+	<ItemGroup>
+		<None Include="..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Reference Include="DSAUtils">
+	    <HintPath>..\DSAUtils.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
 </Project>
