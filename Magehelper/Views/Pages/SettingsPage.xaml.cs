@@ -94,9 +94,16 @@ public sealed partial class SettingsPage : Page
     {
         if (IsLoaded)
         {
-            (XamlRoot!.Content as FrameworkElement)!.RequestedTheme = (sender as ToggleSwitch)!.IsOn
-                ? ElementTheme.Dark
-                : ElementTheme.Light;
+            if((sender as ToggleSwitch)!.IsOn)
+            {
+                (XamlRoot!.Content as FrameworkElement)!.RequestedTheme = ElementTheme.Dark;
+                ViewModel.IsDarkTheme = true;
+            }
+            else
+            {
+                (XamlRoot!.Content as FrameworkElement)!.RequestedTheme = ElementTheme.Light;
+                ViewModel.IsDarkTheme = false;
+            }
         }
     }
 

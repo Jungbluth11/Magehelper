@@ -30,6 +30,7 @@ public partial class SettingsPageViewModel : ObservableObject, IRecipient<Config
     partial void OnIsDarkThemeChanged(bool value)
     {
         _settings.Theme = value ? ElementTheme.Dark : ElementTheme.Light;
+        _settings.SettingsChanged = true;
     }
 
     public void Receive(ConfigAddedMessage message)
