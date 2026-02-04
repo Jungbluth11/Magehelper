@@ -25,7 +25,7 @@
                 Margin="5"
                 VerticalAlignment="Center"
                 ItemsSource="{Binding ConfigNames}"
-                SelectedValue="{Binding CurrentConfigName, UpdateSourceTrigger=PropertyChanged}" />
+                SelectedValue="{Binding CurrentConfigName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             <Button Margin="5" Click="BtnAddConfig_Click">
                 <Image Margin="1" Source="/Assets/add_button.png" />
             </Button>

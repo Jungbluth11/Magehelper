@@ -7,6 +7,7 @@ public class Settings
     private static Settings? _instance;
     private readonly ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
     private readonly List<string> _configNames = [];
+    private ElementTheme _theme;
 
     public string[] ArtifactFiles =>
     [
@@ -27,7 +28,7 @@ public class Settings
     public bool CheckForUpdates { get; set; }
     public ReadOnlyCollection<string> ConfigNames => _configNames.AsReadOnly();
     public ArtifactSpell[] CrystalBallSpells { get; set; } = [];
-    public string CurrentSettingsPath { get; private set; }
+    public string CurrentSettingsPath { get; set; }
     public ArtifactSpell[] ObsidianDaggerSpells { get; set; } = [];
     public ArtifactSpell[] RingOfLifeSpells { get; set; } = [];
     public bool SettingsChanged { get; set; }
@@ -38,7 +39,14 @@ public class Settings
     public bool UseHeldentoolNames { get; set; }
     public bool WarnOtherVersionFiles { get; set; }
     public string CurrentConfigName { get; private set; }
-    public ElementTheme Theme { get; set; }
+    public ElementTheme Theme {
+        get => _theme;
+        set
+        {
+            _theme = value;
+            _localSettings.Values["theme"] = value.ToString();
+        } 
+    }
 
     private Settings()
     {
