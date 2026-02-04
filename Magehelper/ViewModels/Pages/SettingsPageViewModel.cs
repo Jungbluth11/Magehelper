@@ -40,6 +40,7 @@ public partial class SettingsPageViewModel : ObservableObject, IRecipient<Config
 
     public void Save()
     {
+        _settings.CurrentSettingsPath = Path.Combine(_settings.BaseSettingsPath , CurrentConfigName);
         _settings.SaveConfigFile();
         _settings.SetCurrentConfig();
     }
@@ -124,7 +125,7 @@ public partial class SettingsPageViewModel : ObservableObject, IRecipient<Config
         _settings.SettingsChanged = true;
     }
 
-    partial void OnCurrentConfigNameChanging(string value)
+    partial void OnCurrentConfigNameChanged(string value)
     {
         LoadConfig(value);
     }

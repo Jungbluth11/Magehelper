@@ -28,7 +28,7 @@ public class Settings
     public bool CheckForUpdates { get; set; }
     public ReadOnlyCollection<string> ConfigNames => _configNames.AsReadOnly();
     public ArtifactSpell[] CrystalBallSpells { get; set; } = [];
-    public string CurrentSettingsPath { get; private set; }
+    public string CurrentSettingsPath { get; set; }
     public ArtifactSpell[] ObsidianDaggerSpells { get; set; } = [];
     public ArtifactSpell[] RingOfLifeSpells { get; set; } = [];
     public bool SettingsChanged { get; set; }
