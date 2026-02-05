@@ -14,7 +14,7 @@ public partial class BowlControlViewModel : ObservableObject, IRecipient<AddArti
 
     public BowlControlViewModel()
     {
-        _bowl = Core.Core.GetInstance().Bowl!;
+        _bowl = Core.Core.Instance.Bowl!;
         FireAndIceVisibility = _bowl.HasFireAndIce;
         WeakReferenceMessenger.Default.Register(this);
     }

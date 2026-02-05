@@ -5,7 +5,7 @@ namespace Magehelper.ViewModels.Controls;
 public partial class TimerControlViewModel : ObservableObject
 {
     private readonly string _durationMultiplier;
-    private readonly Timers _timers = Core.Core.GetInstance().Timers!;
+    private readonly Timers _timers = Core.Core.Instance.Timers!;
     private int _duration;
     [ObservableProperty] private string _durationString;
     [ObservableProperty] private string _text;

@@ -136,10 +136,10 @@ public class PetGenerator
 #pragma warning restore CS8618
 
     {
-        pet = Core.GetInstance().Pet!;
+        pet = Core.Instance.Pet!;
         List<string> speciesStrings = [];
         List<PetData> baseData = [];
-        string json = File.ReadAllText(Path.Combine(Core.GetInstance().SettingsPath, "petData.json"));
+        string json = File.ReadAllText(Path.Combine(Core.Instance.SettingsPath, "petData.json"));
         dynamic[][] petData = JsonSerializer.Deserialize<dynamic[][]>(json);
         foreach (dynamic[] p in petData)
         {

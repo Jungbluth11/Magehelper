@@ -4,8 +4,8 @@ namespace Magehelper.ViewModels.Pages;
 
 public partial class ArcaneGlyphGeneratorPageViewModel : ObservableObject, IRecipient<DeleteAdditionalGlyphMessage>
 {
-    private readonly ArcaneGlyphs _arcaneGlyphs = Core.Core.GetInstance().ArcaneGlyphs!;
-    private readonly Character? _character = Core.Core.GetInstance().Character;
+    private readonly ArcaneGlyphs _arcaneGlyphs = Core.Core.Instance.ArcaneGlyphs!;
+    private readonly Character? _character = Core.Core.Instance.Character;
     private readonly List<AdditionalGlyph> _additionalGlyphs = [];
     private double _size;
     private int _complexity;

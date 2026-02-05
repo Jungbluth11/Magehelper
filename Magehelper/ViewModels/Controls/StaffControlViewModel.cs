@@ -2,7 +2,7 @@ namespace Magehelper.ViewModels.Controls;
 
 public partial class StaffControlViewModel : ObservableObject, IRecipient<AddArtifactSpellDialogMessage>
 {
-    private readonly Core.Core _core = Core.Core.GetInstance();
+    private readonly Core.Core _core = Core.Core.Instance;
     private readonly Staff _staff;
     [ObservableProperty] private bool _isFlameswordFailure;
     [ObservableProperty] private bool _isFlameSwordFailureFiveVisible;

@@ -9,7 +9,7 @@ public abstract class TraditionArtifact
 {
     protected ArtifactSpell[]? spellsAvailable;
     protected readonly List<ArtifactSpell> boundSpells = [];
-    protected readonly Core _core = Core.GetInstance();
+    protected readonly Core _core = Core.Instance;
     /// <summary>
     /// Name of the Artifact
     /// </summary>

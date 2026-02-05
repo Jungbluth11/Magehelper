@@ -2,7 +2,7 @@ namespace Magehelper.ViewModels.Tabs;
 
 public partial class TabFlameSwordViewModel : ObservableObject, IRecipient<FileActionMessage>
 {
-    private readonly Core.Core _core = Core.Core.GetInstance();
+    private readonly Core.Core _core = Core.Core.Instance;
     private readonly FlameSword _flameSword;
 
     [ObservableProperty] private bool _flameSwordExist;

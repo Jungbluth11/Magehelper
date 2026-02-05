@@ -4,7 +4,7 @@ namespace Magehelper.Core;
 
 public class ArcaneGlyphs : IEnumerable<ArcaneGlyph>
 {
-    private readonly Core _core = Core.GetInstance();
+    private readonly Core _core = Core.Instance;
     private readonly List<ArcaneGlyph> _arcaneGlyphs = [];
 
     public static MainGlyphData[] MainGlyphs =>

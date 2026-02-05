@@ -4,7 +4,7 @@ namespace Magehelper.ViewModels.Controls;
 
 public partial class AddStaffSpellControlViewModel : ObservableObject
 {
-    private readonly Character? _character = Core.Core.GetInstance().Character;
+    private readonly Character? _character = Core.Core.Instance.Character;
     private readonly Staff _staff;
     [ObservableProperty] private bool _isCharacteristicVisible;
     [ObservableProperty] private bool _isFlameSwordFailureTextVisible;

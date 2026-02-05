@@ -8,7 +8,7 @@ public partial class AddPetSpellDialogViewModel : ObservableObject
 
     public AddPetSpellDialogViewModel()
     {
-        _pet = Core.Core.GetInstance().Pet!;
+        _pet = Core.Core.Instance.Pet!;
 
         SpellsAvailable.AddRange(from p in _pet.SpellsAvailable
                                  where !_pet.KnownSpells.Contains(p)

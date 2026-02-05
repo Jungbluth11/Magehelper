@@ -2,7 +2,7 @@ namespace Magehelper.ViewModels.Tabs;
 
 public partial class TabSpellStorageViewModel : ObservableObject, IRecipient<FileActionMessage>, IRecipient<EnableTabMessage>
 {
-    private readonly Core.Core _core = Core.Core.GetInstance();
+    private readonly Core.Core _core = Core.Core.Instance;
     [ObservableProperty]
     private bool _isSpellStorageEnabled;
     [ObservableProperty]

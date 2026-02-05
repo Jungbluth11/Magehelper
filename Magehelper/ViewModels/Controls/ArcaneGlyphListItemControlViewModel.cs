@@ -57,7 +57,7 @@ public partial class ArcaneGlyphListItemControlViewModel : ObservableObject, IRe
     [RelayCommand]
     private void Delete()
     {
-        Core.Core.GetInstance().ArcaneGlyphs!.Remove(Guid);
+        Core.Core.Instance.ArcaneGlyphs!.Remove(Guid);
         WeakReferenceMessenger.Default.Send(new DeleteArcaneGlyphMessage(this));
     }
 }

@@ -2,7 +2,7 @@ namespace Magehelper.ViewModels.Dialogs;
 
 public partial class AddConfigDialogViewModel : ObservableObject
 {
-    private readonly Settings _settings = Settings.GetInstance();
+    private readonly Settings _settings = Settings.Instance;
     [ObservableProperty] private bool _isConfigNameExistErrorVisible;
 
     [NotifyCanExecuteChangedFor(nameof(AddCommand))]

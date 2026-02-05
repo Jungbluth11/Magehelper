@@ -2,7 +2,7 @@ namespace Magehelper.Helper;
 
 public static class TraditionalArtifactHelper
 {
-    private static readonly Core.Core Core = Magehelper.Core.Core.GetInstance();
+    private static readonly Core.Core Core = Magehelper.Core.Core.Instance;
 
     public static Dictionary<string, bool> IsInitialized => new()
     {

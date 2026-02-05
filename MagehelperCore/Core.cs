@@ -7,7 +7,6 @@ namespace Magehelper.Core;
 
 public class Core
 {
-    private static Core? _instance;
     /// <summary>
     ///     Names of the artifacts.
     /// </summary>
@@ -41,17 +40,15 @@ public class Core
     /// </summary>
     public CrystalBall? CrystalBall { get; set; }
 
-    private bool _fileChanged;
-
     /// <summary>
     ///     Has the application changed?
     /// </summary>
     public bool FileChanged
     {
-        get => _fileChanged;
+        get => field;
         internal set
         {
-            _fileChanged = value;
+            field = value;
             OnFileChanged?.Invoke(this, EventArgs.Empty);
         }
     }
@@ -131,6 +128,7 @@ public class Core
     public Timers? Timers { get; internal set; }
     public Artifacts? Artifacts { get; set; }
     public ArcaneGlyphs? ArcaneGlyphs { get; set; }
+    public static Core Instance => field ??= new();
 
     public delegate void FileChangedHandler(object sender, EventArgs e);
 
@@ -142,13 +140,6 @@ public class Core
 #if DEBUG
         SettingsPath = Path.Combine(BasePath, "BaseSettings");
 #endif
-    }
-
-    public static Core GetInstance()
-    {
-        _instance ??= new();
-
-        return _instance;
     }
 
     /// <summary>

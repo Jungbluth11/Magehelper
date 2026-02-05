@@ -26,7 +26,7 @@ public partial class TabCharacterViewModel : ObservableObject, IRecipient<FileAc
 
     public TabCharacterViewModel()
     {
-        _character = Core.Core.GetInstance().Character ?? new();
+        _character = Core.Core.Instance.Character ?? new();
 
         if (_character is {IsLoaded: true})
         {

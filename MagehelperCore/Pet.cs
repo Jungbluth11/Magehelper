@@ -47,7 +47,7 @@ public class Pet
     internal int ParryFlyingStart { get; set; }
     internal double GsStart { get; set; }
     internal double GsFlyingStart { get; set; }
-    private readonly Core _core = Core.GetInstance();
+    private readonly Core _core = Core.Instance;
     /// <summary>
     /// the spells the pet already knows.
     /// </summary>

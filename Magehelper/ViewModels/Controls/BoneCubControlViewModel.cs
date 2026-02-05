@@ -15,7 +15,7 @@ public partial class BoneCubControlViewModel : ObservableObject, IRecipient<AddA
 
     public BoneCubControlViewModel()
     {
-        _boneCub = Core.Core.GetInstance().BoneCub ?? new();
+        _boneCub = Core.Core.Instance.BoneCub ?? new();
         Bf = _boneCub.Bf == null ? "Unzerbrechlich" : _boneCub.Bf.ToString()!;
         Tp = _boneCub.TpString;
         Mtp = _boneCub.MtpString;

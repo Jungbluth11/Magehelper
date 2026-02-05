@@ -2,7 +2,7 @@ namespace Magehelper.Helper;
 
 public static class SettingsHelper
 {
-    private static readonly Settings Settings = Settings.GetInstance();
+    private static readonly Settings Settings = Settings.Instance;
 
     public static Dictionary<string, string> TabName => new()
     {

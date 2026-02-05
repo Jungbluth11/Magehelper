@@ -41,7 +41,7 @@ public sealed partial class SettingsPage : Page
     {
         try
         {
-            if (Settings.GetInstance().SettingsChanged)
+            if (Settings.Instance.SettingsChanged)
             {
                 ContentDialog saveDialog = new()
                 {

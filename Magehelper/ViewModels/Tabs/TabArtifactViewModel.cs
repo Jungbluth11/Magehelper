@@ -10,7 +10,7 @@ public partial class TabArtifactViewModel : ObservableObject,
 
     public TabArtifactViewModel()
     {
-        _artifacts = Core.Core.GetInstance().Artifacts ?? [];
+        _artifacts = Core.Core.Instance.Artifacts ?? [];
         WeakReferenceMessenger.Default.RegisterAll(this);
     }
 

@@ -25,7 +25,7 @@ public partial class AddSpellDialogViewModel : ObservableObject
 
     public AddSpellDialogViewModel()
     {
-        _spellStorage = Core.Core.GetInstance().SpellStorage!;
+        _spellStorage = Core.Core.Instance.SpellStorage!;
         CharacteristicStrings = Aventurien.Zauber.merkmalsliste;
         KomplexStrings = DSA.komplexitaet;
         Characteristic = CharacteristicStrings.First();

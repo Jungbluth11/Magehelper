@@ -6,7 +6,7 @@ namespace Magehelper.Views.Pages;
 public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>, IRecipient<FileActionMessage>
 {
     private readonly ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
-    private readonly Core.Core _core = Core.Core.GetInstance();
+    private readonly Core.Core _core = Core.Core.Instance;
     private readonly List<string> _loadedTabs = [];
     private ApplicationView View => ApplicationView.GetForCurrentView();
     private MainPageViewModel ViewModel => (MainPageViewModel)DataContext;
@@ -60,10 +60,10 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
         if (_loadedTabs.Count == 0)
         {
-            LoadTabs(Settings.GetInstance().DefaultTabs);
+            LoadTabs(Settings.Instance.DefaultTabs);
         }
 
-        if(Settings.GetInstance().CheckForUpdates && Updater.CheckForUpdates())
+        if(Settings.Instance.CheckForUpdates && Updater.CheckForUpdates())
         {
             ShowUpdateDialog().RunSynchronously();
         }
@@ -188,7 +188,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
     private void MenuFileNew_OnClick(object sender, RoutedEventArgs e)
     {
-        ResetTool(Settings.GetInstance().DefaultTabs);
+        ResetTool(Settings.Instance.DefaultTabs);
         ViewModel.NewFile();
     }
 
@@ -328,7 +328,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
             {
                 string[] tabList = _core.FileTabs.Any()
                     ? _core.FileTabs.ToArray()
-                    : Settings.GetInstance().DefaultTabs;
+                    : Settings.Instance.DefaultTabs;
 
                 LoadTabs(tabList);
                 GoToTab(tabName);
@@ -361,7 +361,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
     {
         try
         {
-            if (Settings.GetInstance().WarnOtherVersionFiles && _core.GetFileVersion(path) != _core.MagehelperFileVersion)
+            if (Settings.Instance.WarnOtherVersionFiles && _core.GetFileVersion(path) != _core.MagehelperFileVersion)
             {
                 ContentDialog dialog = new()
                 {
@@ -383,7 +383,7 @@ public sealed partial class MainPage : Page, IRecipient<CharacterLoadedMessage>,
 
             string[] tabList = _core.FileTabs.Any()
                 ? _core.FileTabs.ToArray()
-                : Settings.GetInstance().DefaultTabs;
+                : Settings.Instance.DefaultTabs;
 
             ResetTool(tabList);
         }

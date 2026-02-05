@@ -6,7 +6,7 @@ public partial class EnableSpellStorageDialogViewModel : ObservableObject
     [NotifyCanExecuteChangedFor(nameof(SubmitCommand))]
     private int _pointsUsed;
     public int PointsTotal { get; set; }
-    private readonly SpellStorage _spellStorage = Core.Core.GetInstance().SpellStorage!;
+    private readonly SpellStorage _spellStorage = Core.Core.Instance.SpellStorage!;
     public int PointsRemain => PointsTotal - PointsUsed;
     public ObservableCollection<SpellStorageRepresenter> SpellStorages => [];
 

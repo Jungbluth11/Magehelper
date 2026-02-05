@@ -29,7 +29,7 @@ public partial class TabPetViewModel : ObservableObject, IRecipient<FileActionMe
 
     public TabPetViewModel()
     {
-        _pet = Core.Core.GetInstance().Pet ?? new();
+        _pet = Core.Core.Instance.Pet ?? new();
 
         if (_pet.Species != null)
         {

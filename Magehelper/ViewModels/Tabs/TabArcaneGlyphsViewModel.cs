@@ -12,7 +12,7 @@ public partial class TabArcaneGlyphsViewModel : ObservableObject,
 
     public TabArcaneGlyphsViewModel()
     {
-        _arcaneGlyphs = Core.Core.GetInstance().ArcaneGlyphs ?? [];
+        _arcaneGlyphs = Core.Core.Instance.ArcaneGlyphs ?? [];
 
         foreach (ArcaneGlyph arcaneGlyph in _arcaneGlyphs)
         {

@@ -6,7 +6,7 @@ public class SpellStorage
 {
     private int[] _pointsUsed = [];
     private readonly List<StoragedSpell> _spells = [];
-    private readonly Core _core = Core.GetInstance();
+    private readonly Core _core = Core.Instance;
     /// <summary>
     /// Number of spell storages.
     /// </summary>

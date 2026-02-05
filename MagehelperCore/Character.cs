@@ -7,7 +7,7 @@ public partial class Character
     private int _au;
     private int _le;
     private int _ae;
-    private readonly Core _core = Core.GetInstance();
+    private readonly Core _core = Core.Instance;
     public int Mu { get; set; }
     public int Kl { get; set; }
     public int In { get; set; }

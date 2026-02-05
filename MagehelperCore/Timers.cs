@@ -2,7 +2,7 @@ namespace Magehelper.Core;
 
 public class Timers : IEnumerable<Timer>
 {
-    private readonly Core _core = Core.GetInstance();
+    private readonly Core _core = Core.Instance;
     private readonly List<Timer> _timers = [];
     public Timer this[int i] => _timers[i];
     public Timer this[string guid] => _timers.SingleOrDefault(t => t.Guid == guid);

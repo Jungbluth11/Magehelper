@@ -56,7 +56,7 @@ public partial class AddArtifactDialogViewModel : ObservableObject
 
     partial void OnFilePathChanged(string value)
     {
-        Artifact artifact = Core.Core.GetInstance().Artifacts!.LoadArtifactFromFile(value);
+        Artifact artifact = Core.Core.Instance.Artifacts!.LoadArtifactFromFile(value);
         CurrentType = artifact.TypeString;
         Name = artifact.Name;
         Description = artifact.Description;
@@ -100,7 +100,7 @@ public partial class AddArtifactDialogViewModel : ObservableObject
             interval = null;
         }
 
-        Artifact artifact = Core.Core.GetInstance().Artifacts!.CreateArtifact(Name, Description, type, Charges, Charges, interval);
+        Artifact artifact = Core.Core.Instance.Artifacts!.CreateArtifact(Name, Description, type, Charges, Charges, interval);
 
         WeakReferenceMessenger.Default.Send(new AddArtifactMessage(artifact));
     }

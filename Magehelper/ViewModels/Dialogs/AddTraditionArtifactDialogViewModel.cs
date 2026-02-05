@@ -2,7 +2,7 @@ namespace Magehelper.ViewModels.Dialogs;
 
 public partial class AddTraditionArtifactDialogViewModel : ObservableObject
 {
-    private readonly Core.Core _core = Core.Core.GetInstance();
+    private readonly Core.Core _core = Core.Core.Instance;
     [ObservableProperty] private string _currentArtifact = string.Empty;
     [ObservableProperty] private string[] _staffLengthStrings = Staff.LengthStrings;
     [ObservableProperty] private string[] _staffMaterialStrings = Staff.MaterialStrings;

@@ -66,7 +66,7 @@ public class BoneCub : TraditionArtifact
 
     public (int pointsLeft, int[] diceResult, string text) RollEnsoulEntity(int pAsp, int mod)
     {
-        Character character = Core.GetInstance().Character!;
+        Character character = Core.Instance.Character!;
         if (!character.IsLoaded)
         {
             throw new ArgumentException("no character loaded");
@@ -129,7 +129,7 @@ public class BoneCub : TraditionArtifact
 
     public (int pointsLeft, int[] diceResult, string text) RollSenseMagic()
     {
-        Character character = Core.GetInstance().Character!;
+        Character character = Core.Instance.Character!;
         if (!character.IsLoaded)
         {
             throw new ArgumentException("no character loaded");

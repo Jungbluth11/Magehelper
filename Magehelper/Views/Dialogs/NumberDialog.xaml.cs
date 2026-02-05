@@ -14,7 +14,7 @@ public sealed partial class NumberDialog : ContentDialog
             BtnRoll.Visibility = Visibility.Visible;
         }
 
-        if (Core.Core.GetInstance().Character != null)
+        if (Core.Core.Instance.Character != null)
         {
             BtnRoll.IsEnabled = true;
         }

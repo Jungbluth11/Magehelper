@@ -9,7 +9,7 @@ public class CrystalBallControlViewModel : IRecipient<AddArtifactSpellDialogMess
 
     public CrystalBallControlViewModel()
     {
-        _crystalBall = Core.Core.GetInstance().CrystalBall!;
+        _crystalBall = Core.Core.Instance.CrystalBall!;
         WeakReferenceMessenger.Default.Register(this);
     }
 

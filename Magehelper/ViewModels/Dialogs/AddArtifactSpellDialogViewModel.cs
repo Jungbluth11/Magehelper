@@ -2,7 +2,7 @@ namespace Magehelper.ViewModels.Dialogs;
 
 public partial class AddArtifactSpellDialogViewModel : ObservableObject
 {
-    protected readonly Character? Character = Core.Core.GetInstance().Character;
+    protected readonly Character? Character = Core.Core.Instance.Character;
     protected Action? AddSpellAction;
     protected Action<string>? SelectedSpellNameChangedAction;
 

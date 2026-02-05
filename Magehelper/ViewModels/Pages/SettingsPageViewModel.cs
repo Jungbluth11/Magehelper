@@ -3,7 +3,7 @@ namespace Magehelper.ViewModels.Pages;
 public partial class SettingsPageViewModel : ObservableObject, IRecipient<ConfigAddedMessage>
 {
     private readonly bool _isInitalized;
-    private readonly Settings _settings = Settings.GetInstance();
+    private readonly Settings _settings = Settings.Instance;
 
     [ObservableProperty] private bool _allowRemoveSpells;
     [ObservableProperty] private bool _autoinstallUpdates;

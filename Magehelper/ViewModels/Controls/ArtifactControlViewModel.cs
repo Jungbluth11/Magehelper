@@ -2,7 +2,7 @@ namespace Magehelper.ViewModels.Controls;
 
 public partial class ArtifactControlViewModel : ObservableObject
 {
-    private readonly Artifacts _artifacts = Core.Core.GetInstance().Artifacts!;
+    private readonly Artifacts _artifacts = Core.Core.Instance.Artifacts!;
     private readonly string _guid;
     private readonly string _name;
     private readonly string _type;

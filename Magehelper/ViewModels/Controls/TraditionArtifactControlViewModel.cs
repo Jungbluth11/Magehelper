@@ -35,7 +35,7 @@ public partial class TraditionArtifactControlViewModel : ObservableObject, IReci
         {
             ArtifactSpell artifactSpell = spell;
 
-            if (Settings.GetInstance().AllowRemoveSpells)
+            if (Settings.Instance.AllowRemoveSpells)
             {
                 artifactSpell.IsNew = true;
             }

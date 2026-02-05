@@ -4,8 +4,8 @@ public partial class MainPageViewModel : ObservableObject
 {
     public bool CanLoadCharacterFromTool => HeldentoolInterop.IsInstalled();
     [ObservableProperty] private string _loadedCharacter = string.Empty;
-    public Settings Settings => Settings.GetInstance();
-    private readonly Core.Core _core = Core.Core.GetInstance();
+    public Settings Settings => Settings.Instance;
+    private readonly Core.Core _core = Core.Core.Instance;
 
     public MainPageViewModel()
     {

@@ -2,7 +2,7 @@ namespace Magehelper.Core;
 
 public partial class Artifacts : IEnumerable<Artifact>
 {
-    private readonly Core _core = Core.GetInstance();
+    private readonly Core _core = Core.Instance;
 
     private readonly Dictionary<string, string> _artifactAbilities = new()
     {

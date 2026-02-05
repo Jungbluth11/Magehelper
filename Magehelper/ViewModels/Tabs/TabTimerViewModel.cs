@@ -13,7 +13,7 @@ public partial class TabTimerViewModel : ObservableObject,
 
     public TabTimerViewModel()
     {
-        _timers = Core.Core.GetInstance().Timers ?? [];
+        _timers = Core.Core.Instance.Timers ?? [];
         LoadTabContents();
         WeakReferenceMessenger.Default.RegisterAll(this);
     }

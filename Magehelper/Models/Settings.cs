@@ -4,7 +4,6 @@ namespace Magehelper.Models;
 
 public class Settings
 {
-    private static Settings? _instance;
     private readonly ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
     private readonly List<string> _configNames = [];
     private ElementTheme _theme;
@@ -47,6 +46,8 @@ public class Settings
             _localSettings.Values["theme"] = value.ToString();
         } 
     }
+
+    public static Settings Instance => field ??= new();
 
     private Settings()
     {
@@ -99,13 +100,6 @@ public class Settings
         {
             _configNames.Add(Path.GetFileName(directory));
         }
-    }
-
-    public static Settings GetInstance()
-    {
-        _instance ??= new();
-
-        return _instance;
     }
 
     public string AddConfig(string configName)
@@ -220,8 +214,6 @@ public class Settings
     {
         _localSettings.Values["CurrentSettingsPath"] = CurrentSettingsPath;
         CurrentConfigName = Path.GetFileName(CurrentSettingsPath);
-        //TODO remove
-        Console.WriteLine();
     }
 
     private T ReadSettingsFile<T>(string fileName) where T : notnull

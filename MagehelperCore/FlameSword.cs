@@ -2,7 +2,7 @@ namespace Magehelper.Core;
 
 public class FlameSword
 {
-    private readonly Core _core = Core.GetInstance();
+    private readonly Core _core = Core.Instance;
     /// <summary>
     /// THe points that be used in total.
     /// </summary>

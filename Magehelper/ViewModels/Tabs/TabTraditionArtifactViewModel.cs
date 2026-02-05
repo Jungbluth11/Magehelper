@@ -5,7 +5,7 @@ public partial class TabTraditionArtifactViewModel : ObservableObject,
     IRecipient<AddTraditionArtifactMessage>,
     IRecipient<DeleteTraditionArtifactMessage>
 {
-    private readonly Core.Core _core = Core.Core.GetInstance();
+    private readonly Core.Core _core = Core.Core.Instance;
     [ObservableProperty] private bool _canAddArtifact = true;
     [ObservableProperty] private string _tabName = "Traditionsartefakt";
 
@@ -15,7 +15,7 @@ public partial class TabTraditionArtifactViewModel : ObservableObject,
     {
         WeakReferenceMessenger.Default.RegisterAll(this);
 
-        if (Settings.GetInstance().ChangeTraditionArtifactTabName)
+        if (Settings.Instance.ChangeTraditionArtifactTabName)
         {
             ArtifactControls.CollectionChanged += ArtifactControls_CollectionChanged;
         }

@@ -96,8 +96,8 @@ public partial class ArcaneGlyphControlViewModel : ObservableObject, IRecipient<
     [RelayCommand]
     private void Reactivate()
     {
-        Core.Core.GetInstance().ArcaneGlyphs!.Reactivate(_guid);
-        int newDuration = (int)Core.Core.GetInstance().ArcaneGlyphs![_guid].Duration!;
+        Core.Core.Instance.ArcaneGlyphs!.Reactivate(_guid);
+        int newDuration = (int)Core.Core.Instance.ArcaneGlyphs![_guid].Duration!;
         SetDuration(newDuration);
 
         WeakReferenceMessenger.Default.Send(new ArcaneGlyphDurationChangedMessage(_guid, newDuration));
